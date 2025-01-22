@@ -1,0 +1,17 @@
+.login_container {
+  background-color: #eeeeee;
+}
+
+.login_logo_container {
+  background-color: #132a13;
+  align-items: center;
+}
+
+.login_logo_container Text {
+  font-size: 2em;
+  fill: #ffffff;
+}
+
+.back {
+	-fx-background: #fff;
+}

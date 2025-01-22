@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="500.0" maxWidth="700.0" minHeight="300.0" minWidth="700.0" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane layoutY="-1.0" prefHeight="491.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Cliente">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #F5F5F5;">
+                     <children>
+                        <VBox prefHeight="379.0" prefWidth="700.0">
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="30.0" />
+                           </padding>
+                           <children>
+                              <GridPane prefWidth="670.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="330.0" minWidth="10.0" prefWidth="104.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="630.0" minWidth="10.0" prefWidth="62.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="630.0" minWidth="10.0" prefWidth="72.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="630.0" minWidth="10.0" prefWidth="303.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="630.0" minWidth="10.0" prefWidth="71.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="630.0" minWidth="10.0" prefWidth="71.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Código" />
+                                    <Label text="Inscrição" GridPane.rowIndex="1" />
+                                    <Label text="Nome:" GridPane.rowIndex="2" />
+                                    <Label text="Tipo de Endereço:" GridPane.rowIndex="3" />
+                                    <Label text="Bairro:" GridPane.rowIndex="4" />
+                                    <Label text="Município" GridPane.rowIndex="5" />
+                                    <TextField maxWidth="60.0" GridPane.columnIndex="1" />
+                                    <TextField minWidth="500.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField minWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextField minWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <ChoiceBox prefHeight="25.0" prefWidth="59.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField minWidth="200.0" prefHeight="25.0" prefWidth="216.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <ChoiceBox prefHeight="25.0" prefWidth="65.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="Endereço:" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField minWidth="300.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <TextField minWidth="30.0" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                                    <TextField GridPane.columnIndex="5" />
+                                    <Label text="Situação:" GridPane.columnIndex="4">
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Número:" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="511.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                                       <children>
+                                          <Label minWidth="100.0" text="Complemento:">
+                                             <padding>
+                                                <Insets left="15.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField minWidth="339.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="329.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                                       <children>
+                                          <Label maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="17.0" prefWidth="21.0" text="UF:">
+                                             <HBox.margin>
+                                                <Insets left="15.0" right="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <ChoiceBox prefHeight="25.0" prefWidth="56.0" />
+                                          <Label prefHeight="17.0" prefWidth="58.0" text="CEP:">
+                                             <padding>
+                                                <Insets left="15.0" right="15.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField prefHeight="25.0" prefWidth="153.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                              <GridPane prefWidth="670.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="330.0" minWidth="10.0" prefWidth="112.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="597.0" minWidth="10.0" prefWidth="297.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="597.0" minWidth="10.0" prefWidth="270.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="116.0">
+                                       <children>
+                                          <Label text="Responsável:">
+                                             <HBox.margin>
+                                                <Insets right="15.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                       <children>
+                                          <Label text="DDD/ Fone 1:">
+                                             <HBox.margin>
+                                                <Insets right="15.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <children>
+                                          <TextField minWidth="200.0" />
+                                          <Label contentDisplay="CENTER" minWidth="80.0" text="DDD/ Fone 1:">
+                                             <HBox.margin>
+                                                <Insets left="15.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <TextField GridPane.columnIndex="1" />
+                                    <TextField maxWidth="200.0" minWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                 </children>
+                              </GridPane>
+                              <HBox prefHeight="32.0" prefWidth="670.0" spacing="15.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Novo">
+                                       <padding>
+                                          <Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
+                                       </padding>
+                                    </Button>
+                                    <Button mnemonicParsing="false" text="Editar">
+                                       <padding>
+                                          <Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
+                                       </padding>
+                                    </Button>
+                                    <Button layoutX="84.0" layoutY="10.0" mnemonicParsing="false" text="Listar">
+                                       <padding>
+                                          <Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
+                                       </padding>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="30.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Veículos">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+            <Tab text="Histórico">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

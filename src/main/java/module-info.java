@@ -3,6 +3,7 @@ module com.projeto {
     requires javafx.fxml;
     requires javafx.media;
     requires de.jensd.fx.glyphs.fontawesome;
+	requires javafx.graphics;
     
     opens com.projeto.projetoFabinho to javafx.fxml;
     exports com.projeto.projetoFabinho;

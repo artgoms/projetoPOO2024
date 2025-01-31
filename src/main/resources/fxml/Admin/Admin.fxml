@@ -4,31 +4,32 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: E0E0E0;" stylesheets="@../../styles/Initial.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Button layoutX="98.0" layoutY="65.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF;" text="CONSULTA OS" textAlignment="CENTER" textOverrun="CLIP">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font></Button>
-      <Button layoutX="282.0" layoutY="65.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF;" text="NOVO OS" textAlignment="CENTER" textOverrun="CLIP">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
-      <Button layoutX="469.0" layoutY="65.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF;" text="VERIFICAR ESTOQUE" textAlignment="CENTER" textOverrun="CLIP">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
-      <Button layoutX="98.0" layoutY="201.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF;" text="VERIFICAR CLIENTE" textAlignment="CENTER" textOverrun="CLIP">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
-      <Button layoutX="282.0" layoutY="201.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF; -fx-border-color: rgba(0, 0, 0, 1); -fx-border-width: 2;" text="RELATÓRIOS" textAlignment="CENTER" textOverrun="CLIP">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
-   </children>
+<AnchorPane maxHeight="600.0" maxWidth="800.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: E0E0E0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto.projetoFabinho.Controllers.Admin.AdminController">
+	<children>
+<Button layoutX="98.0" layoutY="65.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF;" text="CONSULTA OS" textAlignment="CENTER" textOverrun="CLIP" onAction="#abrirConsultaOS">
+    <font>
+        <Font name="System Bold" size="12.0" />
+    </font>
+</Button>
+<Button layoutX="282.0" layoutY="65.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF;" text="NOVO OS" textAlignment="CENTER" textOverrun="CLIP" onAction="#abrirNovoOS">
+    <font>
+        <Font name="System Bold" size="12.0" />
+    </font>
+</Button>
+<Button layoutX="469.0" layoutY="65.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF;" text="VERIFICAR ESTOQUE" textAlignment="CENTER" textOverrun="CLIP" onAction="#abrirVerificarEstoque">
+    <font>
+        <Font name="System Bold" size="12.0" />
+    </font>
+</Button>
+<Button layoutX="98.0" layoutY="201.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF;" text="VERIFICAR CLIENTE" textAlignment="CENTER" textOverrun="CLIP" onAction="#abrirVerificarCliente">
+    <font>
+        <Font name="System Bold" size="12.0" />
+    </font>
+</Button>
+<Button layoutX="282.0" layoutY="201.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF; -fx-border-color: rgba(0, 0, 0, 1); -fx-border-width: 2;" text="RELATÓRIOS" textAlignment="CENTER" textOverrun="CLIP" onAction="#abrirRelatorios">
+    <font>
+        <Font name="System Bold" size="12.0" />
+    </font>
+</Button>
+	</children>
 </AnchorPane>

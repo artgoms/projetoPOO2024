@@ -3,32 +3,38 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="300.0" prefWidth="400.0" styleClass="login_container" stylesheets="@../styles/Login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <VBox alignment="CENTER" layoutX="200.0" layoutY="59.0" prefHeight="300.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label text="Usuário" />
-            <TextField alignment="CENTER" maxWidth="100.0">
-               <padding>
-                  <Insets left="30.0" right="30.0" />
-               </padding>
-            </TextField>
-            <Label text="Senha" />
-            <TextField alignment="CENTER" maxWidth="100.0">
-               <padding>
-                  <Insets left="30.0" right="30.0" />
-               </padding>
-            </TextField>
-            <Button mnemonicParsing="false" text="Entrar">
+<AnchorPane prefHeight="300.0" prefWidth="400.0" styleClass="login_container" stylesheets="@../styles/Login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto.projetoFabinho.Controllers.LoginController">
+	<children>
+		<VBox alignment="CENTER" layoutX="200.0" layoutY="59.0" prefHeight="300.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<children>
+				<Label text="Usuário" />
+				<TextField fx:id="usuarioField" maxWidth="100.0">
+					<padding>
+						<Insets left="30.0" right="30.0" />
+					</padding>
+				</TextField>
+				<Label text="Senha" />
+				<PasswordField fx:id="senhaField" maxWidth="100.0">
+					<padding>
+						<Insets left="30.0" right="30.0" />
+					</padding>
+				</PasswordField>
+				<Button  mnemonicParsing="false" onAction="#handleEntrarButtonAction" text="Entrar">
+					>
+					<VBox.margin>
+						<Insets top="20.0" />
+					</VBox.margin>
+				</Button>
+				<Label fx:id="mensagemLabel" prefHeight="17.0" prefWidth="165.0">
                <VBox.margin>
                   <Insets top="20.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-      </VBox>
-   </children>
+               </VBox.margin></Label>
+			</children>
+		</VBox>
+	</children>
 </AnchorPane>

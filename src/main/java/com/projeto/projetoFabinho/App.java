@@ -6,37 +6,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
-
 public class App extends Application {
-    private static Stage stage;
-
     @Override
-    public void start(@SuppressWarnings("exports") Stage s) throws IOException {
-        stage=s;
-        setRoot("Login","");
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
+        primaryStage.centerOnScreen();
+        primaryStage.setResizable(false);
+        primaryStage.setTitle("Login");
+        primaryStage.setScene(new Scene(root, 400, 300));
+        primaryStage.show();
     }
-
-    static void setRoot(String fxml) throws IOException {
-        setRoot(fxml,stage.getTitle());
-    }
-
-    static void setRoot(String fxml, String title) throws IOException {
-        Scene scene = new Scene(loadFXML(fxml));
-        stage.setTitle(title);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/fxml/"+fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
-
 
     public static void main(String[] args) {
         launch(args);
     }
-
 }

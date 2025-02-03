@@ -9,11 +9,11 @@ import javafx.stage.Stage;
 public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Admin/Admin.fxml"));
         primaryStage.centerOnScreen();
         primaryStage.setResizable(false);
         primaryStage.setTitle("Login");
-        primaryStage.setScene(new Scene(root, 400, 300));
+        primaryStage.setScene(new Scene(root, 800, 300));
         primaryStage.show();
     }
 

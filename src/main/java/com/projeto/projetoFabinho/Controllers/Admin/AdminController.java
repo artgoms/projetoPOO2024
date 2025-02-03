@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 public class AdminController {
@@ -22,13 +23,13 @@ public class AdminController {
     // Método para abrir a tela de Verificar Estoque
     @FXML
     private void abrirVerificarEstoque() {
-        carregarTela("/fxml/Admin/verificar_estoque.fxml", "Verificar Estoque");
+        carregarTela("/fxml/Admin/verificar_estoque.fxml", "Estoque");
     }
 
     // Método para abrir a tela de Verificar Cliente
     @FXML
     private void abrirVerificarCliente() {
-        carregarTela("/fxml/Admin/Client.fxml", "Verificar Cliente");
+        carregarTela("/fxml/Admin/Client.fxml", "Cliente");
     }
 
     // Método para abrir a tela de Relatórios
@@ -53,6 +54,14 @@ public class AdminController {
             stage.setTitle(titulo);
             stage.setScene(scene);
 
+            
+            // Adiciona um evento para fechar a janela ao pressionar "Esc"
+            scene.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    stage.close();
+                }
+            });
+            
             
             // Centraliza a janela na tela
             stage.centerOnScreen();

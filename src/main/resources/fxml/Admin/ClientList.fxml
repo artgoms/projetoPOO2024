@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+	xmlns="http://javafx.com/javafx/23.0.1"
+	fx:controller="com.projeto.projetoFabinho.Controllers.ClientList.ClientListController">
+	<TableView fx:id="tabelaClientes" layoutY="1.0"
+		prefHeight="400.0" prefWidth="600.0">
+		<columns>
+			<TableColumn fx:id="colNome" prefWidth="150.0"
+				text="Nome" />
+			<TableColumn fx:id="colInscricao" prefWidth="100.0"
+				text="Inscrição" />
+			<TableColumn fx:id="colSituacao" prefWidth="100.0"
+				text="Situação" />
+			<TableColumn fx:id="colTelefone" prefWidth="120.0"
+				text="Telefone" />
+			<TableColumn fx:id="colResponsavel" prefWidth="130.0"
+				text="Responsável" />
+		</columns>
+	</TableView>
+</AnchorPane>

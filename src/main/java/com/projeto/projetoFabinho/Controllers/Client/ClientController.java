@@ -79,10 +79,11 @@ public class ClientController {
 
 	@FXML
 	private void initialize() {
-	    MascaraInscricao.aplicarMascaraTelefone(telefone1Field);
-	    MascaraInscricao.aplicarMascaraTelefone(telefone2Field);
-	    MascaraInscricao.aplicarMascaraCEP(cepField);
-	    MascaraInscricao.aplicarMascaraInscricao(inscricaoNumeroField);
+
+		MascaraInscricao.aplicarMascaraTelefone(telefone1Field);
+		MascaraInscricao.aplicarMascaraTelefone(telefone2Field);
+		MascaraInscricao.aplicarMascaraCEP(cepField);
+		MascaraInscricao.aplicarMascaraInscricao(inscricaoNumeroField);
 		preencherChoiceBoxes(); // Garante que os ChoiceBox tenham valores antes de usar
 		listaClientes = clienteDAO.listarTodos(); // Carrega todos os clientes
 		if (!listaClientes.isEmpty()) {
@@ -111,13 +112,11 @@ public class ClientController {
 			preencherCampos(ultimoCliente);
 		}
 	}
-	
 
 	private void atualizarCodigo() {
-	    int maiorId = clienteDAO.obterMaiorId() + 1; // Obtém o maior ID e soma 1 para o próximo cliente
-	    codigoField.setText(String.valueOf(maiorId));
+		int maiorId = clienteDAO.obterMaiorId() + 1; // Obtém o maior ID e soma 1 para o próximo cliente
+		codigoField.setText(String.valueOf(maiorId));
 	}
-
 
 	private void preencherChoiceBoxes() {
 		// Preenchendo os valores permitidos para inscrição (CPF, CNPJ, RG)
@@ -136,38 +135,40 @@ public class ClientController {
 
 	@FXML
 	private void handleGravar() {
-	    if (!validarCamposObrigatorios()) {
-	        Alert alert = new Alert(Alert.AlertType.WARNING);
-	        alert.setTitle("Campos Obrigatórios");
-	        alert.setHeaderText(null);
-	        alert.setContentText("Preencha todos os campos obrigatórios antes de salvar! Os campos em vermelho precisam ser preenchidos.");
-	        alert.showAndWait();
-	        return;
-	    }
+		if (!validarCamposObrigatorios()) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Campos Obrigatórios");
+			alert.setHeaderText(null);
+			alert.setContentText(
+					"Preencha todos os campos obrigatórios antes de salvar! Os campos em vermelho precisam ser preenchidos.");
+			alert.showAndWait();
+			return;
+		}
 
-	    if (cliente == null) {
-	        cliente = new ClientModel();
-	    }
+		if (cliente == null) {
+			cliente = new ClientModel();
+		}
 
-	    atualizarCliente(); // Atualiza os dados do objeto cliente com o formulário
+		atualizarCliente(); // Atualiza os dados do objeto cliente com o formulário
 
-	    if (codigoField.isDisable()) {
-	        // Se códigoField está desabilitado, significa que é um cliente existente → atualizar
-	        clienteDAO.atualizar(cliente);
-	    } else {
-	        // Se códigoField está habilitado, significa que é um novo cliente → inserir
-	        clienteDAO.inserir(cliente);
-	        listaClientes.add(cliente); // Adiciona o novo cliente à lista
-	        clienteAtualIndex = listaClientes.size() - 1; // Define o índice do último cliente
-	    }
+		if (codigoField.isDisable()) {
+			// Se códigoField está desabilitado, significa que é um cliente existente →
+			// atualizar
+			clienteDAO.atualizar(cliente);
+		} else {
+			// Se códigoField está habilitado, significa que é um novo cliente → inserir
+			clienteDAO.inserir(cliente);
+			listaClientes.add(cliente); // Adiciona o novo cliente à lista
+			clienteAtualIndex = listaClientes.size() - 1; // Define o índice do último cliente
+		}
 
-	    habilitarCampos(false);
-	    gravarButton.setDisable(true);
-	    editarButton.setDisable(false);
-	    novoButton.setDisable(false);
-	    cancelarButton.setDisable(true); // Agora o botão Cancelar é desativado corretamente
+		habilitarCampos(false);
+		gravarButton.setDisable(true);
+		editarButton.setDisable(false);
+		novoButton.setDisable(false);
+		cancelarButton.setDisable(true); // Agora o botão Cancelar é desativado corretamente
 
-	    atualizarEstadoBotoes(); // Atualiza os botões Anterior e Próximo corretamente
+		atualizarEstadoBotoes(); // Atualiza os botões Anterior e Próximo corretamente
 	}
 
 	@FXML
@@ -190,28 +191,30 @@ public class ClientController {
 
 	@FXML
 	private void handleEditar() {
-	    if (cliente == null) return;
+		if (cliente == null)
+			return;
 
-	    // Sempre permitir a edição do campo de situação
-	    situacaoChoice.setDisable(false);
+		// Sempre permitir a edição do campo de situação
+		situacaoChoice.setDisable(false);
 
-	    // Habilitar os campos caso a situação já seja "Ativo"
-	    habilitarCampos("Ativo".equalsIgnoreCase(cliente.getSituacao()));
+		// Habilitar os campos caso a situação já seja "Ativo"
+		habilitarCampos("Ativo".equalsIgnoreCase(cliente.getSituacao()));
 
-	    // Adicionar um listener para liberar os campos assim que a situação mudar para "Ativo"
-	    situacaoChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-	        if ("Ativo".equalsIgnoreCase(newValue)) {
-	            habilitarCampos(true); // Liberar os campos ao selecionar "Ativo"
-	        } else {
-	            habilitarCampos(false); // Bloquear os campos ao selecionar "Inativo"
-	        }
-	    });
+		// Adicionar um listener para liberar os campos assim que a situação mudar para
+		// "Ativo"
+		situacaoChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+			if ("Ativo".equalsIgnoreCase(newValue)) {
+				habilitarCampos(true); // Liberar os campos ao selecionar "Ativo"
+			} else {
+				habilitarCampos(false); // Bloquear os campos ao selecionar "Inativo"
+			}
+		});
 
-	    // Ativar botões necessários para edição
-	    editarButton.setDisable(true);
-	    gravarButton.setDisable(false);
-	    cancelarButton.setDisable(false);
-	    
+		// Ativar botões necessários para edição
+		editarButton.setDisable(true);
+		gravarButton.setDisable(false);
+		cancelarButton.setDisable(false);
+
 		atualizarEstadoBotoes(); // Atualiza os botões "Anterior" e "Próximo"
 	}
 
@@ -222,8 +225,7 @@ public class ClientController {
 		limparCampos();
 		preencherChoiceBoxes(); // Garante que os valores reapareçam
 		habilitarCampos(true); // No modo "Novo", códigoField pode ser editado
-	    atualizarCodigo(); // Define o novo ID automaticamente
-
+		atualizarCodigo(); // Define o novo ID automaticamente
 
 		gravarButton.setDisable(false);
 		editarButton.setDisable(true);
@@ -236,20 +238,24 @@ public class ClientController {
 	@FXML
 	private void handleCancelar() {
 
-	    if (cliente == null) return;
-
-	    // Bloquear todos os campos ao cancelar a edição
-	    habilitarCampos(false);
-
-	    // O campo de situação continua ativo para permitir alteração posterior
-	    situacaoChoice.setDisable(false);
-
-	    // Reativar o botão de edição e desativar os botões de salvar e cancelar
-	    editarButton.setDisable(false);
-	    gravarButton.setDisable(true);
-	    cancelarButton.setDisable(true);
+		if (cliente == null)
+			return;
+		
+		// Reativar o botão de edição e desativar os botões de salvar e cancelar
+		editarButton.setDisable(false);
+		gravarButton.setDisable(true);
+		cancelarButton.setDisable(true);
 
 		atualizarEstadoBotoes(); // Atualiza os botões "Anterior" e "Próximo"
+
+		// Bloquear todos os campos ao cancelar a edição
+		habilitarCampos(false);
+
+		situacaoChoice.setDisable(true);
+
+		if (clienteAntesEdicao != null) {
+			preencherCampos(clienteAntesEdicao); // Restaura os dados antigos
+		}
 	}
 
 	@FXML
@@ -272,72 +278,69 @@ public class ClientController {
 			System.out.println("Erro ao carregar a tela de listagem de clientes.");
 		}
 	}
-	
 
 	private boolean validarCamposObrigatorios() {
-	    boolean camposValidos = true;
+		boolean camposValidos = true;
 
-	    camposValidos &= validarCampoObrigatorio(inscricaoChoice);
-	    camposValidos &= validarCampoObrigatorio(inscricaoNumeroField);
-	    camposValidos &= validarCampoObrigatorio(situacaoChoice);
-	    camposValidos &= validarCampoObrigatorio(nomeField);
-	    camposValidos &= validarCampoObrigatorio(tipoEnderecoChoice);
-	    camposValidos &= validarCampoObrigatorio(logradouroField);
-	    camposValidos &= validarCampoObrigatorio(numeroField);
-	    camposValidos &= validarCampoObrigatorio(bairroField);
-	    camposValidos &= validarCampoObrigatorio(complementoField);
-	    camposValidos &= validarCampoObrigatorio(municipioField);
-	    camposValidos &= validarCampoObrigatorio(ufChoice);
-	    camposValidos &= validarCampoObrigatorio(cepField);
-	    camposValidos &= validarCampoObrigatorio(telefone1Field);
+		camposValidos &= validarCampoObrigatorio(inscricaoChoice);
+		camposValidos &= validarCampoObrigatorio(inscricaoNumeroField);
+		camposValidos &= validarCampoObrigatorio(situacaoChoice);
+		camposValidos &= validarCampoObrigatorio(nomeField);
+		camposValidos &= validarCampoObrigatorio(tipoEnderecoChoice);
+		camposValidos &= validarCampoObrigatorio(logradouroField);
+		camposValidos &= validarCampoObrigatorio(numeroField);
+		camposValidos &= validarCampoObrigatorio(bairroField);
+		camposValidos &= validarCampoObrigatorio(complementoField);
+		camposValidos &= validarCampoObrigatorio(municipioField);
+		camposValidos &= validarCampoObrigatorio(ufChoice);
+		camposValidos &= validarCampoObrigatorio(cepField);
+		camposValidos &= validarCampoObrigatorio(telefone1Field);
 
-	    return camposValidos;
+		return camposValidos;
 	}
 
 	private boolean validarCampoObrigatorio(Control campo) {
-	    boolean preenchido;
+		boolean preenchido;
 
-	    if (campo instanceof TextField) {
-	        preenchido = ((TextField) campo).getText() != null && !((TextField) campo).getText().trim().isEmpty();
-	    } else if (campo instanceof ChoiceBox) {
-	        preenchido = ((ChoiceBox<?>) campo).getValue() != null;
-	    } else {
-	        preenchido = true;
-	    }
+		if (campo instanceof TextField) {
+			preenchido = ((TextField) campo).getText() != null && !((TextField) campo).getText().trim().isEmpty();
+		} else if (campo instanceof ChoiceBox) {
+			preenchido = ((ChoiceBox<?>) campo).getValue() != null;
+		} else {
+			preenchido = true;
+		}
 
-	    if (!preenchido) {
-	    	campo.setStyle("-fx-border-color: #FFCCCC; -fx-border-width: 1px; -fx-background-color: #f6e1dd;");
-	    } else {
-	        campo.setStyle(""); // Remove a borda vermelha se estiver preenchido
-	    }
+		if (!preenchido) {
+			campo.setStyle("-fx-border-color: #FFCCCC; -fx-border-width: 1px; -fx-background-color: #f6e1dd;");
+		} else {
+			campo.setStyle(""); // Remove a borda vermelha se estiver preenchido
+		}
 
-	    return preenchido;
+		return preenchido;
 	}
 
-	
 	private void atualizarEstadoBotoes() {
-	    anteriorButton.setDisable(clienteAtualIndex <= 0);
-	    proximoButton.setDisable(clienteAtualIndex >= listaClientes.size() - 1);
+		anteriorButton.setDisable(clienteAtualIndex <= 0);
+		proximoButton.setDisable(clienteAtualIndex >= listaClientes.size() - 1);
 	}
 
 	private void habilitarCampos(boolean habilitar) {
-	    inscricaoChoice.setDisable(!habilitar);
-	    inscricaoNumeroField.setDisable(!habilitar);
-	    nomeField.setDisable(!habilitar);
-	    tipoEnderecoChoice.setDisable(!habilitar);
-	    logradouroField.setDisable(!habilitar);
-	    numeroField.setDisable(!habilitar);
-	    bairroField.setDisable(!habilitar);
-	    complementoField.setDisable(!habilitar);
-	    municipioField.setDisable(!habilitar);
-	    ufChoice.setDisable(!habilitar);
-	    cepField.setDisable(!habilitar);
-	    telefone1Field.setDisable(!habilitar);
-	    telefone2Field.setDisable(!habilitar);
-	    responsavelField.setDisable(!habilitar);
+		inscricaoChoice.setDisable(!habilitar);
+		inscricaoNumeroField.setDisable(!habilitar);
+		nomeField.setDisable(!habilitar);
+		tipoEnderecoChoice.setDisable(!habilitar);
+		logradouroField.setDisable(!habilitar);
+		numeroField.setDisable(!habilitar);
+		bairroField.setDisable(!habilitar);
+		complementoField.setDisable(!habilitar);
+		municipioField.setDisable(!habilitar);
+		ufChoice.setDisable(!habilitar);
+		cepField.setDisable(!habilitar);
+		telefone1Field.setDisable(!habilitar);
+		telefone2Field.setDisable(!habilitar);
+		responsavelField.setDisable(!habilitar);
 	}
-	
-	
+
 	private void atualizarCliente() {
 		cliente.setCodigo(Integer.parseInt(codigoField.getText()));
 		cliente.setTipoInscricao(inscricaoChoice.getValue());
@@ -376,9 +379,6 @@ public class ClientController {
 		telefone2Field.clear();
 	}
 
-
-
-
 	private void desabilitarCampos() {
 		codigoField.setDisable(true);
 		inscricaoChoice.setDisable(true);
@@ -400,7 +400,7 @@ public class ClientController {
 
 	public void preencherCampos(ClientModel cliente) {
 		this.cliente = cliente;
-	    clienteAtualIndex = listaClientes.indexOf(cliente); // Atualiza o índice baseado no códigoField selecionado
+		clienteAtualIndex = listaClientes.indexOf(cliente); // Atualiza o índice baseado no códigoField selecionado
 
 		codigoField.setText(String.valueOf(cliente.getCodigo()));
 		inscricaoChoice.setValue(cliente.getTipoInscricao());
@@ -418,7 +418,7 @@ public class ClientController {
 		responsavelField.setText(cliente.getResponsavel());
 		telefone1Field.setText(cliente.getTelefone1());
 		telefone2Field.setText(cliente.getTelefone2());
-		
+
 		atualizarEstadoBotoes(); // Atualiza os botões de navegação
 	}
 }

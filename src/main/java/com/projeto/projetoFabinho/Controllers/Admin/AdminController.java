@@ -37,6 +37,14 @@ public class AdminController {
     private void abrirRelatorios() {
         carregarTela("/fxml/Admin/relatorios.fxml", "Relatórios");
     }
+    
+    
+    
+    // Método para abrir a tela de Novo Veiculo
+    @FXML
+    private void abrirNovoVeiculo() {
+        carregarTela("/fxml/Admin/NewCar.fxml", "Novo Veículo");
+    }
 
     // Método genérico para carregar uma tela
     private void carregarTela(String fxmlPath, String titulo) {

@@ -12,10 +12,13 @@ module com.projeto {
     opens com.projeto.projetoFabinho.Controllers.Admin to javafx.fxml;
     opens com.projeto.projetoFabinho.Controllers.Client to javafx.fxml;
     opens com.projeto.projetoFabinho.Controllers.ClientList to javafx.fxml;
+    opens com.projeto.projetoFabinho.Controllers.NewCarController to javafx.fxml;
+    
     
     exports com.projeto.projetoFabinho;
     exports com.projeto.projetoFabinho.Controllers;
     exports com.projeto.projetoFabinho.Controllers.Admin;
+    exports com.projeto.projetoFabinho.Controllers.NewCarController;
     exports com.projeto.projetoFabinho.Controllers.Employee;
     exports com.projeto.projetoFabinho.Models;
     exports com.projeto.projetoFabinho.Views;

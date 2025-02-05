@@ -66,7 +66,6 @@
                                        </GridPane.margin>
                                     </TextField>
                                     <TextField minWidth="30.0" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                                    <TextField GridPane.columnIndex="5" />
                                     <Label text="Situação:" GridPane.columnIndex="4">
                                        <GridPane.margin>
                                           <Insets left="15.0" />
@@ -112,6 +111,7 @@
                                           <Insets right="15.0" />
                                        </opaqueInsets>
                                     </HBox>
+                                    <ChoiceBox prefWidth="150.0" GridPane.columnIndex="5" />
                                  </children>
                               </GridPane>
                               <GridPane prefWidth="670.0">

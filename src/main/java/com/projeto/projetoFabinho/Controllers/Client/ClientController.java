@@ -24,8 +24,7 @@ import javafx.stage.Stage;
 
 public class ClientController {
 
-	@FXML
-	private Button cancelarButton;
+
 	@FXML
 	private Button anteriorButton;
 	@FXML
@@ -79,7 +78,6 @@ public class ClientController {
 
 	@FXML
 	private void initialize() {
-
 		MascaraInscricao.aplicarMascaraTelefone(telefone1Field);
 		MascaraInscricao.aplicarMascaraTelefone(telefone2Field);
 		MascaraInscricao.aplicarMascaraCEP(cepField);
@@ -100,7 +98,8 @@ public class ClientController {
 		gravarButton.setDisable(true);
 		editarButton.setDisable(false);
 		novoButton.setDisable(false);
-		cancelarButton.setDisable(true); // Desativa "Cancelar" no início
+
+
 	}
 
 	private void carregarUltimoCliente() {
@@ -140,7 +139,7 @@ public class ClientController {
 			alert.setTitle("Campos Obrigatórios");
 			alert.setHeaderText(null);
 			alert.setContentText(
-					"Preencha todos os campos obrigatórios antes de salvar! Os campos em vermelho precisam ser preenchidos.");
+					"Preencha todos os campos obrigatórios antes de salvar!");
 			alert.showAndWait();
 			return;
 		}
@@ -166,7 +165,6 @@ public class ClientController {
 		gravarButton.setDisable(true);
 		editarButton.setDisable(false);
 		novoButton.setDisable(false);
-		cancelarButton.setDisable(true); // Agora o botão Cancelar é desativado corretamente
 
 		atualizarEstadoBotoes(); // Atualiza os botões Anterior e Próximo corretamente
 	}
@@ -200,40 +198,38 @@ public class ClientController {
 		// Habilitar os campos caso a situação já seja "Ativo"
 		habilitarCampos("Ativo".equalsIgnoreCase(cliente.getSituacao()));
 
-		// Adicionar um listener para liberar os campos assim que a situação mudar para
-		// "Ativo"
-		situacaoChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-			if ("Ativo".equalsIgnoreCase(newValue)) {
-				habilitarCampos(true); // Liberar os campos ao selecionar "Ativo"
-			} else {
-				habilitarCampos(false); // Bloquear os campos ao selecionar "Inativo"
-			}
-		});
-
 		// Ativar botões necessários para edição
 		editarButton.setDisable(true);
 		gravarButton.setDisable(false);
-		cancelarButton.setDisable(false);
+	    novoButton.setText("Cancelar"); // Altera o texto do botão
 
 		atualizarEstadoBotoes(); // Atualiza os botões "Anterior" e "Próximo"
 	}
 
 	@FXML
 	private void handleNovo() {
-		clienteAntesEdicao = cliente; // Salva o cliente atual antes de iniciar um novo
-		cliente = new ClientModel(); // Criando novo cliente
-		limparCampos();
-		preencherChoiceBoxes(); // Garante que os valores reapareçam
-		habilitarCampos(true); // No modo "Novo", códigoField pode ser editado
-		atualizarCodigo(); // Define o novo ID automaticamente
+	    if ("Cancelar".equals(novoButton.getText())) {
+	        handleCancelar();
+	        novoButton.setText("Novo");
+	        return;
+	    }
 
-		gravarButton.setDisable(false);
-		editarButton.setDisable(true);
-		cancelarButton.setDisable(false); // Ativa o botão "Cancelar"
+	    clienteAntesEdicao = cliente; // Salva o cliente atual antes de iniciar um novo
+	    cliente = new ClientModel(); // Criando novo cliente
+	    limparCampos();
+	    preencherChoiceBoxes(); // Garante que os valores reapareçam
+	    habilitarCampos(true); // No modo "Novo", códigoField pode ser editado
+	    atualizarCodigo(); // Define o novo ID automaticamente
 
-		anteriorButton.setDisable(true);
-		proximoButton.setDisable(true);
+	    gravarButton.setDisable(false);
+	    editarButton.setDisable(true);
+
+	    novoButton.setText("Cancelar"); // Altera o texto do botão
+
+	    anteriorButton.setDisable(true);
+	    proximoButton.setDisable(true);
 	}
+	
 
 	@FXML
 	private void handleCancelar() {
@@ -244,7 +240,6 @@ public class ClientController {
 		// Reativar o botão de edição e desativar os botões de salvar e cancelar
 		editarButton.setDisable(false);
 		gravarButton.setDisable(true);
-		cancelarButton.setDisable(true);
 
 		atualizarEstadoBotoes(); // Atualiza os botões "Anterior" e "Próximo"
 
@@ -290,9 +285,6 @@ public class ClientController {
 		camposValidos &= validarCampoObrigatorio(logradouroField);
 		camposValidos &= validarCampoObrigatorio(numeroField);
 		camposValidos &= validarCampoObrigatorio(bairroField);
-		camposValidos &= validarCampoObrigatorio(complementoField);
-		camposValidos &= validarCampoObrigatorio(municipioField);
-		camposValidos &= validarCampoObrigatorio(ufChoice);
 		camposValidos &= validarCampoObrigatorio(cepField);
 		camposValidos &= validarCampoObrigatorio(telefone1Field);
 

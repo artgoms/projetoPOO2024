@@ -67,6 +67,8 @@ public class ClientController {
 	private Button editarButton;
 	@FXML
 	private Button novoButton;
+	
+
 
 	private ClienteDAO clienteDAO = new ClienteDAO();
 	private ClientModel cliente;
@@ -78,6 +80,15 @@ public class ClientController {
 
 	@FXML
 	private void initialize() {
+		codigoField.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case F2:
+                    abrirJanelaClientes();
+                    break;
+                default:
+                    break;
+            }
+        });
 		MascaraInscricao.aplicarMascaraTelefone(telefone1Field);
 		MascaraInscricao.aplicarMascaraTelefone(telefone2Field);
 		MascaraInscricao.aplicarMascaraCEP(cepField);
@@ -274,6 +285,19 @@ public class ClientController {
 		}
 	}
 
+	private void abrirJanelaClientes() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Lista de Clientes");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+	
 	private boolean validarCamposObrigatorios() {
 		boolean camposValidos = true;
 

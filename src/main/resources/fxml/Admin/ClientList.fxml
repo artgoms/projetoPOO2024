@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-	xmlns="http://javafx.com/javafx/23.0.1"
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="com.projeto.projetoFabinho.Controllers.ClientList.ClientListController">
-	<TableView fx:id="tabelaClientes" layoutY="1.0"
-		prefHeight="400.0" prefWidth="600.0">
-		<columns>
-			<TableColumn fx:id="colNome" prefWidth="150.0"
-				text="Nome" />
-			<TableColumn fx:id="colInscricao" prefWidth="100.0"
-				text="Inscrição" />
-			<TableColumn fx:id="colSituacao" prefWidth="100.0"
-				text="Situação" />
-			<TableColumn fx:id="colTelefone" prefWidth="120.0"
-				text="Telefone" />
-			<TableColumn fx:id="colResponsavel" prefWidth="130.0"
-				text="Responsável" />
-		</columns>
-	</TableView>
+
+	<VBox spacing="10" AnchorPane.bottomAnchor="10.0"
+		AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"
+		AnchorPane.topAnchor="10.0">
+		<TableView fx:id="tabelaClientes">
+			<columns>
+				<TableColumn fx:id="colCodigo" text="Código" />
+				<TableColumn fx:id="colNome" text="Nome" />
+				<TableColumn fx:id="colInscricao" text="CPF/CNPJ" />
+				<TableColumn fx:id="colSituacao" text="Situação" />
+				<TableColumn fx:id="colTelefone" text="Telefone" />
+				<TableColumn fx:id="colResponsavel" text="Responsável" />
+			</columns>
+		</TableView>
+	</VBox>
 </AnchorPane>

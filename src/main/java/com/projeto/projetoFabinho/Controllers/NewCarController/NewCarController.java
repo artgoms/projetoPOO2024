@@ -1,9 +1,15 @@
 package com.projeto.projetoFabinho.Controllers.NewCarController;
 
+import com.projeto.projetoFabinho.Controllers.ClientList.ClientListController;
 import com.projeto.projetoFabinho.DAO.CarDAO;
 import com.projeto.projetoFabinho.Models.CarModel;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
 
 public class NewCarController {
 
@@ -12,6 +18,7 @@ public class NewCarController {
 
     @FXML
     private TextArea txtObservacoes;
+    
 
     @FXML
     private ChoiceBox<String> situacaoChoice;
@@ -25,6 +32,11 @@ public class NewCarController {
 
     @FXML
     public void initialize() {
+        txtCodigo.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.F2) {
+                abrirClientList();
+            }
+        });
         System.out.println("Inicializando NewCarController...");
 
         // Adicionar opções ao ChoiceBox
@@ -101,6 +113,24 @@ public class NewCarController {
 
         } catch (NumberFormatException e) {
             showAlert("Erro", "O Código do Cliente deve ser um número válido!");
+        }
+    }
+    
+    private void abrirClientList() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
+            Parent root = loader.load();
+
+            // Obter o controlador e definir o listener para capturar o código do cliente
+            ClientListController controller = loader.getController();
+            controller.setSelectionListener(codigoCliente -> txtCodigo.setText(codigoCliente));
+
+            Stage stage = new Stage();
+            stage.setTitle("Lista de Clientes");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

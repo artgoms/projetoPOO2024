@@ -12,11 +12,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-
+import java.awt.TextField;
 import java.util.List;
 
 public class ClientListController {
 
+	
+	@FXML
+	private TextField txtPesquisa;
+	
     @FXML
     private TableView<ClientModel> tabelaClientes;
     @FXML
@@ -29,7 +33,20 @@ public class ClientListController {
     private TableColumn<ClientModel, String> colTelefone;
     @FXML
     private TableColumn<ClientModel, String> colResponsavel;
-
+    
+    @FXML
+    private TableColumn<ClientModel, Integer> colCodigo;
+    
+    private ClientSelectionListener selectionListener;
+    
+    public interface ClientSelectionListener {
+        void onClientSelected(String codigoCliente);
+    }
+    
+    public void setSelectionListener(ClientSelectionListener listener) {
+        this.selectionListener = listener;
+    }
+    
     private ClienteDAO clienteDAO = new ClienteDAO();
     private ClientController clientController; // Referência para a tela anterior
 
@@ -40,6 +57,7 @@ public class ClientListController {
     @FXML
     private void initialize() {
         // Configurar colunas
+        colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colInscricao.setCellValueFactory(new PropertyValueFactory<>("inscricaoNumero"));
         colSituacao.setCellValueFactory(new PropertyValueFactory<>("situacao"));
@@ -63,6 +81,18 @@ public class ClientListController {
             }
         });
     }
+    
+    @FXML
+    private void handleSelection() {
+        ClientModel clienteSelecionado = tabelaClientes.getSelectionModel().getSelectedItem();
+        if (clienteSelecionado != null && selectionListener != null) {
+            selectionListener.onClientSelected(String.valueOf(clienteSelecionado.getCodigo())); // Conversão aqui
+            Stage stage = (Stage) tabelaClientes.getScene().getWindow();
+            stage.close(); // Fecha a janela após a seleção
+        }
+    }
+    
+
 
     private void carregarClientes() {
         List<ClientModel> clientes = clienteDAO.listarTodos();

@@ -6,6 +6,7 @@ module com.projeto {
 	requires javafx.graphics;
 	requires javafx.base;
 	requires java.sql;
+	requires java.desktop;
     
     opens com.projeto.projetoFabinho to javafx.fxml;
     opens com.projeto.projetoFabinho.Controllers to javafx.fxml;

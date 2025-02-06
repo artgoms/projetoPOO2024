@@ -295,6 +295,8 @@ public class ClientController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
             Parent root = loader.load();
         
+            
+            
             Stage stage = new Stage();
             stage.setTitle("Lista de Clientes");
             stage.setScene(new Scene(root));
@@ -314,7 +316,8 @@ public class ClientController {
 		camposValidos &= validarCampoObrigatorio(inscricaoNumeroField);
 		camposValidos &= validarCampoObrigatorio(situacaoChoice);
 		camposValidos &= validarCampoObrigatorio(nomeField);
-		camposValidos &= validarCampoObrigatorio(tipoEnderecoChoice);
+		camposValidos &= validarCampoObrigatorio(municipioField);
+		camposValidos &= validarCampoObrigatorio(ufChoice);
 		camposValidos &= validarCampoObrigatorio(logradouroField);
 		camposValidos &= validarCampoObrigatorio(numeroField);
 		camposValidos &= validarCampoObrigatorio(bairroField);

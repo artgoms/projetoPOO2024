@@ -15,6 +15,7 @@ module com.projeto {
     opens com.projeto.projetoFabinho.Controllers.ClientList to javafx.fxml;
     opens com.projeto.projetoFabinho.Controllers.CarParts to javafx.fxml;
     opens com.projeto.projetoFabinho.Controllers.NewCarController to javafx.fxml;
+    opens com.projeto.projetoFabinho.Controllers.StockList to javafx.fxml;
 
     
     

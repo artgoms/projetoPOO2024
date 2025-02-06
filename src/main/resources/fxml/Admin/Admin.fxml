@@ -4,43 +4,67 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="600.0" maxWidth="800.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: E0E0E0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto.projetoFabinho.Controllers.Admin.AdminController">
+<AnchorPane maxHeight="600.0" maxWidth="800.0" prefHeight="600.0"
+	prefWidth="800.0" style="-fx-background-color: E0E0E0;"
+	xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.projeto.projetoFabinho.Controllers.Admin.AdminController">
 	<children>
-<Button layoutX="98.0" layoutY="65.0" mnemonicParsing="false" onAction="#abrirConsultaOS" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF;" text="CONSULTA OS" textAlignment="CENTER" textOverrun="CLIP">
-    <font>
-        <Font name="System Bold" size="12.0" />
-    </font>
-</Button>
-<Button layoutX="282.0" layoutY="65.0" mnemonicParsing="false" onAction="#abrirNovoOS" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF;" text="NOVO OS" textAlignment="CENTER" textOverrun="CLIP">
-    <font>
-        <Font name="System Bold" size="12.0" />
-    </font>
-</Button>
-<Button layoutX="469.0" layoutY="65.0" mnemonicParsing="false" onAction="#abrirVerificarEstoque" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF;" text="VERIFICAR ESTOQUE" textAlignment="CENTER" textOverrun="CLIP">
-    <font>
-        <Font name="System Bold" size="12.0" />
-    </font>
-</Button>
-<Button layoutX="98.0" layoutY="201.0" mnemonicParsing="false" onAction="#abrirVerificarCliente" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF;" text="VERIFICAR CLIENTE" textAlignment="CENTER" textOverrun="CLIP">
-    <font>
-        <Font name="System Bold" size="12.0" />
-    </font>
-</Button>
-<Button layoutX="282.0" layoutY="201.0" mnemonicParsing="false" onAction="#abrirRelatorios" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF; -fx-border-color: rgba(0, 0, 0, 1); -fx-border-width: 2;" text="RELATÓRIOS" textAlignment="CENTER" textOverrun="CLIP">
-    <font>
-        <Font name="System Bold" size="12.0" />
-    </font>
-</Button>
+		<Button layoutX="98.0" layoutY="65.0" mnemonicParsing="false"
+			onAction="#abrirConsultaOS" prefHeight="82.0" prefWidth="146.0"
+			style="-fx-background-color: EFEFEF;" text="CONSULTA OS"
+			textAlignment="CENTER" textOverrun="CLIP">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Button>
+		<Button layoutX="282.0" layoutY="65.0" mnemonicParsing="false"
+			onAction="#abrirNovoOS" prefHeight="82.0" prefWidth="146.0"
+			style="-fx-background-color: EFEFEF;" text="NOVO OS"
+			textAlignment="CENTER" textOverrun="CLIP">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Button>
+		<Button layoutX="469.0" layoutY="65.0" mnemonicParsing="false"
+			onAction="#abrirVerificarEstoque" prefHeight="82.0"
+			prefWidth="146.0" style="-fx-background-color: EFEFEF;"
+			text="VERIFICAR ESTOQUE" textAlignment="CENTER" textOverrun="CLIP">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Button>
+		<Button layoutX="98.0" layoutY="201.0" mnemonicParsing="false"
+			onAction="#abrirVerificarCliente" prefHeight="82.0"
+			prefWidth="146.0" style="-fx-background-color: EFEFEF;"
+			text="VERIFICAR CLIENTE" textAlignment="CENTER" textOverrun="CLIP">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Button>
+		<Button layoutX="282.0" layoutY="201.0" mnemonicParsing="false"
+			onAction="#abrirRelatorios" prefHeight="82.0" prefWidth="146.0"
+			style="-fx-background-color: EFEFEF; -fx-border-color: rgba(0, 0, 0, 1); -fx-border-width: 2;"
+			text="RELATÓRIOS" textAlignment="CENTER" textOverrun="CLIP">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Button>
 
-<Button layoutX="469.0" layoutY="201.0" mnemonicParsing="false" onAction="#abrirNovoVeiculo" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF; -fx-border-color: rgba(0, 0, 0, 1); -fx-border-width: 2;" text="VEICULO" textAlignment="CENTER" textOverrun="CLIP">
-    <font>
-        <Font name="System Bold" size="12.0" />
-    </font>
-</Button>
-<Button layoutX="625.0" layoutY="201.0" mnemonicParsing="false" onAction="#abrirNovaPeca" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF; -fx-border-color: rgba(0, 0, 0, 1); -fx-border-width: 2;" text="NovaPeca" textAlignment="CENTER" textOverrun="CLIP">
-    <font>
-        <Font name="System Bold" size="12.0" />
-    </font>
-</Button>
+		<Button layoutX="469.0" layoutY="201.0" mnemonicParsing="false"
+			onAction="#abrirNovoVeiculo" prefHeight="82.0" prefWidth="146.0"
+			style="-fx-background-color: EFEFEF; -fx-border-color: rgba(0, 0, 0, 1); -fx-border-width: 2;"
+			text="VEICULO" textAlignment="CENTER" textOverrun="CLIP">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Button>
+		<Button layoutX="625.0" layoutY="201.0" mnemonicParsing="false"
+			onAction="#abrirNovaPeca" prefHeight="82.0" prefWidth="146.0"
+			style="-fx-background-color: EFEFEF; -fx-border-color: rgba(0, 0, 0, 1); -fx-border-width: 2;"
+			text="NovaPeca" textAlignment="CENTER" textOverrun="CLIP">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Button>
 	</children>
 </AnchorPane>

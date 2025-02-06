@@ -23,7 +23,7 @@ public class AdminController {
     // Método para abrir a tela de Verificar Estoque
     @FXML
     private void abrirVerificarEstoque() {
-        carregarTela("/fxml/Admin/verificar_estoque.fxml", "Estoque");
+        carregarTela("/fxml/Admin/StockList.fxml", "Estoque");
     }
 
     // Método para abrir a tela de Verificar Cliente

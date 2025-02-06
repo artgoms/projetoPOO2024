@@ -10,7 +10,6 @@ import com.projeto.projetoFabinho.Models.ClientModel;
 import com.projeto.projetoFabinho.Models.ClientModel.TipoEndereco;
 import com.projeto.projetoFabinho.Utils.InputValidator;
 import com.projeto.projetoFabinho.Utils.MascaraInscricao;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -61,6 +60,7 @@ public class ClientController {
 	private TextField telefone1Field;
 	@FXML
 	private TextField telefone2Field;
+
 	@FXML
 	private Button gravarButton;
 	@FXML
@@ -80,6 +80,7 @@ public class ClientController {
 
 	@FXML
 	private void initialize() {
+
 		codigoField.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case F2:
@@ -231,6 +232,7 @@ public class ClientController {
 	    preencherChoiceBoxes(); // Garante que os valores reapareçam
 	    habilitarCampos(true); // No modo "Novo", códigoField pode ser editado
 	    atualizarCodigo(); // Define o novo ID automaticamente
+		situacaoChoice.setDisable(false); // Sempre permitir a edição do campo de situação
 
 	    gravarButton.setDisable(false);
 	    editarButton.setDisable(true);
@@ -285,10 +287,14 @@ public class ClientController {
 		}
 	}
 
+
+	
+	
 	private void abrirJanelaClientes() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
             Parent root = loader.load();
+        
             Stage stage = new Stage();
             stage.setTitle("Lista de Clientes");
             stage.setScene(new Scene(root));
@@ -297,6 +303,9 @@ public class ClientController {
             e.printStackTrace();
         }
     }
+	
+	
+	
 	
 	private boolean validarCamposObrigatorios() {
 		boolean camposValidos = true;

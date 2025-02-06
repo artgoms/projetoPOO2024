@@ -37,5 +37,10 @@
         <Font name="System Bold" size="12.0" />
     </font>
 </Button>
+<Button layoutX="625.0" layoutY="201.0" mnemonicParsing="false" onAction="#abrirNovaPeca" prefHeight="82.0" prefWidth="146.0" style="-fx-background-color: EFEFEF; -fx-border-color: rgba(0, 0, 0, 1); -fx-border-width: 2;" text="NovaPeca" textAlignment="CENTER" textOverrun="CLIP">
+    <font>
+        <Font name="System Bold" size="12.0" />
+    </font>
+</Button>
 	</children>
 </AnchorPane>

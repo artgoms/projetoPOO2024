@@ -9,9 +9,11 @@ public class CarModel {
     private String anoFabricacao;
     private String placa;
     private String observacoes;
+    private int codigoCliente;
+    private String nomeCliente;
 
     // 🔹 Construtor Completo
-    public CarModel(int id, int codigo, String situacao, String marca, String modelo, String anoFabricacao, String placa, String observacoes) {
+    public CarModel(int id, int codigo, String situacao, String marca, String modelo, String anoFabricacao, String placa, String observacoes, int codigoCliente, String nomeCliente) {
         this.id = id;
         this.codigo = codigo;
         this.situacao = situacao;
@@ -20,6 +22,8 @@ public class CarModel {
         this.anoFabricacao = anoFabricacao;
         this.placa = placa;
         this.observacoes = observacoes;
+        this.codigoCliente = codigoCliente;
+        this.nomeCliente = nomeCliente;
     }
 
     // 🔹 Construtor Vazio
@@ -49,4 +53,8 @@ public class CarModel {
 
     public String getObservacoes() { return observacoes; }
     public void setObservacoes(String observacoes) { this.observacoes = observacoes; }
+
+    public int getCodigoCliente() { return codigoCliente; }
+    public String getNomeCliente() { return nomeCliente; }
+
 }

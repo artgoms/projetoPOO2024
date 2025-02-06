@@ -1,10 +1,13 @@
 package com.projeto.projetoFabinho.DAO;
 
+import com.projeto.projetoFabinho.DatabaseConnection;
 import com.projeto.projetoFabinho.Models.CarModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CarDAO extends BaseDAO<CarModel> {
 
@@ -51,67 +54,6 @@ public class CarDAO extends BaseDAO<CarModel> {
         }
     }
 
-    // 🔹 Buscar um carro pelo ID
-    public CarModel getCarById(int id) {
-        String sql = "SELECT * FROM carros WHERE id = ?";
-        CarModel car = null;
-
-        try (Connection conn = getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                car = new CarModel(
-                    rs.getInt("id"),
-                    rs.getInt("codigo"),
-                    rs.getString("situacao"),
-                    rs.getString("marca"),
-                    rs.getString("modelo"),
-                    rs.getString("anoFabricacao"),
-                    rs.getString("placa"),
-                    rs.getString("observacoes")
-                );
-                System.out.println("Carro carregado do banco: " + car.getMarca() + " " + car.getModelo());
-            } else {
-                System.out.println("Nenhum carro encontrado com ID: " + id);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return car;
-    }
-    
-    public CarModel getCarByPlaca(String placa) {
-        String sql = "SELECT * FROM carros WHERE placa = ?";
-        CarModel car = null;
-
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
-            stmt.setString(1, placa);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                car = new CarModel(
-                    rs.getInt("id"),
-                    rs.getInt("codigo"),
-                    rs.getString("situacao"),
-                    rs.getString("marca"),
-                    rs.getString("modelo"),
-                    rs.getString("anoFabricacao"),
-                    rs.getString("placa"),
-                    rs.getString("observacoes")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return car;
-    }
 
     public int getNextCarId() {
         String sql = "SELECT MAX(id) FROM carros";
@@ -132,5 +74,33 @@ public class CarDAO extends BaseDAO<CarModel> {
         return nextId;
     }
 
+    public List<CarModel> getAllCars() {
+        List<CarModel> carros = new ArrayList<>();
+        String sql = "SELECT c.id, c.placa, c.marca, c.modelo, c.situacao, cl.codigo AS codigoCliente, cl.nome AS nomeCliente " +
+                     "FROM carros c " +
+                     "JOIN clientes cl ON c.codigo = cl.codigo";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                CarModel car = new CarModel(
+                    rs.getInt("id"),
+                    rs.getString("placa"),
+                    rs.getString("marca"),
+                    rs.getString("modelo"),
+                    rs.getString("situacao"),
+                    rs.getInt("codigoCliente"),
+                    rs.getString("nomeCliente")
+                );
+                carros.add(car);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return carros;
+    }
 
 }

@@ -9,10 +9,11 @@ import javafx.fxml.FXML;
 
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.awt.TextField;
+
 import java.util.List;
 
 public class ClientListController {
@@ -39,6 +40,8 @@ public class ClientListController {
     
     private ClientSelectionListener selectionListener;
     
+
+    
     public interface ClientSelectionListener {
         void onClientSelected(String codigoCliente);
     }
@@ -56,6 +59,9 @@ public class ClientListController {
 
     @FXML
     private void initialize() {
+	    txtPesquisa.textProperty().addListener((observable, oldValue, newValue) -> {
+	        pesquisarClientes();
+	    });
         // Configurar colunas
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -93,7 +99,16 @@ public class ClientListController {
     }
     
 
+	@FXML
+	private void pesquisarClientes() {
+	    String filtro = txtPesquisa.getText().trim();
+	    ClienteDAO clienteDAO = new ClienteDAO();
+	    List<ClientModel> clientesFiltrados = clienteDAO.buscarClientesPorNomeOuCPF(filtro);
 
+	    ObservableList<ClientModel> clientesObservable = FXCollections.observableArrayList(clientesFiltrados);
+	    tabelaClientes.setItems(clientesObservable);
+	}
+	
     private void carregarClientes() {
         List<ClientModel> clientes = clienteDAO.listarTodos();
         ObservableList<ClientModel> clientesLista = FXCollections.observableArrayList(clientes);

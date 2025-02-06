@@ -12,115 +12,106 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="240.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <VBox prefHeight="237.0" prefWidth="700.0" style="-fx-background-color: E0E0E0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <GridPane>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="54.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="637.0" minWidth="10.0" prefWidth="388.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="145.0" minWidth="10.0" prefWidth="122.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="104.0" minWidth="10.0" prefWidth="92.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="30.0" />
-               </VBox.margin>
-               <children>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Código:" />
-                  <Label alignment="CENTER_RIGHT" text="Nome:" GridPane.rowIndex="1" />
-                  <TextField maxWidth="60.0" GridPane.columnIndex="1" />
-                  <TextField layoutX="65.0" layoutY="43.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Modelo:" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </Label>
-                  <TextField maxWidth="1.7976931348623157E308" prefWidth="126.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Situação:" GridPane.columnIndex="2">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <TextField maxWidth="1.7976931348623157E308" prefWidth="168.0" GridPane.columnIndex="3" />
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Data Entrada:" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <DatePicker GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Quant. Disponível:" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <TextField maxWidth="1.7976931348623157E308" prefWidth="168.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-               </children>
-            </GridPane>
-            <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="700.0">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="10.0" />
-               </VBox.margin>
-               <children>
-                  <Label text="Custo:    R$">
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField maxWidth="100.0" />
-                  <Label text="\% Margem:">
-                     <HBox.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField maxWidth="100.0" />
-                  <Label text="Valor Venda:  R$">
-                     <HBox.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField maxWidth="100.0" />
-               </children>
-            </HBox>
-            <HBox prefHeight="36.0" prefWidth="660.0" spacing="15.0">
-               <children>
-                  <Button mnemonicParsing="false" text="Novo">
-                     <padding>
-                        <Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
-                     </padding>
-                  </Button>
-                  <Button mnemonicParsing="false" text="Salvar">
-                     <padding>
-                        <Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
-                     </padding>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" text="Cancelar">
-                     <padding>
-                        <Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
-                     </padding>
-                  </Button>
-                  <Button mnemonicParsing="false" text="Editar">
-                     <padding>
-                        <Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
-                     </padding>
-                  </Button>
-               </children>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="20.0" />
-               </VBox.margin>
-            </HBox>
-         </children></VBox>
-   
-   </children>
+<AnchorPane prefHeight="240.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto.projetoFabinho.Controllers.CarParts.CarPartsController">
+	<children>
+		<VBox prefHeight="237.0" prefWidth="700.0" style="-fx-background-color: E0E0E0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<children>
+				<GridPane>
+					<columnConstraints>
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="54.0" />
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="637.0" minWidth="10.0" prefWidth="388.0" />
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="145.0" minWidth="10.0" prefWidth="122.0" />
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="104.0" minWidth="10.0" prefWidth="92.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+					</rowConstraints>
+					<opaqueInsets>
+						<Insets />
+					</opaqueInsets>
+					<VBox.margin>
+						<Insets left="20.0" right="20.0" top="30.0" />
+					</VBox.margin>
+					<children>
+						<Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Código:" />
+						<Label alignment="CENTER_RIGHT" text="Nome:" GridPane.rowIndex="1" />
+						<TextField fx:id="codigoField" disable="true" maxWidth="60.0" GridPane.columnIndex="1" />
+						<TextField fx:id="nomeField" layoutX="65.0" layoutY="43.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+						<Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Modelo:" GridPane.rowIndex="2">
+							<GridPane.margin>
+								<Insets />
+							</GridPane.margin>
+						</Label>
+						<TextField fx:id="modeloField" maxWidth="1.7976931348623157E308" prefWidth="126.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+						<Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Data Entrada:" GridPane.columnIndex="2" GridPane.rowIndex="1">
+							<GridPane.margin>
+								<Insets left="10.0" />
+							</GridPane.margin>
+						</Label>
+						<DatePicker fx:id="dataEntradaField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+						<Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Quant. Disponível:" GridPane.columnIndex="2" GridPane.rowIndex="2">
+							<GridPane.margin>
+								<Insets left="10.0" />
+							</GridPane.margin>
+						</Label>
+						<TextField fx:id="quantidadeField" maxWidth="1.7976931348623157E308" prefWidth="168.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+					</children>
+				</GridPane>
+				<HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="700.0">
+					<VBox.margin>
+						<Insets left="20.0" right="20.0" top="10.0" />
+					</VBox.margin>
+					<children>
+						<Label text="Custo:    R$">
+							<HBox.margin>
+								<Insets right="20.0" />
+							</HBox.margin>
+						</Label>
+						<TextField fx:id="custoField" maxWidth="100.0" />
+						<Label text="\% Margem:">
+							<HBox.margin>
+								<Insets left="20.0" right="20.0" />
+							</HBox.margin>
+						</Label>
+						<TextField fx:id="margemField" maxWidth="100.0" />
+						<Label text="Valor Venda:  R$">
+							<HBox.margin>
+								<Insets left="20.0" right="20.0" />
+							</HBox.margin>
+						</Label>
+						<TextField fx:id="valorVendaField" maxWidth="100.0" />
+					</children>
+				</HBox>
+				<HBox prefHeight="36.0" prefWidth="660.0" spacing="15.0">
+					<children>
+						<Button fx:id="novoButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="74.0" text="Novo">
+							<padding>
+								<Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
+							</padding>
+						</Button>
+						<Button fx:id="salvarButton" mnemonicParsing="false" text="Salvar">
+							<padding>
+								<Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
+							</padding>
+							<HBox.margin>
+								<Insets />
+							</HBox.margin>
+						</Button>
+						<Button fx:id="editarButton" mnemonicParsing="false" text="Editar">
+							<padding>
+								<Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
+							</padding>
+						</Button>
+					</children>
+					<VBox.margin>
+						<Insets left="20.0" right="20.0" top="20.0" />
+					</VBox.margin>
+				</HBox>
+			</children>
+		</VBox>
+
+
+	</children>
 </AnchorPane>

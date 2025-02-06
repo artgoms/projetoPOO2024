@@ -11,18 +11,27 @@
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="com.projeto.projetoFabinho.Controllers.ClientList.ClientListController">
 
-	<VBox spacing="10" AnchorPane.bottomAnchor="10.0"
-		AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"
-		AnchorPane.topAnchor="10.0">
-		<TableView fx:id="tabelaClientes">
-			<columns>
-				<TableColumn fx:id="colCodigo" text="Código" />
-				<TableColumn fx:id="colNome" text="Nome" />
-				<TableColumn fx:id="colInscricao" text="CPF/CNPJ" />
-				<TableColumn fx:id="colSituacao" text="Situação" />
-				<TableColumn fx:id="colTelefone" text="Telefone" />
-				<TableColumn fx:id="colResponsavel" text="Responsável" />
-			</columns>
-		</TableView>
-	</VBox>
+<VBox spacing="10" AnchorPane.bottomAnchor="10.0"
+       AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"
+       AnchorPane.topAnchor="10.0">
+    
+    <!-- Campo de pesquisa -->
+    <TextField fx:id="txtPesquisa" promptText="Buscar por Nome ou CPF/CNPJ"/>
+    
+    <!-- Tabela de clientes -->
+    <TableView fx:id="tabelaClientes">
+        <columns>
+            <TableColumn fx:id="colCodigo" text="Código" />
+            <TableColumn fx:id="colNome" text="Nome" />
+            <TableColumn fx:id="colInscricao" text="CPF/CNPJ" />
+            <TableColumn fx:id="colSituacao" text="Situação" />
+            <TableColumn fx:id="colTelefone" text="Telefone" />
+            <TableColumn fx:id="colResponsavel" text="Responsável" />
+        </columns>
+    </TableView>
+</VBox>
 </AnchorPane>
+
+
+
+

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 06/02/2025 às 17:53
+-- Tempo de geração: 08/02/2025 às 22:56
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -52,32 +52,6 @@ INSERT INTO `carros` (`id`, `codigo`, `situacao`, `marca`, `modelo`, `anoFabrica
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `car_parts`
---
-
-CREATE TABLE `car_parts` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(255) NOT NULL,
-  `modelo` varchar(255) NOT NULL,
-  `data_entrada` date NOT NULL,
-  `quantidade` int(11) NOT NULL,
-  `custo` decimal(10,2) NOT NULL,
-  `margem` decimal(5,2) NOT NULL,
-  `valor_venda` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `car_parts`
---
-
-INSERT INTO `car_parts` (`id`, `nome`, `modelo`, `data_entrada`, `quantidade`, `custo`, `margem`, `valor_venda`) VALUES
-(1, 'Filtro de Óleo', 'Modelo A', '2024-02-01', 50, 10.00, 20.00, 12.00),
-(2, 'Pastilha de Freio', 'Modelo B', '2024-02-05', 30, 25.00, 30.00, 32.50),
-(3, 'Bateria 60Ah', 'Modelo C', '2024-01-25', 20, 200.00, 15.00, 230.00);
-
--- --------------------------------------------------------
-
---
 -- Estrutura para tabela `clientes`
 --
 
@@ -113,6 +87,32 @@ INSERT INTO `clientes` (`codigo`, `tipo_inscricao`, `inscricao_numero`, `nome`, 
 (6, 'CPF', '456.123.789-99', 'Marcos Almeida', 'Suspenso', 'RURAL', 'Estrada das Palmeiras', 'KM20', 'Zona Rural', 'Belo Horizonte', 'MG', '30320-567', '', 'Roberto Silva', '(31) 98899-5544', '(31) 96666-3322'),
 (11, 'CPF', '00.000.000/0000-00', 'Artur', 'Ativo', 'COMERCIAL', 'asdf', '22', 'ce', 'asdf', 'CE', '', 'asd', '', '', '');
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `pecas`
+--
+
+CREATE TABLE `pecas` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `modelo` varchar(100) NOT NULL,
+  `quantidade` int(11) NOT NULL DEFAULT 0,
+  `valorVenda` decimal(10,2) NOT NULL,
+  `custo` decimal(10,2) NOT NULL,
+  `margemLucro` decimal(5,2) NOT NULL DEFAULT 12.00,
+  `dataEntrada` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `pecas`
+--
+
+INSERT INTO `pecas` (`id`, `nome`, `modelo`, `quantidade`, `valorVenda`, `custo`, `margemLucro`, `dataEntrada`) VALUES
+(1, 'Filtro de óleo', 'A123', 10, 25.50, 0.00, 12.00, '2024-01-01'),
+(2, 'Pastilha de freio', 'B456', 20, 80.00, 0.00, 12.00, '2024-01-01'),
+(3, 'Bateria 60Ah', 'C789', 5, 350.00, 0.00, 12.00, '2024-01-01');
+
 --
 -- Índices para tabelas despejadas
 --
@@ -126,17 +126,17 @@ ALTER TABLE `carros`
   ADD KEY `codigo` (`codigo`);
 
 --
--- Índices de tabela `car_parts`
---
-ALTER TABLE `car_parts`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Índices de tabela `clientes`
 --
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`codigo`),
   ADD UNIQUE KEY `inscricao_numero` (`inscricao_numero`);
+
+--
+-- Índices de tabela `pecas`
+--
+ALTER TABLE `pecas`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
@@ -149,16 +149,16 @@ ALTER TABLE `carros`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de tabela `car_parts`
---
-ALTER TABLE `car_parts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
+
+--
+-- AUTO_INCREMENT de tabela `pecas`
+--
+ALTER TABLE `pecas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restrições para tabelas despejadas

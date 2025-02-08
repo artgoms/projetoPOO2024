@@ -86,13 +86,16 @@ public class CarDAO extends BaseDAO<CarModel> {
 
             while (rs.next()) {
                 CarModel car = new CarModel(
-                    rs.getInt("id"),
-                    rs.getString("placa"),
-                    rs.getString("marca"),
-                    rs.getString("modelo"),
-                    rs.getString("situacao"),
-                    rs.getInt("codigoCliente"),
-                    rs.getString("nomeCliente")
+                        rs.getInt("id"),
+                        rs.getInt("codigo"),
+                        rs.getString("situacao"),
+                        rs.getString("marca"),
+                        rs.getString("modelo"),
+                        rs.getString("anoFabricacao"),
+                        rs.getString("placa"),
+                        rs.getString("observacoes"),
+                        rs.getInt("codigoCliente"),
+                        rs.getString("nomeCliente")
                 );
                 carros.add(car);
             }
@@ -103,4 +106,33 @@ public class CarDAO extends BaseDAO<CarModel> {
         return carros;
     }
 
+    public CarModel getCarByPlaca(String placa) {
+        String sql = "SELECT id, codigo, situacao, marca, modelo, anoFabricacao, placa, observacoes, codigoCliente, nomeCliente FROM carros WHERE placa = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, placa);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new CarModel(
+                    rs.getInt("id"),
+                    rs.getInt("codigo"),
+                    rs.getString("situacao"),
+                    rs.getString("marca"),
+                    rs.getString("modelo"),
+                    rs.getString("anoFabricacao"),
+                    rs.getString("placa"),
+                    rs.getString("observacoes"),
+                    rs.getInt("codigoCliente"),
+                    rs.getString("nomeCliente")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    
 }

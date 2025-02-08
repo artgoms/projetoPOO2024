@@ -12,7 +12,7 @@ public class CarModel {
     private int codigoCliente;
     private String nomeCliente;
 
-    // 🔹 Construtor Completo
+    // Construtor Completo
     public CarModel(int id, int codigo, String situacao, String marca, String modelo, String anoFabricacao, String placa, String observacoes, int codigoCliente, String nomeCliente) {
         this.id = id;
         this.codigo = codigo;
@@ -25,11 +25,25 @@ public class CarModel {
         this.codigoCliente = codigoCliente;
         this.nomeCliente = nomeCliente;
     }
+    // Construtor com 8 parâmetros
+    public CarModel(int id, int codigoCliente, String situacao, String marca, String modelo, 
+            String anoFabricacao, String placa, String observacoes) {
+		this.id = id;
+		this.codigoCliente = codigoCliente;
+		this.situacao = situacao;
+		this.marca = marca;
+		this.modelo = modelo;
+		this.anoFabricacao = anoFabricacao;
+		this.placa = placa;
+		this.observacoes = observacoes;
+}
 
-    // 🔹 Construtor Vazio
+    // Construtor Vazio
     public CarModel() { }
 
-    // 🔹 Getters e Setters
+    
+    
+    // getters e setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

@@ -11,18 +11,31 @@ public class CarPartsModel {
     private double custo;
     private double margem;
     private double valorVenda;
+    private double margemLucro;
 
-    public CarPartsModel(int id, String nome, String modelo, LocalDate dataEntrada, int quantidade, double custo, double margem, double valorVenda) {
+
+	public CarPartsModel(int id, String nome, String modelo, int quantidade, double custo, double margemLucro, double valorVenda, LocalDate dataEntrada) {
         this.id = id;
         this.nome = nome;
         this.modelo = modelo;
-        this.dataEntrada = dataEntrada;
         this.quantidade = quantidade;
         this.custo = custo;
-        this.margem = margem;
+        this.margemLucro = margemLucro;
         this.valorVenda = valorVenda;
+        this.dataEntrada = dataEntrada;
     }
 
+    
+    public CarPartsModel(int id, String nome, String modelo, int quantidade, double valorVenda) {
+        this.id = id;
+        this.nome = nome;
+        this.modelo = modelo;
+
+        this.quantidade = quantidade;
+
+        this.valorVenda = valorVenda;
+    }
+    
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -46,4 +59,9 @@ public class CarPartsModel {
 
     public double getValorVenda() { return valorVenda; }
     public void setValorVenda(double valorVenda) { this.valorVenda = valorVenda; }
+
+    public double getMargemLucro() { return margemLucro; }
+	public void setMargemLucro(double margemLucro) { this.margemLucro = margemLucro; }
+
+
 }

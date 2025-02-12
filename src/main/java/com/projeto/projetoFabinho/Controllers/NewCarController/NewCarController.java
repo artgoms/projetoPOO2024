@@ -119,7 +119,7 @@ public class NewCarController {
     private void abrirClientList() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
-            Parent root = loader.load();
+            Parent scene = loader.load();
 
             // Obter o controlador e definir o listener para capturar o código do cliente
             ClientListController controller = loader.getController();
@@ -127,8 +127,18 @@ public class NewCarController {
 
             Stage stage = new Stage();
             stage.setTitle("Lista de Clientes");
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(scene));
+            
+            // Adiciona um evento para fechar a janela ao pressionar "Esc"
+            scene.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    stage.close();
+                }
+            });
+            
             stage.show();
+            
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

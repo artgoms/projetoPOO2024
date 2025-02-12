@@ -51,17 +51,16 @@ public class CarPartsController {
 	private CarPartsModel currentPart;
 
 	private boolean isEditing = false;
+	
+	
 
 	@FXML
 	private void initialize() {
-		// Inicialmente desabilita o botão "Salvar"
-		salvarButton.setDisable(true);
-		// Desabilita o botão "Editar", pois estamos no estado inicial (não estamos
-		// editando)
-		editarButton.setDisable(false);
-		// O botão "Novo" deve estar ativo
-		novoButton.setText("Novo");
+		
 
+        // 🔹 Ativar o modo edição automaticamente ao iniciar a tela
+        setModoEdicao(false);
+        
 		// Definir o valor do campo idField como o maior ID + 1
 		int maiorId = carPartsDAO.obterMaiorId();
 		idField.setText(String.valueOf(maiorId + 1)); // Definindo o próximo ID para a nova peça
@@ -84,7 +83,7 @@ public class CarPartsController {
 			isEditing = true;
 			toggleButtonsDuringEditing();
 			// Habilita os campos para edição
-			disableFields(false);
+			setModoEdicao(false);
 		}
 	}
 
@@ -136,7 +135,7 @@ public class CarPartsController {
 				toggleButtonsAfterEditing();
 
 				// Desativa os campos novamente
-				disableFields(true);
+				setModoEdicao(true);
 			} else {
 				// Falha ao salvar
 				Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -155,12 +154,12 @@ public class CarPartsController {
 		toggleButtonsAfterEditing();
 
 		// Desativa os campos novamente
-		disableFields(true);
+		setModoEdicao(true);
 	}
 
 	// Método para alternar os botões durante a edição
 	private void toggleButtonsDuringEditing() {
-		novoButton.setText("Cancelar Edição");
+		novoButton.setText("Cancelar");
 		editarButton.setDisable(true);
 		salvarButton.setDisable(false);
 	}
@@ -184,21 +183,11 @@ public class CarPartsController {
 			toggleButtonsDuringEditing();
 
 			// Habilita os campos para edição
-			disableFields(false);
+			setModoEdicao(false);
 		}
 	}
 
-	// Método para desabilitar ou habilitar os campos de texto
-	private void disableFields(boolean disable) {
-		nomeField.setDisable(disable);
-		marcaField.setDisable(disable);
-		quantidadeField.setDisable(disable);
-		custoField.setDisable(disable);
-		margemField.setDisable(disable);
-		valorVendaField.setDisable(disable);
-		idField.setDisable(disable); // Se o ID for apenas leitura, você pode deixá-lo desabilitado sempre
-		dataEntradaField.setDisable(disable);
-	}
+
 
 	private void atualizarValorVenda() {
 		try {
@@ -262,4 +251,23 @@ public class CarPartsController {
 		alert.setContentText(mensagem);
 		alert.showAndWait();
 	}
+	
+	
+    private void setModoEdicao(boolean ativado) {
+    	isEditing = ativado;
+
+        nomeField.setDisable(!ativado);
+        marcaField.setDisable(!ativado);
+        quantidadeField.setDisable(!ativado);
+        custoField.setDisable(!ativado);
+        margemField.setDisable(!ativado);
+        valorVendaField.setDisable(!ativado);
+        dataEntradaField.setDisable(!ativado);
+
+        salvarButton.setDisable(!ativado);
+        editarButton.setDisable(ativado);
+        novoButton.setDisable(false);
+        novoButton.setText(isEditing ? "Cancelar" : "Novo");
+    }
+
 }

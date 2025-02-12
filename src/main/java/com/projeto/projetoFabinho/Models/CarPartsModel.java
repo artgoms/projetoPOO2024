@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class CarPartsModel {
     private int id;
     private String nome;
-    private String modelo;
+    private String marca;
     private LocalDate dataEntrada;
     private int quantidade;
     private double custo;
@@ -14,10 +14,10 @@ public class CarPartsModel {
     private double margemLucro;
 
 
-	public CarPartsModel(int id, String nome, String modelo, int quantidade, double custo, double margemLucro, double valorVenda, LocalDate dataEntrada) {
+	public CarPartsModel(int id, String nome, String marca, int quantidade, double custo, double margemLucro, double valorVenda, LocalDate dataEntrada) {
         this.id = id;
         this.nome = nome;
-        this.modelo = modelo;
+        this.marca = marca;
         this.quantidade = quantidade;
         this.custo = custo;
         this.margemLucro = margemLucro;
@@ -26,13 +26,11 @@ public class CarPartsModel {
     }
 
     
-    public CarPartsModel(int id, String nome, String modelo, int quantidade, double valorVenda) {
+    public CarPartsModel(int id, String nome, String marca, int quantidade, double valorVenda) {
         this.id = id;
         this.nome = nome;
-        this.modelo = modelo;
-
+        this.marca = marca;
         this.quantidade = quantidade;
-
         this.valorVenda = valorVenda;
     }
     
@@ -42,8 +40,8 @@ public class CarPartsModel {
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 
-    public String getModelo() { return modelo; }
-    public void setModelo(String modelo) { this.modelo = modelo; }
+    public String getMarca() { return marca; }
+    public void setMarca(String marca) { this.marca = marca; }
 
     public LocalDate getDataEntrada() { return dataEntrada; }
     public void setDataEntrada(LocalDate dataEntrada) { this.dataEntrada = dataEntrada; }

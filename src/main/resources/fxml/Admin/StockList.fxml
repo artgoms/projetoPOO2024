@@ -1,26 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane maxHeight="600.0" maxWidth="800.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: E0E0E0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto.projetoFabinho.Controllers.StockList.StockListController">
-<!-- Campo de Busca -->
-    <TextField fx:id="searchField" layoutX="25.0" layoutY="45.0" onKeyReleased="#onSearch" prefHeight="25.0" prefWidth="537.0" promptText="Buscar peça pelo nome" />
-
-    <!-- Filtro de Modelo -->
-    <ChoiceBox fx:id="modelFilter" layoutX="590.0" layoutY="45.0" prefHeight="25.0" prefWidth="187.0" />
-    
-    <!-- Tabela de Estoque -->
-    <TableView fx:id="tableView" layoutX="24.0" layoutY="84.0" prefHeight="502.0" prefWidth="753.0">
-        <columns>
-            <TableColumn fx:id="colId" text="ID" />
-            <TableColumn fx:id="colNome" text="Nome" />
-            <TableColumn fx:id="colModelo" text="Modelo" />
-            <TableColumn fx:id="colQuantidade" text="Quantidade" />
-            <TableColumn fx:id="colValorVenda" text="Valor de Venda" />
-        </columns>
-    </TableView>
+   <VBox layoutY="-72.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+            <children>
+               <Label text="Pesquisar:">
+                  <HBox.margin>
+                     <Insets right="20.0" />
+                  </HBox.margin>
+               </Label>
+            <!-- Campo de Busca -->
+                <TextField fx:id="searchField" onKeyReleased="#onSearch" prefHeight="25.0" prefWidth="537.0" promptText="Buscar peça pelo nome" />
+            </children>
+         </HBox>
+          
+          <!-- Tabela de Estoque -->
+          <TableView fx:id="tableView" prefHeight="502.0" prefWidth="753.0">
+              <columns>
+                  <TableColumn fx:id="colId" text="Código" />
+                  <TableColumn fx:id="colNome" prefWidth="189.0" text="Nome" />
+                  <TableColumn fx:id="colMarca" prefWidth="77.0" text="Marca" />
+                  <TableColumn fx:id="colQuantidade" prefWidth="87.0" text="Quantidade" />
+                  <TableColumn fx:id="colValorVenda" prefWidth="102.0" text="Valor de Venda" />
+               <TableColumn fx:id="colDataEntrada" prefWidth="106.0" text="Data de Entrada" />
+               <TableColumn fx:id="colSituacao" prefWidth="112.0" text="Situação Estoque" />
+              </columns>
+          </TableView>
+      </children>
+      <padding>
+         <Insets bottom="20.0" left="15.0" right="20.0" top="20.0" />
+      </padding>
+   </VBox>
 </AnchorPane>

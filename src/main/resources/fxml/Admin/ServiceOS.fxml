@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox layoutX="300.0" layoutY="72.0" prefHeight="500.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -50,8 +49,6 @@
                   <Label text="Previsão Saída:" GridPane.columnIndex="4" GridPane.rowIndex="2" />
                   <DatePicker GridPane.columnIndex="5" GridPane.rowIndex="1" />
                   <DatePicker GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                  <Label prefWidth="111.0" text="Código Mecânico:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <TextField maxWidth="60.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <Label text="Descrição Serviço:">

@@ -71,6 +71,8 @@ public class LoginController {
                 stage.centerOnScreen();
                 stage.setResizable(false);
                 
+                
+                
                 stage.show();
  
             } catch (Exception e) {

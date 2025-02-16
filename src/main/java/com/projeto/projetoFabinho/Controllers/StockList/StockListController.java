@@ -11,6 +11,7 @@ import com.projeto.projetoFabinho.Controllers.CarParts.CarPartsController;
 import com.projeto.projetoFabinho.DAO.CarPartsDAO;
 import com.projeto.projetoFabinho.Models.CarPartsModel;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -75,6 +76,7 @@ public class StockListController {
             String situacao = calcularSituacao(part.getQuantidade());
             return new javafx.beans.property.ReadOnlyObjectWrapper<>(situacao); // Usa ReadOnlyObjectWrapper em vez de SimpleStringProperty
         });
+        
         
         
         carregarEstoque();
@@ -160,6 +162,13 @@ public class StockListController {
                 // Exibir a janela de edição
                 stage.setTitle("Editar Peça");
                 stage.show();
+                
+                // Adiciona um evento para fechar a janela ao pressionar "Esc"
+                scene.setOnKeyPressed(event -> {
+                    if (event.getCode() == KeyCode.ESCAPE) {
+                        stage.close();
+                    }
+                });
 
             } catch (IOException e) {
                 e.printStackTrace();

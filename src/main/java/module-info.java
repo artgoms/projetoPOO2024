@@ -7,6 +7,7 @@ module com.projeto {
 	requires javafx.base;
 	requires java.sql;
 	requires java.desktop;
+
     
     opens com.projeto.projetoFabinho to javafx.fxml;
     opens com.projeto.projetoFabinho.Controllers to javafx.fxml;
@@ -16,7 +17,9 @@ module com.projeto {
     opens com.projeto.projetoFabinho.Controllers.CarParts to javafx.fxml;
     opens com.projeto.projetoFabinho.Controllers.NewCarController to javafx.fxml;
     opens com.projeto.projetoFabinho.Controllers.StockList to javafx.fxml;
-
+    opens com.projeto.projetoFabinho.Controllers.ServiceOS to javafx.fxml;
+    opens com.projeto.projetoFabinho.Controllers.OSPesquisa to javafx.fxml;
+    opens com.projeto.projetoFabinho.Controllers.SelecionarPecas to javafx.fxml;
     
     
     exports com.projeto.projetoFabinho;

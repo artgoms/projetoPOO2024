@@ -34,6 +34,14 @@ public class CarPartsModel {
         this.valorVenda = valorVenda;
     }
     
+    public CarPartsModel(int id, String nome, String marca,  double valorVenda) {
+        this.id = id;
+        this.nome = nome;
+        this.marca = marca;
+        this.valorVenda = valorVenda;
+    }
+    
+    
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

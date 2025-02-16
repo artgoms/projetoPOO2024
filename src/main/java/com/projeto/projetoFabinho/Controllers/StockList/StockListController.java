@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StockListController {
@@ -46,7 +47,8 @@ public class StockListController {
 
     @FXML
     private TableColumn<CarPartsModel, String> colSituacao;  // Coluna para a Situação do Estoque
-
+    
+    private List<CarPartsModel> pecasSelecionadas = new ArrayList<>();
 
 
     private CarPartsDAO carPartsDAO = new CarPartsDAO();
@@ -59,6 +61,13 @@ public class StockListController {
         colQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
         colValorVenda.setCellValueFactory(new PropertyValueFactory<>("valorVenda"));
         colDataEntrada.setCellValueFactory(new PropertyValueFactory<>("dataEntrada"));
+        
+        // Adicionar evento de clique duplo na tabela
+        tableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {  // Verifica se foi um clique duplo
+                adicionarPecaSelecionada(tableView.getSelectionModel().getSelectedItem());
+            }
+        });
 
         // Configura a coluna de Situação
         colSituacao.setCellValueFactory(cellData -> {
@@ -76,6 +85,28 @@ public class StockListController {
                 abrirTelaEdicao(tableView.getSelectionModel().getSelectedItem());
             }
         });
+    }
+    
+    private void adicionarPecaSelecionada(CarPartsModel peca) {
+        if (peca != null && !pecasSelecionadas.contains(peca)) {
+            pecasSelecionadas.add(peca);
+        }
+    }
+
+    public List<String> getPecasSelecionadas() {
+        List<String> nomesPecas = new ArrayList<>();
+        for (CarPartsModel peca : pecasSelecionadas) {
+            nomesPecas.add(peca.getNome());
+        }
+        return nomesPecas;
+    }
+
+    public double getValorTotalPecas() {
+        double total = 0.0;
+        for (CarPartsModel peca : pecasSelecionadas) {
+            total += peca.getValorVenda();
+        }
+        return total;
     }
     
     @FXML

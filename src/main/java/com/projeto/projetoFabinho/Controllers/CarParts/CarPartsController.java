@@ -104,6 +104,7 @@ public class CarPartsController {
 		stage.close();
 	}
 
+
 	@FXML
 	public void cancelarEdicoes() {
 		// Fechar a janela de edição sem salvar
@@ -221,7 +222,7 @@ public class CarPartsController {
 		valorVendaField.setText(String.valueOf(part.getValorVenda()));
 		dataEntradaField.setValue(part.getDataEntrada());
 	}
-
+	
 	private void salvarPeca() {
 		String nome = nomeField.getText();
 		String marca = marcaField.getText();

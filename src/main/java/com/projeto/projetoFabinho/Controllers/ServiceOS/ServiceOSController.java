@@ -89,9 +89,9 @@ public class ServiceOSController {
 
         // Ativar botões e campos
         editarBtn.setDisable(false);
-        finalizarBtn.setDisable(false);
-        cancelarBtn.setDisable(false);
-        reabrirBtn.setDisable(false);
+        finalizarBtn.setDisable(true);
+        cancelarBtn.setDisable(true);
+        reabrirBtn.setDisable(true);
     }
 
     @FXML

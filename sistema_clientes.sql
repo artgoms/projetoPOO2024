@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08/02/2025 às 22:56
+-- Tempo de geração: 17/02/2025 às 17:43
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -90,13 +90,37 @@ INSERT INTO `clientes` (`codigo`, `tipo_inscricao`, `inscricao_numero`, `nome`, 
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `ordens_servico`
+--
+
+CREATE TABLE `ordens_servico` (
+  `id` int(11) NOT NULL,
+  `codigo_os` int(11) NOT NULL,
+  `cliente_id` int(11) NOT NULL,
+  `carro_id` int(11) NOT NULL,
+  `descricao` text NOT NULL,
+  `valor` decimal(10,2) NOT NULL,
+  `status` enum('Aberta','Em andamento','Concluída','Cancelada') NOT NULL DEFAULT 'Aberta',
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `ordens_servico`
+--
+
+INSERT INTO `ordens_servico` (`id`, `codigo_os`, `cliente_id`, `carro_id`, `descricao`, `valor`, `status`, `data_criacao`) VALUES
+(1, 1001, 1, 1, 'Troca de óleo e revisão geral', 250.00, 'Aberta', '2025-02-17 16:30:48');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `pecas`
 --
 
 CREATE TABLE `pecas` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
-  `modelo` varchar(100) NOT NULL,
+  `marca` varchar(100) NOT NULL,
   `quantidade` int(11) NOT NULL DEFAULT 0,
   `valorVenda` decimal(10,2) NOT NULL,
   `custo` decimal(10,2) NOT NULL,
@@ -108,10 +132,11 @@ CREATE TABLE `pecas` (
 -- Despejando dados para a tabela `pecas`
 --
 
-INSERT INTO `pecas` (`id`, `nome`, `modelo`, `quantidade`, `valorVenda`, `custo`, `margemLucro`, `dataEntrada`) VALUES
+INSERT INTO `pecas` (`id`, `nome`, `marca`, `quantidade`, `valorVenda`, `custo`, `margemLucro`, `dataEntrada`) VALUES
 (1, 'Filtro de óleo', 'A123', 10, 25.50, 0.00, 12.00, '2024-01-01'),
 (2, 'Pastilha de freio', 'B456', 20, 80.00, 0.00, 12.00, '2024-01-01'),
-(3, 'Bateria 60Ah', 'C789', 5, 350.00, 0.00, 12.00, '2024-01-01');
+(3, 'Bateria 60Ah', 'C789', 5, 350.00, 0.00, 12.00, '2024-01-01'),
+(11, 'Bateria 60Ah', 'C789', 5, 24.64, 22.00, 12.00, '2025-02-11');
 
 --
 -- Índices para tabelas despejadas
@@ -131,6 +156,15 @@ ALTER TABLE `carros`
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`codigo`),
   ADD UNIQUE KEY `inscricao_numero` (`inscricao_numero`);
+
+--
+-- Índices de tabela `ordens_servico`
+--
+ALTER TABLE `ordens_servico`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `codigo_os` (`codigo_os`),
+  ADD KEY `cliente_id` (`cliente_id`),
+  ADD KEY `carro_id` (`carro_id`);
 
 --
 -- Índices de tabela `pecas`
@@ -155,10 +189,16 @@ ALTER TABLE `clientes`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
 
 --
+-- AUTO_INCREMENT de tabela `ordens_servico`
+--
+ALTER TABLE `ordens_servico`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de tabela `pecas`
 --
 ALTER TABLE `pecas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restrições para tabelas despejadas
@@ -169,6 +209,13 @@ ALTER TABLE `pecas`
 --
 ALTER TABLE `carros`
   ADD CONSTRAINT `carros_ibfk_1` FOREIGN KEY (`codigo`) REFERENCES `clientes` (`codigo`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `ordens_servico`
+--
+ALTER TABLE `ordens_servico`
+  ADD CONSTRAINT `ordens_servico_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`codigo`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ordens_servico_ibfk_2` FOREIGN KEY (`carro_id`) REFERENCES `carros` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

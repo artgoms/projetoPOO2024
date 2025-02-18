@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 17/02/2025 às 17:43
+-- Tempo de geração: 18/02/2025 às 18:09
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -109,7 +109,8 @@ CREATE TABLE `ordens_servico` (
 --
 
 INSERT INTO `ordens_servico` (`id`, `codigo_os`, `cliente_id`, `carro_id`, `descricao`, `valor`, `status`, `data_criacao`) VALUES
-(1, 1001, 1, 1, 'Troca de óleo e revisão geral', 250.00, 'Aberta', '2025-02-17 16:30:48');
+(1, 1001, 1, 1, 'Troca de óleo e revisão', 250.00, 'Em andamento', '2025-02-18 17:00:40'),
+(2, 1002, 2, 2, 'Substituição de pastilhas de freio', 320.00, 'Concluída', '2025-02-18 17:00:40');
 
 -- --------------------------------------------------------
 
@@ -192,7 +193,7 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de tabela `ordens_servico`
 --
 ALTER TABLE `ordens_servico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `pecas`

@@ -1,5 +1,6 @@
 package com.projeto.projetoFabinho.Controllers.OSPesquisa;
 
+import com.projeto.projetoFabinho.DAO.OSPesquisaDAO;
 import com.projeto.projetoFabinho.Models.OSModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,49 +25,27 @@ public class OSPesquisaController {
     private ObservableList<OSModel> listaOS = FXCollections.observableArrayList();
     private String osSelecionada = null;
 
+    private final OSPesquisaDAO osDAO = new OSPesquisaDAO(); // DAO para buscar OS do banco
+
     @FXML
     public void initialize() {
-        // Configurar colunas para exibir os dados da OS sem StringProperty
+        // Configurar colunas da tabela
         colunaOS.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getNumeroOS()));
         colunaCliente.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getCliente()));
         colunaVeiculoID.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getVeiculoID()));
         colunaVeiculoModelo.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getModelo()));
         colunaSituacao.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getSituacao()));
 
-        // Carregar OS (simulação de banco de dados)
-        carregarOS();
+        // Carregar OS do banco de dados ao iniciar
+        carregarOS("");
 
         // Filtrar automaticamente conforme o usuário digita no campo de pesquisa
-        pesquisaField.setOnKeyReleased(event -> pesquisarOS());
+        pesquisaField.textProperty().addListener((obs, oldValue, newValue) -> carregarOS(newValue));
     }
 
-    private void carregarOS() {
-        // Simulação de dados (deveria ser carregado do banco de dados)
-        listaOS.add(new OSModel("001", "João Silva", "123", "Fiat Uno", "Aberto"));
-        listaOS.add(new OSModel("002", "Maria Oliveira", "456", "Ford Ka", "Finalizado"));
-        listaOS.add(new OSModel("003", "Carlos Souza", "789", "Chevrolet Onix", "Cancelado"));
-
+    private void carregarOS(String filtro) {
+        listaOS = osDAO.buscarOS(filtro);
         tabelaOS.setItems(listaOS);
-    }
-
-    @FXML
-    private void pesquisarOS() {
-        String filtro = pesquisaField.getText().toLowerCase();
-        if (filtro.isEmpty()) {
-            tabelaOS.setItems(listaOS);
-            return;
-        }
-
-        ObservableList<OSModel> listaFiltrada = FXCollections.observableArrayList();
-        for (OSModel os : listaOS) {
-            if (os.getNumeroOS().toLowerCase().contains(filtro) ||
-                os.getCliente().toLowerCase().contains(filtro) ||
-                os.getModelo().toLowerCase().contains(filtro)) {
-                listaFiltrada.add(os);
-            }
-        }
-
-        tabelaOS.setItems(listaFiltrada);
     }
 
     @FXML
@@ -79,6 +58,12 @@ public class OSPesquisaController {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Selecione uma OS antes de continuar!", ButtonType.OK);
             alert.showAndWait();
         }
+    }
+
+    @FXML
+    public void pesquisarOS() {
+        String filtro = pesquisaField.getText().toLowerCase();
+        carregarOS(filtro);
     }
 
     private void fecharJanela() {

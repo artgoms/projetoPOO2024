@@ -16,7 +16,9 @@ import java.util.List;
 import com.projeto.projetoFabinho.Controllers.OSPesquisa.OSPesquisaController;
 import com.projeto.projetoFabinho.Controllers.SelecionarPecas.SelecionarPecasController;
 import com.projeto.projetoFabinho.DAO.PecasDAO;
+import com.projeto.projetoFabinho.DAO.ServiceOSDAO;
 import com.projeto.projetoFabinho.Models.CarPartsModel;
+import com.projeto.projetoFabinho.Models.ServiceOSModel;
 
 public class ServiceOSController {
 
@@ -37,9 +39,15 @@ public class ServiceOSController {
 
     private List<String> pecasSelecionadas = new ArrayList<>();
     private double valorTotalPecas = 0.0;
-
+    
+    private final ServiceOSDAO osDAO = new ServiceOSDAO();
+    
     @FXML
     public void initialize() {
+    	
+        int codigoOS = 1; // Pode ser obtido dinamicamente
+        carregarOS(codigoOS);
+    	
         // Desativa os botões ao abrir a tela
         editarBtn.setDisable(true);
         finalizarBtn.setDisable(true);
@@ -118,6 +126,23 @@ public class ServiceOSController {
         }
     }
 
+    public void carregarOS(int codigoOS) {
+        ServiceOSModel os = osDAO.buscarOS(codigoOS);
+        if (os != null) {
+            idOSField.setText(String.valueOf(os.getId()));
+            codigoField.setText(String.valueOf(os.getClienteId()));
+            veiculoIdField.setText(String.valueOf(os.getVeiculoId()));
+            tipoOS.setText(os.getTipoOS());
+            descricaoOS.setText(os.getDescricao());
+            valorOS.setText(String.valueOf(os.getValor()));
+            situacaoOS.setText(os.getSituacao());
+            entradaOS.setValue(os.getDataEntrada());
+            previsaoOS.setValue(os.getDataPrevisao());
+        } else {
+            System.out.println("Ordem de serviço não encontrada.");
+        }
+    }
+    
     private void atualizarPecasSelecionadas() {
         pecasOS.getItems().clear();
         pecasOS.getItems().addAll(pecasSelecionadas);
@@ -147,6 +172,8 @@ public class ServiceOSController {
         }
         valorOS.setText(String.format("%.2f", total));
     }
+    
+    
 
     @FXML
     private void finalizarOS() {

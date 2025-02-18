@@ -99,4 +99,38 @@ public class ServiceOSDAO {
             return false;
         }
     }
+    
+    public ServiceOSModel buscarOS(int codigoOS) {
+        String query = "SELECT * FROM ordens_servico WHERE codigo_os = ?";
+        ServiceOSModel os = null;
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, codigoOS);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                os = new ServiceOSModel(
+                    rs.getInt("id"),
+                    rs.getInt("cliente_id"),
+                    rs.getInt("carro_id"),
+                    rs.getString("tipoOS"),
+                    rs.getString("descricao"),
+                    rs.getBigDecimal("valor"),
+                    rs.getString("status"),
+                    rs.getTimestamp("data_criacao").toLocalDateTime().toLocalDate(),
+                    rs.getTimestamp("data_previsao") != null ? rs.getTimestamp("data_previsao").toLocalDateTime().toLocalDate() : null,
+                    rs.getTimestamp("data_conclusao") != null ? rs.getTimestamp("data_conclusao").toLocalDateTime().toLocalDate() : null
+                );
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar OS: " + e.getMessage());
+        }
+
+        return os;
+    }
+    
+    
 }

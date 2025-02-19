@@ -14,11 +14,11 @@ public class OSPesquisaDAO {
 
     public ObservableList<OSModel> buscarOS(String filtro) {
         ObservableList<OSModel> listaOS = FXCollections.observableArrayList();
-        String query = "SELECT os.codigo_os, c.nome AS cliente, v.id AS veiculoID, v.modelo, os.status " +
+        String query = "SELECT os.id, c.nome AS cliente, v.id AS veiculoID, v.modelo, os.situacao " +
                        "FROM ordens_servico os " +
                        "JOIN clientes c ON os.cliente_id = c.codigo " +
                        "JOIN carros v ON os.carro_id = v.id " +
-                       "WHERE c.nome LIKE ? OR v.modelo LIKE ? OR os.codigo_os LIKE ?";
+                       "WHERE c.nome LIKE ? OR v.modelo LIKE ? OR os.id LIKE ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -30,11 +30,11 @@ public class OSPesquisaDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 listaOS.add(new OSModel(
-                    rs.getString("codigo_os"),
+                    rs.getString("id"),
                     rs.getString("cliente"),
                     rs.getString("veiculoID"),
                     rs.getString("modelo"),
-                    rs.getString("status")
+                    rs.getString("situacao")
                 ));
             }
 

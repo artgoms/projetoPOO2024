@@ -13,7 +13,6 @@ public class ServiceOSModel {
     private String situacao;
     private LocalDate dataEntrada;
     private LocalDate dataPrevisao;
-    private LocalDate dataConclusao;
 
     // Construtor completo
     public ServiceOSModel(int id, int clienteId, int veiculoId, String tipoOS, String descricao, BigDecimal valor,
@@ -27,10 +26,17 @@ public class ServiceOSModel {
         this.situacao = situacao;
         this.dataEntrada = dataEntrada;
         this.dataPrevisao = dataPrevisao;
-        this.dataConclusao = dataConclusao;
     }
 
-    // Getters e Setters
+    public ServiceOSModel() {
+	}
+
+	public ServiceOSModel(int int1, int int2, int int3, String string, String string2, BigDecimal bigDecimal,
+			String string3, LocalDate localDate, LocalDate localDate2) {
+		
+	}
+
+	// Getters e Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -58,6 +64,5 @@ public class ServiceOSModel {
     public LocalDate getDataPrevisao() { return dataPrevisao; }
     public void setDataPrevisao(LocalDate dataPrevisao) { this.dataPrevisao = dataPrevisao; }
 
-    public LocalDate getDataConclusao() { return dataConclusao; }
-    public void setDataConclusao(LocalDate dataConclusao) { this.dataConclusao = dataConclusao; }
+
 }

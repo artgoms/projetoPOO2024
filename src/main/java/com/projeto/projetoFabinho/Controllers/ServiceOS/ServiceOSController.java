@@ -66,8 +66,10 @@ public class ServiceOSController {
                 abrirPesquisaOS();
             }
         });
+        
+     
     }
-
+    
     @FXML
     private void abrirPesquisaOS() {
         try {
@@ -174,7 +176,6 @@ public class ServiceOSController {
     }
     
     
-
     @FXML
     private void finalizarOS() {
         situacaoOS.setText("Finalizado");

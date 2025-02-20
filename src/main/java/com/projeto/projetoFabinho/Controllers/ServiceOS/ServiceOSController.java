@@ -42,14 +42,37 @@ public class ServiceOSController {
     
     private final ServiceOSDAO osDAO = new ServiceOSDAO();
     
+    private boolean editando = false; // Variável de controle
+    
     @FXML
     public void initialize() {
+	  	
     	
-        int codigoOS = 1; // Pode ser obtido dinamicamente
-        carregarOS(codigoOS);
-    	
+    	novoBtn.setOnAction(event -> alternarModoEdicao());
+    
+        // Configura o evento de teclado para abrir a pesquisa de OS ao pressionar F2
+        idOSField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.F2) {
+                abrirPesquisaOS();
+            }
+        });
+
+        // Configura o evento de teclado para carregar a OS ao pressionar Enter
+        idOSField.setOnKeyReleased(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                String texto = idOSField.getText();
+                if (!texto.isEmpty()) {
+                    try {
+                        int codigoOS = Integer.parseInt(texto);
+                        carregarOS(codigoOS);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Número inválido para OS.");
+                    }
+                }
+            }
+        });
         // Desativa os botões ao abrir a tela
-        editarBtn.setDisable(true);
+        editarBtn.setDisable(false);
         finalizarBtn.setDisable(true);
         cancelarBtn.setDisable(true);
         reabrirBtn.setDisable(true);
@@ -60,13 +83,7 @@ public class ServiceOSController {
         // Define o status inicial como "Aberto"
         situacaoOS.setText("Aberto");
 
-        // Configura o evento de teclado para abrir a pesquisa de OS ao pressionar F2
-        idOSField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.F2) {
-                abrirPesquisaOS();
-            }
-        });
-        
+
      
     }
     
@@ -91,7 +108,24 @@ public class ServiceOSController {
         }
     }
 
-    private void carregarOS(String osId) {
+    public void carregarOS(int codigoOS) {
+	    ServiceOSModel os = osDAO.buscarOS(codigoOS);
+	    if (os != null) {
+	        idOSField.setText(String.valueOf(os.getId()));
+	        codigoField.setText(String.valueOf(os.getClienteId()));
+	        veiculoIdField.setText(String.valueOf(os.getVeiculoId()));
+	        tipoOS.setText(os.getTipoOS());
+	        descricaoOS.setText(os.getDescricao());
+	        valorOS.setText(String.valueOf(os.getValor()));
+	        situacaoOS.setText(os.getSituacao());
+	        entradaOS.setValue(os.getDataEntrada());
+	        previsaoOS.setValue(os.getDataPrevisao());
+	    } else {
+	        System.out.println("Ordem de serviço não encontrada.");
+	    }
+	}
+
+	private void carregarOS(String osId) {
         idOSField.setText(osId);
         
         // Define a situação da OS com base na busca do banco
@@ -103,6 +137,60 @@ public class ServiceOSController {
         cancelarBtn.setDisable(true);
         reabrirBtn.setDisable(true);
     }
+	
+	private void alternarModoEdicao() {
+	    if (!editando) {
+	    	habilitarCampos(true);
+	    	desabilitarBotoes(true);
+	    	
+	        // Definir que está no modo de edição
+	        editando = true;
+
+	        // Muda o texto do botão para "Salvar" e "Cancelar"
+	        editarBtn.setText("Salvar");
+	        novoBtn.setText("Cancelar");
+
+	    } else {
+	    	habilitarCampos(false);
+	    	desabilitarBotoes(false);
+	        limparCampos();
+
+	        // Muda o botão de volta para "Novo"
+	        novoBtn.setText("Novo");
+	        
+	        // Mudar botão para "Editar"
+	        editarBtn.setText("Editar");
+
+	        // Sai do modo de edição
+	        editando = false;
+	        
+	    }
+	}
+	
+	private void desabilitarBotoes(boolean habilitar) {
+        
+        // Ativa botões úteis
+        finalizarBtn.setDisable(!habilitar);
+        cancelarBtn.setDisable(!habilitar);
+        reabrirBtn.setDisable(!habilitar);
+        selecionarPecas.setDisable(!habilitar);
+        
+	}
+
+	
+	private void habilitarCampos(boolean habilitar) {
+		// Ativa os campos para nova OS ou
+        // Cancela a edição 
+        codigoField.setDisable(!habilitar);
+        veiculoIdField.setDisable(!habilitar);
+        tipoOS.setDisable(!habilitar);
+        valorOS.setDisable(!habilitar);
+        entradaOS.setDisable(!habilitar);
+        previsaoOS.setDisable(!habilitar);
+        descricaoOS.setDisable(!habilitar);
+        pecasOS.setDisable(!habilitar);
+	
+	}
 
     @FXML
     private void abrirSelecionarPecas() {
@@ -128,23 +216,6 @@ public class ServiceOSController {
         }
     }
 
-    public void carregarOS(int codigoOS) {
-        ServiceOSModel os = osDAO.buscarOS(codigoOS);
-        if (os != null) {
-            idOSField.setText(String.valueOf(os.getId()));
-            codigoField.setText(String.valueOf(os.getClienteId()));
-            veiculoIdField.setText(String.valueOf(os.getVeiculoId()));
-            tipoOS.setText(os.getTipoOS());
-            descricaoOS.setText(os.getDescricao());
-            valorOS.setText(String.valueOf(os.getValor()));
-            situacaoOS.setText(os.getSituacao());
-            entradaOS.setValue(os.getDataEntrada());
-            previsaoOS.setValue(os.getDataPrevisao());
-        } else {
-            System.out.println("Ordem de serviço não encontrada.");
-        }
-    }
-    
     private void atualizarPecasSelecionadas() {
         pecasOS.getItems().clear();
         pecasOS.getItems().addAll(pecasSelecionadas);
@@ -175,6 +246,18 @@ public class ServiceOSController {
         valorOS.setText(String.format("%.2f", total));
     }
     
+    
+     
+    private void limparCampos() {
+        idOSField.clear();
+        codigoField.clear();
+        veiculoIdField.clear();
+        tipoOS.clear();
+        valorOS.clear();
+        previsaoOS.setValue(null);
+        descricaoOS.clear();
+        pecasOS.getSelectionModel().clearSelection();
+    }
     
     @FXML
     private void finalizarOS() {

@@ -39,6 +39,32 @@ public class ServiceOSDAO {
         return ordens;
     }
 
+    
+    public boolean atualizarOrdemServico(ServiceOSModel os) {
+        String sql = "UPDATE ordens_servico SET codigo = ?, veiculo_id = ?, tipoOS = ?, valor = ?, data_entrada = ?, data_previsao = ?, descricao = ? WHERE id = ?";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, os.getClienteId());
+            stmt.setInt(2, os.getVeiculoId());
+            stmt.setString(3, os.getTipoOS());
+            stmt.setDouble(5, os.getValor().doubleValue());
+            stmt.setDate(5, Date.valueOf(os.getDataEntrada()));
+            stmt.setDate(6, Date.valueOf(os.getDataPrevisao()));
+            stmt.setString(7, os.getDescricao());
+            stmt.setInt(8, os.getId());
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    
     // Método para inserir uma nova OS
     public int inserirOS(ServiceOSModel os) {
         int generatedId = -1;
@@ -51,7 +77,7 @@ public class ServiceOSDAO {
             stmt.setInt(2, os.getVeiculoId());
             stmt.setString(3, os.getTipoOS());
             stmt.setString(4, os.getDescricao());
-            stmt.setDouble(5, os.getValor().doubleValue());
+            
             stmt.setString(6, os.getSituacao());
             stmt.setDate(7, java.sql.Date.valueOf(os.getDataEntrada()));
             stmt.setDate(8, java.sql.Date.valueOf(os.getDataPrevisao()));

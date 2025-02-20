@@ -51,16 +51,13 @@ public class CarPartsController {
 	private CarPartsModel currentPart;
 
 	private boolean isEditing = false;
-	
-	
 
 	@FXML
 	private void initialize() {
 		
+		// 🔹 Ativar o modo edição automaticamente ao iniciar a tela
+		setModoEdicao(false);
 
-        // 🔹 Ativar o modo edição automaticamente ao iniciar a tela
-        setModoEdicao(false);
-        
 		// Definir o valor do campo idField como o maior ID + 1
 		int maiorId = carPartsDAO.obterMaiorId();
 		idField.setText(String.valueOf(maiorId + 1)); // Definindo o próximo ID para a nova peça
@@ -77,13 +74,13 @@ public class CarPartsController {
 	}
 
 	@FXML
-	private void onEditarClick() {
+	private void handleEditar() {
 		if (!isEditing) {
 			// Inicia a edição
 			isEditing = true;
 			toggleButtonsDuringEditing();
 			// Habilita os campos para edição
-			setModoEdicao(false);
+			setModoEdicao(true);
 		}
 	}
 
@@ -103,7 +100,6 @@ public class CarPartsController {
 		stage.close();
 	}
 
-
 	@FXML
 	public void cancelarEdicoes() {
 		// Fechar a janela de edição sem salvar
@@ -111,18 +107,38 @@ public class CarPartsController {
 		stage.close();
 	}
 
+	// Método para limpar os campos
+	
+	// Método para iniciar uma nova edição
+	@FXML
+	private void handleNovo() {
+		 if (!isEditing) {
+		        // Se não estiver editando, começa uma nova edição
+		        isEditing = true;
+		        setModoEdicao(true);
+
+		        // Alterar o botão "Novo" para "Cancelar"
+		        novoButton.setText("Cancelar");
+		        editarButton.setDisable(true);
+		        salvarButton.setDisable(false);
+		    } else {
+		        // Se já estiver editando, cancelar a edição
+		        handleCancelar();
+		    }
+	}
+
 	// Método para salvar as alterações
 	@FXML
-	private void onSalvarClick() {
+	private void handleSalvar() {
 		if (isEditing) {
 			// Lógica para salvar o item editado
 			CarPartsModel editedCarPart = new CarPartsModel(Integer.parseInt(idField.getText()), nomeField.getText(),
 					marcaField.getText(), Integer.parseInt(quantidadeField.getText()),
 					Double.parseDouble(custoField.getText()), Double.parseDouble(margemField.getText()),
 					Double.parseDouble(valorVendaField.getText()), dataEntradaField.getValue());
-
+	
 			boolean updateSuccess = carPartsDAO.update(editedCarPart);
-
+	
 			if (updateSuccess) {
 				// Sucesso ao salvar
 				Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -130,13 +146,14 @@ public class CarPartsController {
 				alert.setHeaderText(null);
 				alert.setContentText("Peça de carro atualizada com sucesso!");
 				alert.showAndWait();
-
+	
 				// Após salvar, desativa a edição
 				isEditing = false;
 				toggleButtonsAfterEditing();
-
+	
 				// Desativa os campos novamente
 				setModoEdicao(true);
+				
 			} else {
 				// Falha ao salvar
 				Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -150,14 +167,33 @@ public class CarPartsController {
 
 	// Método para cancelar a edição ou criação
 	@FXML
-	private void onCancelarClick() {
-		isEditing = false;
-		toggleButtonsAfterEditing();
+	private void handleCancelar() {
+	    if (isEditing) {
+	        // Restaurar os valores originais da peça se houver edição em andamento
+	        if (currentPart != null) {
+	            nomeField.setText(currentPart.getNome());
+	            marcaField.setText(currentPart.getMarca());
+	            quantidadeField.setText(String.valueOf(currentPart.getQuantidade()));
+	            custoField.setText(String.valueOf(currentPart.getCusto()));
+	            valorVendaField.setText(String.valueOf(currentPart.getValorVenda()));
+	            dataEntradaField.setValue(currentPart.getDataEntrada());
+	        } else {
+	            // Se não houver peça selecionada, limpar os campos
+	            limparCampos();
+	        }
 
-		// Desativa os campos novamente
-		setModoEdicao(true);
+	        // Desativar edição
+	        isEditing = false;
+	        setModoEdicao(false);
+
+	        // Restaurar botões ao estado original
+	        novoButton.setText("Novo");
+	        novoButton.setDisable(false);
+	        editarButton.setDisable(false);
+	        salvarButton.setDisable(true);
+	    }
 	}
-
+	
 	// Método para alternar os botões durante a edição
 	private void toggleButtonsDuringEditing() {
 		novoButton.setText("Cancelar");
@@ -171,24 +207,6 @@ public class CarPartsController {
 		editarButton.setDisable(false);
 		salvarButton.setDisable(true);
 	}
-
-	// Método para limpar os campos
-
-	// Método para iniciar uma nova edição
-	@FXML
-	private void onNovoClick() {
-		if (!isEditing) {
-			// Limpa os campos para a criação de um novo item
-
-			isEditing = true;
-			toggleButtonsDuringEditing();
-
-			// Habilita os campos para edição
-			setModoEdicao(false);
-		}
-	}
-
-
 
 	private void atualizarValorVenda() {
 		try {
@@ -211,7 +229,7 @@ public class CarPartsController {
 		valorVendaField.setText(String.valueOf(part.getValorVenda()));
 		dataEntradaField.setValue(part.getDataEntrada());
 	}
-	
+
 	private void salvarPeca() {
 		String nome = nomeField.getText();
 		String marca = marcaField.getText();
@@ -239,7 +257,9 @@ public class CarPartsController {
 
 		if (sucesso) {
 			mostrarAlerta("Sucesso", "Peça cadastrada com sucesso!");
-			// NÃO limpar os campos, para permitir edição!
+			
+			setModoEdicao(false);
+			
 		} else {
 			mostrarAlerta("Erro", "Falha ao cadastrar a peça.");
 		}
@@ -252,23 +272,31 @@ public class CarPartsController {
 		alert.setContentText(mensagem);
 		alert.showAndWait();
 	}
-	
-	
-    private void setModoEdicao(boolean ativado) {
-    	isEditing = ativado;
 
-        nomeField.setDisable(!ativado);
-        marcaField.setDisable(!ativado);
-        quantidadeField.setDisable(!ativado);
-        custoField.setDisable(!ativado);
-        margemField.setDisable(!ativado);
-        valorVendaField.setDisable(!ativado);
-        dataEntradaField.setDisable(!ativado);
+	private void limparCampos() {
+		nomeField.clear();
+		marcaField.clear();
+		quantidadeField.clear();
+		custoField.clear();
+		valorVendaField.clear();
+		dataEntradaField.setValue(null);
+	}
 
-        salvarButton.setDisable(!ativado);
-        editarButton.setDisable(ativado);
-        novoButton.setDisable(false);
-        novoButton.setText(isEditing ? "Cancelar" : "Novo");
-    }
+	private void setModoEdicao(boolean ativado) {
+		isEditing = ativado;
+
+		nomeField.setDisable(!ativado);
+		marcaField.setDisable(!ativado);
+		quantidadeField.setDisable(!ativado);
+		custoField.setDisable(!ativado);
+		margemField.setDisable(!ativado);
+		valorVendaField.setDisable(!ativado);
+		dataEntradaField.setDisable(!ativado);
+
+		salvarButton.setDisable(!ativado);
+		editarButton.setDisable(ativado);
+		novoButton.setDisable(false);
+		novoButton.setText(isEditing ? "Cancelar" : "Novo");
+	}
 
 }

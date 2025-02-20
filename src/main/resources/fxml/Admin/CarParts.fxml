@@ -86,12 +86,12 @@
 				</HBox>
 				<HBox prefHeight="36.0" prefWidth="660.0" spacing="15.0">
 					<children>
-						<Button fx:id="novoButton" mnemonicParsing="false" onAction="#onCancelarClick" prefHeight="25.0" prefWidth="91.0" text="Novo">
+						<Button fx:id="novoButton" mnemonicParsing="false" onAction="#handleNovo" prefHeight="25.0" prefWidth="91.0" text="Novo">
 							<padding>
 								<Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
 							</padding>
 						</Button>
-						<Button fx:id="salvarButton" mnemonicParsing="false" onAction="#onSalvarClick" text="Salvar">
+						<Button fx:id="salvarButton" mnemonicParsing="false" onAction="#handleSalvar" text="Salvar">
 							<padding>
 								<Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
 							</padding>
@@ -99,7 +99,7 @@
 								<Insets />
 							</HBox.margin>
 						</Button>
-						<Button fx:id="editarButton" mnemonicParsing="false" onAction="#onEditarClick" text="Editar">
+						<Button fx:id="editarButton" mnemonicParsing="false" onAction="#handleEditar" text="Editar">
 							<padding>
 								<Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
 							</padding>

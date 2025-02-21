@@ -101,7 +101,7 @@
 				</HBox>
 				<HBox prefWidth="200.0" spacing="15.0">
 					<children>
-						<Button fx:id="novoBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Novo">
+						<Button fx:id="novoBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Novo" onAction="#novoAction">
 							<padding>
 								<Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
 							</padding>
@@ -109,8 +109,8 @@
 								<Insets />
 							</HBox.margin>
 						</Button>
-						<Button fx:id="editarBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Editar">
-							<padding>
+						<Button fx:id="editarBtn"  onAction="#salvarOrdemServico" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Editar">
+							<padding>					
 								<Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
 							</padding>
 						</Button>

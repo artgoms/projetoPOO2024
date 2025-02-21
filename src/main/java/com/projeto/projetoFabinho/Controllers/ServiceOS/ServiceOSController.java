@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.Parent;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -138,6 +139,11 @@ public class ServiceOSController {
         reabrirBtn.setDisable(true);
     }
 	
+	private void novoAction() {
+		
+	}
+	
+	
 	private void alternarModoEdicao() {
 	    if (!editando) {
 	    	habilitarCampos(true);
@@ -192,6 +198,39 @@ public class ServiceOSController {
 	
 	}
 
+	
+	@FXML
+    public void salvarOrdemServico() {
+        try {
+            ServiceOSModel ordemServico = new ServiceOSModel();
+            
+            // Pegando valores dos campos da UI
+            ordemServico.setClienteId(Integer.parseInt(codigoField.getText()));
+            ordemServico.setVeiculoId(Integer.parseInt(veiculoIdField.getText()));
+            ordemServico.setTipoOS(tipoOS.getText());
+            String valorTexto = valorOS.getText().replace(",", "."); // Troca vírgula por ponto se necessário
+            ordemServico.setValor(new BigDecimal(valorTexto));
+            ordemServico.setSituacao(situacaoOS.getText());
+            ordemServico.setDescricao(descricaoOS.getText());
+            ordemServico.setDataEntrada(entradaOS.getValue());
+            ordemServico.setDataPrevisao(previsaoOS.getValue());
+
+            // Chamando DAO para salvar no banco
+            ServiceOSDAO serviceOSDAO = new ServiceOSDAO();
+            int novoId = serviceOSDAO.salvar(ordemServico);  // Recebe o ID retornado
+
+            // Atualiza o campo de ID na tela
+            idOSField.setText(String.valueOf(novoId));
+
+            // Mensagem de sucesso
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Ordem de Serviço salva com sucesso!", ButtonType.OK);
+            alert.showAndWait();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erro ao salvar Ordem de Serviço: " + e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+	
     @FXML
     private void abrirSelecionarPecas() {
         try {

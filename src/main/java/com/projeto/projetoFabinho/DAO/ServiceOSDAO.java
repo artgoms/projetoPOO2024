@@ -66,37 +66,34 @@ public class ServiceOSDAO {
     
     
     // Método para inserir uma nova OS
-    public int inserirOS(ServiceOSModel os) {
-        int generatedId = -1;
-        String sql = "INSERT INTO ordens_servico (cliente_id, carro_id, tipoOS, descricao, valor, situacao, data_entrada, data_previsao) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    public int salvar(ServiceOSModel os) {
+        String sql = "INSERT INTO ordens_servico (cliente_id, carro_id, tipoOS, valor, situacao, descricao, data_entrada, data_previsao) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        int generatedId = -1;  // ID gerado será retornado
+        
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
+        		PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, os.getClienteId());
             stmt.setInt(2, os.getVeiculoId());
             stmt.setString(3, os.getTipoOS());
-            stmt.setString(4, os.getDescricao());
+            stmt.setBigDecimal(4, os.getValor());
+            stmt.setString(5, os.getSituacao());
+            stmt.setString(6, os.getDescricao());
+            stmt.setObject(7, os.getDataEntrada());
+            stmt.setObject(8, os.getDataPrevisao());
+
+            stmt.executeUpdate();
             
-            stmt.setString(6, os.getSituacao());
-            stmt.setDate(7, java.sql.Date.valueOf(os.getDataEntrada()));
-            stmt.setDate(8, java.sql.Date.valueOf(os.getDataPrevisao()));
-
-            int affectedRows = stmt.executeUpdate();
-
-            if (affectedRows > 0) {
-                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        generatedId = generatedKeys.getInt(1);
-                    }
-                }
+            // Obtendo o ID gerado pelo banco de dados
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                generatedId = rs.getInt(1);  // O ID gerado é o primeiro campo
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Erro ao salvar Ordem de Serviço: " + e.getMessage());
         }
-        return generatedId;
+        return generatedId;  // Retorna o ID gerado
     }
-
     
     public ServiceOSModel buscarOS(int codigoOS) {
         String query = "SELECT * FROM ordens_servico WHERE id = ?";

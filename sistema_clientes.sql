@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 20/02/2025 às 18:08
+-- Tempo de geração: 21/02/2025 às 17:54
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -99,7 +99,7 @@ CREATE TABLE `ordens_servico` (
   `carro_id` int(11) NOT NULL,
   `descricao` text NOT NULL,
   `valor` decimal(10,2) NOT NULL,
-  `situacao` enum('Aberta','Em andamento','Concluída','Cancelada') NOT NULL DEFAULT 'Aberta',
+  `situacao` varchar(50) DEFAULT NULL,
   `data_entrada` timestamp NOT NULL DEFAULT current_timestamp(),
   `tipoOS` varchar(50) NOT NULL,
   `data_previsao` date DEFAULT NULL
@@ -117,7 +117,10 @@ INSERT INTO `ordens_servico` (`id`, `cliente_id`, `carro_id`, `descricao`, `valo
 (6, 2, 2, 'Substituição do freio traseiro', 780.00, '', '2025-02-20 04:00:31', 'Reparo mecânico', '2024-02-24'),
 (7, 3, 3, 'Diagnóstico e reparo da suspensão', 500.00, 'Concluída', '2025-02-20 04:00:31', 'Reparo mecânico', '2024-02-20'),
 (8, 4, 4, 'Troca de correia dentada e revisão', 1200.00, 'Em andamento', '2025-02-20 04:00:31', 'Manutenção preventiva', '2024-02-28'),
-(9, 5, 5, 'Troca de embreagem', 950.00, 'Aberta', '2025-02-20 04:00:31', 'Reparo mecânico', '2024-03-02');
+(9, 5, 5, 'Troca de embreagem', 950.00, 'Aberta', '2025-02-20 04:00:31', 'Reparo mecânico', '2024-03-02'),
+(20, 2, 2, '', 350.00, 'Aberto', '2025-02-21 03:00:00', 'teste', '2025-02-27'),
+(21, 4, 4, 'teste', 780.00, 'Aberto', '2025-02-21 03:00:00', 'tes', '2025-02-28'),
+(22, 2, 2, 'teste', 22.00, 'Aberto', '2025-02-21 03:00:00', 'asdf', '2025-02-27');
 
 -- --------------------------------------------------------
 
@@ -221,7 +224,7 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de tabela `ordens_servico`
 --
 ALTER TABLE `ordens_servico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de tabela `ordens_servico_pecas`

@@ -128,6 +128,8 @@ public class ClientController {
 		int maiorId = clienteDAO.obterMaiorId() + 1; // Obtém o maior ID e soma 1 para o próximo cliente
 		codigoField.setText(String.valueOf(maiorId));
 	}
+	
+	
 
 	private void preencherChoiceBoxes() {
 		// Preenchendo os valores permitidos para inscrição (CPF, CNPJ, RG)

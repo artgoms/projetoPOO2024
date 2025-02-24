@@ -2,6 +2,8 @@ package com.projeto.projetoFabinho.Models;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServiceOSModel {
     private int id;
@@ -13,10 +15,11 @@ public class ServiceOSModel {
     private String situacao;
     private LocalDate dataEntrada;
     private LocalDate dataPrevisao;
+    private List<CarPartsModel> pecas; 
 
     // Construtor completo
     public ServiceOSModel(int id, int clienteId, int veiculoId, String tipoOS, String descricao, BigDecimal valor,
-                          String situacao, LocalDate dataEntrada, LocalDate dataPrevisao, LocalDate dataConclusao) {
+                          String situacao, LocalDate dataEntrada, LocalDate dataPrevisao) {
         this.id = id;
         this.clienteId = clienteId;
         this.veiculoId = veiculoId;
@@ -26,15 +29,47 @@ public class ServiceOSModel {
         this.situacao = situacao;
         this.dataEntrada = dataEntrada;
         this.dataPrevisao = dataPrevisao;
+        this.pecas = new ArrayList<>();
     }
 
     public ServiceOSModel() {
 	}
 
 	public ServiceOSModel(int int1, int int2, int int3, String string, String string2, BigDecimal bigDecimal,
-			String string3, LocalDate localDate, LocalDate localDate2) {
+			String string3, LocalDate localDate) {
 		
 	}
+	
+    // ✅ Construtor sem ID (para novas OS)
+    public ServiceOSModel(int clienteId, int veiculoId, String tipoOS, String descricao, 
+                          BigDecimal valor, String situacao, LocalDate dataEntrada, LocalDate dataPrevisao) {
+        this.clienteId = clienteId;
+        this.veiculoId = veiculoId;
+        this.tipoOS = tipoOS;
+        this.descricao = descricao;
+        this.valor = valor;
+        this.situacao = situacao;
+        this.dataEntrada = dataEntrada;
+        this.dataPrevisao = dataPrevisao;
+        this.pecas = new ArrayList<>();
+    }
+	
+	
+	
+    public void adicionarPeca(CarPartsModel peca) {
+        this.pecas.add(peca);
+    }
+
+    // Getters e Setters
+    public List<CarPartsModel> getPecas() {
+        return pecas;
+    }
+
+    public void setPecas(List<CarPartsModel> pecas) {
+        this.pecas = pecas;
+    }
+	
+	
 
 	// Getters e Setters
     public int getId() { return id; }

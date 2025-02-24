@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 21/02/2025 às 17:54
+-- Tempo de geração: 24/02/2025 às 05:39
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -102,7 +102,7 @@ CREATE TABLE `ordens_servico` (
   `situacao` varchar(50) DEFAULT NULL,
   `data_entrada` timestamp NOT NULL DEFAULT current_timestamp(),
   `tipoOS` varchar(50) NOT NULL,
-  `data_previsao` date DEFAULT NULL
+  `data_previsao` date DEFAULT '2099-12-31'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -110,17 +110,15 @@ CREATE TABLE `ordens_servico` (
 --
 
 INSERT INTO `ordens_servico` (`id`, `cliente_id`, `carro_id`, `descricao`, `valor`, `situacao`, `data_entrada`, `tipoOS`, `data_previsao`) VALUES
-(1, 1, 1, 'Troca de óleo e revisão', 250.00, 'Em andamento', '2025-02-18 17:00:40', '', NULL),
-(2, 2, 2, 'Substituição de pastilhas de freio', 320.00, 'Concluída', '2025-02-18 17:00:40', '', NULL),
-(3, 1, 1, 'Nova Ordem de Serviço', 0.00, 'Aberta', '2025-02-19 03:00:00', 'Manutenção', '2025-02-26'),
-(5, 1, 1, 'Troca de óleo e revisão geral', 350.00, 'Em andamento', '2025-02-20 04:00:31', 'Manutenção preventiva', '2024-02-22'),
-(6, 2, 2, 'Substituição do freio traseiro', 780.00, '', '2025-02-20 04:00:31', 'Reparo mecânico', '2024-02-24'),
-(7, 3, 3, 'Diagnóstico e reparo da suspensão', 500.00, 'Concluída', '2025-02-20 04:00:31', 'Reparo mecânico', '2024-02-20'),
-(8, 4, 4, 'Troca de correia dentada e revisão', 1200.00, 'Em andamento', '2025-02-20 04:00:31', 'Manutenção preventiva', '2024-02-28'),
-(9, 5, 5, 'Troca de embreagem', 950.00, 'Aberta', '2025-02-20 04:00:31', 'Reparo mecânico', '2024-03-02'),
-(20, 2, 2, '', 350.00, 'Aberto', '2025-02-21 03:00:00', 'teste', '2025-02-27'),
-(21, 4, 4, 'teste', 780.00, 'Aberto', '2025-02-21 03:00:00', 'tes', '2025-02-28'),
-(22, 2, 2, 'teste', 22.00, 'Aberto', '2025-02-21 03:00:00', 'asdf', '2025-02-27');
+(5, 1, 2, 'Revisão completa teste 222', 350.00, 'Em andamento', '2025-02-18 03:00:00', 'Manutenção', '2025-02-20'),
+(6, 2, 2, 'Substituição do freio traseiro', 780.00, 'Indefinido', '2025-02-20 04:00:31', 'Reparo mecânico', '2024-02-24'),
+(42, 1, 1, 'teste', 350.00, 'Aberto', '2025-02-24 03:00:00', 'teste', '2025-02-25'),
+(43, 1, 1, 'teste', 350.00, 'Aberto', '2025-02-24 03:00:00', '1', '2025-02-26'),
+(44, 1, 1, 'teste', 350.00, 'Aberto', '2025-02-24 03:00:00', 'teste', '2025-02-25'),
+(45, 1, 1, 'TESTE', 350.00, 'Aberto', '2025-02-24 03:00:00', '1', '2025-02-25'),
+(46, 1, 1, 'TESTE', 350.00, 'Aberto', '2025-02-24 03:00:00', '1', '2025-02-25'),
+(47, 1, 1, 'teste', 375.50, 'Aberto', '2025-02-24 03:00:00', 'teste', '2025-02-25'),
+(48, 1, 1, 'teste', 751.00, 'Aberto', '2025-02-24 03:00:00', 'teste', '2025-02-25');
 
 -- --------------------------------------------------------
 
@@ -132,9 +130,22 @@ CREATE TABLE `ordens_servico_pecas` (
   `id` int(11) NOT NULL,
   `os_id` int(11) NOT NULL,
   `peca_id` int(11) NOT NULL,
-  `quantidade` int(11) NOT NULL DEFAULT 1,
   `valor_unitario` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `ordens_servico_pecas`
+--
+
+INSERT INTO `ordens_servico_pecas` (`id`, `os_id`, `peca_id`, `valor_unitario`) VALUES
+(8, 46, 3, 350.00),
+(9, 47, 3, 350.00),
+(10, 47, 1, 25.50),
+(11, 48, 3, 350.00),
+(12, 48, 1, 25.50),
+(13, 48, 3, 350.00),
+(14, 48, 1, 25.50),
+(15, 5, 3, 350.00);
 
 -- --------------------------------------------------------
 
@@ -224,13 +235,13 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de tabela `ordens_servico`
 --
 ALTER TABLE `ordens_servico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de tabela `ordens_servico_pecas`
 --
 ALTER TABLE `ordens_servico_pecas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `pecas`

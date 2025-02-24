@@ -43,7 +43,7 @@
 						<TextField fx:id="codigoField" disable="true" maxWidth="60.0" GridPane.columnIndex="3" />
 						<Label text="Código Veículo:" GridPane.rowIndex="1" />
 						<TextField fx:id="veiculoIdField" disable="true" maxWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-						<TextField fx:id="tipoOS" disable="true" minWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+						<TextField fx:id="tipoOSField" disable="true" minWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 						<Label text="Situação:" GridPane.columnIndex="4" />
 
 						<TextField fx:id="situacaoOS" disable="true" maxWidth="115.0" prefHeight="25.0" prefWidth="115.0" GridPane.columnIndex="5" />
@@ -101,7 +101,7 @@
 				</HBox>
 				<HBox prefWidth="200.0" spacing="15.0">
 					<children>
-						<Button fx:id="novoBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Novo" onAction="#novoAction">
+						<Button fx:id="novoBtn" mnemonicParsing="false" onAction="#handleNovo" prefHeight="25.0" prefWidth="94.0" text="Novo">
 							<padding>
 								<Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
 							</padding>
@@ -109,11 +109,16 @@
 								<Insets />
 							</HBox.margin>
 						</Button>
-						<Button fx:id="editarBtn"  onAction="#salvarOrdemServico" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Editar">
-							<padding>					
+						<Button fx:id="editarBtn" mnemonicParsing="false" onAction="#handleEditar" prefHeight="25.0" prefWidth="69.0" text="Editar">
+							<padding>
 								<Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
 							</padding>
 						</Button>
+                  <Button fx:id="salvarBtn" mnemonicParsing="false" onAction="#salvarOrdemServico" prefHeight="25.0" prefWidth="69.0" text="Salvar">
+                     <padding>
+                        <Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
+                     </padding>
+                  </Button>
 						<Button fx:id="finalizarBtn" mnemonicParsing="false" onAction="#finalizarOS" text="Finalizar OS">
 							<padding>
 								<Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />

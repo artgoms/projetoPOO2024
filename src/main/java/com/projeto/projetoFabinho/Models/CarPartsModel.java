@@ -1,5 +1,6 @@
 package com.projeto.projetoFabinho.Models;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class CarPartsModel {
@@ -12,6 +13,7 @@ public class CarPartsModel {
     private double margem;
     private double valorVenda;
     private double margemLucro;
+    private int osId;
 
 
 	public CarPartsModel(int id, String nome, String marca, int quantidade, double custo, double margemLucro, double valorVenda, LocalDate dataEntrada) {
@@ -24,8 +26,15 @@ public class CarPartsModel {
         this.valorVenda = valorVenda;
         this.dataEntrada = dataEntrada;
     }
+	
+	public CarPartsModel(int id, String nome, BigDecimal valorVenda) {
+	    this.id = id;
+	    this.nome = nome;
+	    this.valorVenda = valorVenda.doubleValue(); // Convertendo BigDecimal para double
+	}
 
-    
+
+
     public CarPartsModel(int id, String nome, String marca, int quantidade, double valorVenda) {
         this.id = id;
         this.nome = nome;
@@ -41,6 +50,22 @@ public class CarPartsModel {
         this.valorVenda = valorVenda;
     }
     
+    public CarPartsModel(int id, String nome, String marca, BigDecimal valorVenda) {
+        this.id = id;
+        this.nome = nome;
+        this.marca = marca;
+        this.valorVenda = valorVenda != null ? valorVenda.doubleValue() : 0.0; // Conversão segura
+    }
+
+
+
+	public int getOsId() {
+        return osId;
+    }
+
+    public void setOsId(int osId) {
+        this.osId = osId;
+    }
     
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

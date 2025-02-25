@@ -19,9 +19,9 @@
 				<GridPane>
 					<columnConstraints>
 						<ColumnConstraints hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="54.0" />
-						<ColumnConstraints hgrow="SOMETIMES" maxWidth="637.0" minWidth="10.0" prefWidth="388.0" />
-						<ColumnConstraints hgrow="SOMETIMES" maxWidth="145.0" minWidth="10.0" prefWidth="122.0" />
-						<ColumnConstraints hgrow="SOMETIMES" maxWidth="104.0" minWidth="10.0" prefWidth="92.0" />
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="637.0" minWidth="10.0" prefWidth="336.0" />
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="176.0" minWidth="10.0" prefWidth="134.0" />
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="134.0" />
 					</columnConstraints>
 					<rowConstraints>
 						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -56,7 +56,7 @@
 								<Insets left="10.0" />
 							</GridPane.margin>
 						</Label>
-						<TextField fx:id="quantidadeField" maxWidth="1.7976931348623157E308" prefWidth="168.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+						<TextField fx:id="quantidadeField" maxWidth="1.7976931348623157E308" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
 					</children>
 				</GridPane>
 				<HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="700.0">
@@ -70,13 +70,13 @@
 							</HBox.margin>
 						</Label>
 						<TextField fx:id="custoField" maxWidth="100.0" />
-						<Label text="\% Margem:">
+						<Label prefHeight="17.0" prefWidth="71.0" text="\% Margem:">
 							<HBox.margin>
 								<Insets left="20.0" right="20.0" />
 							</HBox.margin>
 						</Label>
 						<TextField fx:id="margemField" maxWidth="100.0" />
-						<Label text="Valor Venda:  R$">
+						<Label prefHeight="17.0" prefWidth="95.0" text="Valor Venda:  R$">
 							<HBox.margin>
 								<Insets left="20.0" right="20.0" />
 							</HBox.margin>

@@ -74,38 +74,6 @@ public class CarDAO extends BaseDAO<CarModel> {
         return nextId;
     }
 
-    public List<CarModel> getAllCars() {
-        List<CarModel> carros = new ArrayList<>();
-        String sql = "SELECT c.id, c.placa, c.marca, c.modelo, c.situacao, cl.codigo AS codigoCliente, cl.nome AS nomeCliente " +
-                     "FROM carros c " +
-                     "JOIN clientes cl ON c.codigo = cl.codigo";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                CarModel car = new CarModel(
-                        rs.getInt("id"),
-                        rs.getInt("codigo"),
-                        rs.getString("situacao"),
-                        rs.getString("marca"),
-                        rs.getString("modelo"),
-                        rs.getString("anoFabricacao"),
-                        rs.getString("placa"),
-                        rs.getString("observacoes"),
-                        rs.getInt("codigoCliente"),
-                        rs.getString("nomeCliente")
-                );
-                carros.add(car);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return carros;
-    }
-
     public CarModel getCarByPlaca(String placa) {
         String sql = "SELECT id, codigo, situacao, marca, modelo, anoFabricacao, placa, observacoes, codigoCliente, nomeCliente FROM carros WHERE placa = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -134,5 +102,73 @@ public class CarDAO extends BaseDAO<CarModel> {
         return null;
     }
 
+    public List<CarModel> buscarVeiculosPorClienteIdECodigo(int clienteId, String filtro) {
+        List<CarModel> listaVeiculos = new ArrayList<>();
+        String sql = "SELECT * FROM carros WHERE codigo = ? AND (modelo LIKE ? OR placa LIKE ?)";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Configurar os parâmetros da consulta
+            stmt.setInt(1, clienteId);
+            stmt.setString(2, "%" + filtro + "%");  // Pesquisa por modelo
+            stmt.setString(3, "%" + filtro + "%");  // Pesquisa por placa
+
+            // Executa a consulta
+            ResultSet rs = stmt.executeQuery();
+
+            // Preenche a lista de veículos
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String modelo = rs.getString("modelo");
+                String marca = rs.getString("marca");
+                String anoFabricacao = rs.getString("anoFabricacao");
+                String placa = rs.getString("placa");
+                String situacao = rs.getString("situacao");
+                String observacoes = rs.getString("observacoes");
+
+                // Cria um objeto CarModel e adiciona à lista
+                CarModel carro = new CarModel(id, clienteId, situacao, marca, modelo, anoFabricacao, placa, observacoes);
+                listaVeiculos.add(carro);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return listaVeiculos;
+    }
     
+    public List<CarModel> buscarVeiculosPorClienteId(int clienteId) {
+        List<CarModel> listaVeiculos = new ArrayList<>();
+        String sql = "SELECT * FROM carros WHERE codigo = ?";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Configura o parâmetro da consulta
+            stmt.setInt(1, clienteId);
+
+            // Executa a consulta
+            ResultSet rs = stmt.executeQuery();
+
+            // Preenche a lista de veículos
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String modelo = rs.getString("modelo");
+                String marca = rs.getString("marca");
+                String anoFabricacao = rs.getString("anoFabricacao");
+                String placa = rs.getString("placa");
+                String situacao = rs.getString("situacao");
+                String observacoes = rs.getString("observacoes");
+
+                // Cria um objeto CarModel e adiciona à lista
+                CarModel carro = new CarModel(id, clienteId, situacao, marca, modelo, anoFabricacao, placa, observacoes);
+                listaVeiculos.add(carro);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return listaVeiculos;
+    }
 }

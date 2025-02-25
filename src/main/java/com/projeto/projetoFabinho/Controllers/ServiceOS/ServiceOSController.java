@@ -14,13 +14,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.projeto.projetoFabinho.Controllers.CarList.CarListController;
+import com.projeto.projetoFabinho.Controllers.ClientList.ClientListController;
 import com.projeto.projetoFabinho.Controllers.OSPesquisa.OSPesquisaController;
 import com.projeto.projetoFabinho.Controllers.SelecionarPecas.SelecionarPecasController;
-import com.projeto.projetoFabinho.DAO.ClienteDAO;
 import com.projeto.projetoFabinho.DAO.PecasDAO;
 import com.projeto.projetoFabinho.DAO.ServiceOSDAO;
 import com.projeto.projetoFabinho.Models.CarPartsModel;
-import com.projeto.projetoFabinho.Models.ClientModel;
 import com.projeto.projetoFabinho.Models.ServiceOSModel;
 
 public class ServiceOSController {
@@ -46,10 +46,21 @@ public class ServiceOSController {
 	private final ServiceOSDAO osDAO = new ServiceOSDAO();
 	private ServiceOSModel serviceOS = new ServiceOSModel();
 	private List<CarPartsModel> listaPecas = new ArrayList<>();
-
-
+	
 	@FXML
 	public void initialize() {
+
+		codigoField.setOnKeyPressed(event -> {
+			if (event.getCode() == KeyCode.F2) {
+				abrirPesquisaClientes();
+			}
+		});
+		
+	    veiculoIdField.setOnKeyPressed(event -> {
+	        if (event.getCode() == KeyCode.F2) {
+	            abrirPesquisaVeiculos();
+	        }
+	    });
 
 		habilitarCampos(false);
 		desabilitarBotoes(false);
@@ -90,14 +101,62 @@ public class ServiceOSController {
 				}
 			}
 		});
-		
-		
 
 		entradaOS.setValue(LocalDate.now()); // Inicializa a data de entrada como a data atual
 		situacaoOS.setText("Aberto"); // Define o status inicial como "Aberto"
 
 	}
 
+	private void abrirPesquisaClientes() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
+			Parent root = loader.load();
+
+			// Obtém o controlador da tela de clientes
+			ClientListController clientListController = loader.getController();
+
+			// Configura o listener para capturar a seleção do cliente
+			clientListController.setSelectionListener(clienteCodigo -> {
+				// Quando um cliente for selecionado, preenche o campo `codigoField`
+				codigoField.setText(clienteCodigo);
+			});
+
+			// Criar a janela modal
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.setTitle("Pesquisar Cliente");
+			stage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void abrirPesquisaVeiculos() {
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/CarList.fxml"));
+	        Parent root = loader.load();
+
+	        CarListController carListController = loader.getController();
+
+	        // Passa o cliente ID para filtrar os veículos daquele cliente
+	        carListController.setClienteId(clienteId);
+
+	        // Configura o listener para receber a seleção do carro
+	        carListController.setSelectionListener(carroId -> {
+	            // Preenche o campo de veiculoIdField com o id do veículo selecionado
+	            veiculoIdField.setText(carroId);
+	        });
+
+	        Stage stage = new Stage();
+	        stage.setScene(new Scene(root));
+	        stage.setTitle("Pesquisar Veículos");
+	        stage.showAndWait();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
 	@FXML
 	private void abrirPesquisaOS() {
 		try {
@@ -144,106 +203,120 @@ public class ServiceOSController {
 			situacaoOS.setText(os.getSituacao());
 			entradaOS.setValue(os.getDataEntrada());
 			previsaoOS.setValue(os.getDataPrevisao());
-			
-	        // Buscar as peças da OS
-	        listaPecas = osDAO.buscarPecasPorOS(codigoOS);
-	        
-	        // Limpa e preenche o ComboBox apenas com os nomes das peças
-	        pecasOS.getItems().clear();
-	        for (CarPartsModel peca : listaPecas) {
-	        	pecasOS.getItems().add(peca.getNome());
-	        }
-			
-	    } else {
-	        System.out.println("Ordem de serviço não encontrada para o código: " + codigoOS);
-	    }
+
+			// Buscar as peças da OS
+			listaPecas = osDAO.buscarPecasPorOS(codigoOS);
+
+			// Limpa e preenche o ComboBox apenas com os nomes das peças
+			pecasOS.getItems().clear();
+			for (CarPartsModel peca : listaPecas) {
+				pecasOS.getItems().add(peca.getNome());
+			}
+
+		} else {
+			System.out.println("Ordem de serviço não encontrada para o código: " + codigoOS);
+		}
 	}
 
 	@FXML
-		private void handleNovo() {
-			if ("Cancelar".equals(novoBtn.getText())) {
-				handleCancelar();
-				novoBtn.setText("Novo");
-				editarBtn.setDisable(false);
-				return;
-			}
-	
-			serviceOS = new ServiceOSModel(); // Novo OS
-			
-			habilitarCampos(true); // No modo "Novo", códigoField pode ser editado
-			desabilitarBotoes(true);
-			editarBtn.setDisable(true);
-	
-			limparCampos();
-			atualizarCodigo(); // Define o novo ID automaticamente
-	
-			novoBtn.setText("Cancelar"); // Altera o texto do botão
-	
+	private void handleNovo() {
+		if ("Cancelar".equals(novoBtn.getText())) {
+			handleCancelar();
+			novoBtn.setText("Novo");
+			editarBtn.setDisable(false);
+			return;
 		}
+
+		serviceOS = new ServiceOSModel(); // Novo OS
+
+		habilitarCampos(true); // No modo "Novo", códigoField pode ser editado
+		desabilitarBotoes(true);
+		editarBtn.setDisable(true);
+
+		limparCampos();
+		atualizarCodigo(); // Define o novo ID automaticamente
+
+		novoBtn.setText("Cancelar"); // Altera o texto do botão
+
+	}
 
 	@FXML
 	private void salvarOrdemServico() {
-	    try {
-	        int id = idOSField.getText().isEmpty() ? 0 : Integer.parseInt(idOSField.getText());
-	        int clienteId = Integer.parseInt(codigoField.getText());
-	        int veiculoId = Integer.parseInt(veiculoIdField.getText());
-	        String tipoOS = tipoOSField.getText();
-	        String descricao = descricaoOS.getText();
-	        BigDecimal valor = new BigDecimal(valorOS.getText().replace(",", "."));
-	        String situacao = situacaoOS.getText();
-	        LocalDate dataEntrada = entradaOS.getValue();
-	        LocalDate dataPrevisao = previsaoOS.getValue();
+		try {
+			// Verifica se o campo ID está preenchido corretamente
+			Integer id = (idOSField.getText().isEmpty() || idOSField.getText().equals("0")) ? null
+					: Integer.parseInt(idOSField.getText());
 
-	        PecasDAO pecasDAO = new PecasDAO();
-	        ServiceOSModel os;
+			int clienteId = Integer.parseInt(codigoField.getText());
+			int veiculoId = Integer.parseInt(veiculoIdField.getText());
+			String tipoOS = tipoOSField.getText();
+			String descricao = descricaoOS.getText();
+			BigDecimal valor = new BigDecimal(valorOS.getText().replace(",", "."));
+			String situacao = situacaoOS.getText();
+			LocalDate dataEntrada = entradaOS.getValue();
+			LocalDate dataPrevisao = previsaoOS.getValue();
 
-	        if (id > 0) {
-	            os = new ServiceOSModel(id, clienteId, veiculoId, tipoOS, descricao, valor, situacao, dataEntrada, dataPrevisao);
-	        } else {
-	            os = new ServiceOSModel(clienteId, veiculoId, tipoOS, descricao, valor, situacao, dataEntrada, dataPrevisao);
-	        }
+			PecasDAO pecasDAO = new PecasDAO();
+			ServiceOSModel os;
 
-	        // Adicionar peças
-	        List<CarPartsModel> pecasSelecionadas = new ArrayList<>();
-	        for (String nomePeca : pecasOS.getItems()) {
-	            int pecaId = pecasDAO.buscarIdPorNome(nomePeca);
-	            BigDecimal valorPeca = new BigDecimal(pecasDAO.buscarValorPecaPorId(pecaId).toString().replace(",", "."));
+			if (id != null) {
+				// 🔍 **Verifica se a OS já existe antes de atualizar**
+				ServiceOSModel osExistente = osDAO.buscarOSPorId(id);
+				if (osExistente == null) {
+					System.err.println("❌ Erro: A OS com ID " + id + " não existe. Criando nova OS...");
+					id = null; // Força a criação de uma nova OS
+				}
+			}
 
-	            pecasSelecionadas.add(new CarPartsModel(pecaId, nomePeca, valorPeca)); 
-	        }
+			// Criar objeto OS (nova ou existente)
+			os = (id == null)
+					? new ServiceOSModel(clienteId, veiculoId, tipoOS, descricao, valor, situacao, dataEntrada,
+							dataPrevisao)
+					: new ServiceOSModel(id, clienteId, veiculoId, tipoOS, descricao, valor, situacao, dataEntrada,
+							dataPrevisao);
 
-	        if (id > 0) {
-	            // Atualizar OS existente
-	            boolean atualizado = osDAO.atualizarOrdemServico(os);
-	            if (atualizado) {
-	                osDAO.salvarPecasOrdemServico(id, pecasSelecionadas);
-	                System.out.println("✅ Ordem de Serviço ID " + id + " atualizada com sucesso!");
-	            } else {
-	                System.err.println("❌ Erro ao atualizar OS ID " + id);
-	            }
-	        } else {
-	            // Criar nova OS
-	            int novoOsId = osDAO.salvarOrdemServicoComPecas(os);
-	            if (novoOsId > 0) {
-	                osDAO.salvarPecasOrdemServico(novoOsId, pecasSelecionadas);
-	                System.out.println("✅ Nova OS criada com sucesso! ID: " + novoOsId);
-	            } else {
-	                System.err.println("❌ Erro ao criar nova OS.");
-	            }
-	        }
+			// Adicionar peças associadas à OS
+			List<CarPartsModel> pecasSelecionadas = new ArrayList<>();
+			for (String nomePeca : pecasOS.getItems()) {
+				int pecaId = pecasDAO.buscarIdPorNome(nomePeca);
+				BigDecimal valorPeca = new BigDecimal(
+						pecasDAO.buscarValorPecaPorId(pecaId).toString().replace(",", "."));
 
-	    } catch (NumberFormatException e) {
-	        System.err.println("❌ Erro ao converter número: " + e.getMessage());
-	    } catch (Exception e) {
-	        System.err.println("❌ Erro inesperado: " + e.getMessage());
-	        e.printStackTrace();
-	    }
+				pecasSelecionadas.add(new CarPartsModel(pecaId, nomePeca, valorPeca));
+			}
 
-	    habilitarCampos(false);
-	    desabilitarBotoes(false);
-	    limparCampos();
+			if (id != null) {
+				// **Se ID não for nulo, atualiza a OS existente**
+				boolean atualizado = osDAO.atualizarOrdemServico(os);
+				if (atualizado) {
+					osDAO.salvarPecasOrdemServico(id, pecasSelecionadas);
+					System.out.println("✅ Ordem de Serviço ID " + id + " atualizada com sucesso!");
+				} else {
+					System.err.println("❌ Erro ao atualizar OS ID " + id);
+				}
+			} else {
+				// **Se ID for nulo, cria uma nova OS**
+				int novoOsId = osDAO.salvarOrdemServicoComPecas(os);
+				if (novoOsId > 0) {
+					osDAO.salvarPecasOrdemServico(novoOsId, pecasSelecionadas);
+					System.out.println("✅ Nova OS criada com sucesso! ID: " + novoOsId);
+					idOSField.setText(String.valueOf(novoOsId)); // Atualiza o campo ID com o novo ID
+				} else {
+					System.err.println("❌ Erro ao criar nova OS.");
+				}
+			}
+
+		} catch (NumberFormatException e) {
+			System.err.println("❌ Erro ao converter número: " + e.getMessage());
+		} catch (Exception e) {
+			System.err.println("❌ Erro inesperado: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		habilitarCampos(false);
+		desabilitarBotoes(false);
+		limparCampos();
 	}
-
 
 	@FXML
 	private void handleSalvar() {

@@ -151,18 +151,21 @@ public class StockListController {
             try {
                 // Carregar o FXML da tela de edição
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/CarParts.fxml"));
-                Scene scene = new Scene(loader.load());
                 Stage stage = new Stage();
+                Scene scene = new Scene(loader.load());
                 stage.setScene(scene);
 
                 // Passar a peça selecionada para a tela de edição
                 CarPartsController carPartsController = loader.getController();
-                carPartsController.editarPeça(selectedPart);
+                carPartsController.editarPeca(selectedPart);
+
+                // Adiciona evento para atualizar a tabela ao fechar a janela
+                stage.setOnHidden(event -> carregarEstoque());
 
                 // Exibir a janela de edição
                 stage.setTitle("Editar Peça");
                 stage.show();
-                
+
                 // Adiciona um evento para fechar a janela ao pressionar "Esc"
                 scene.setOnKeyPressed(event -> {
                     if (event.getCode() == KeyCode.ESCAPE) {
@@ -175,4 +178,5 @@ public class StockListController {
             }
         }
     }
+
 }

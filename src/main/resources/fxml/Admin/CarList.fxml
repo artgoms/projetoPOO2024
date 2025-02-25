@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.Scene?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
-</AnchorPane>
+<VBox xmlns="http://javafx.com/javafx/8.0.111"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.projeto.projetoFabinho.Controllers.CarList.CarListController"
+      spacing="10" alignment="CENTER">
+    
+    <TextField fx:id="searchField" promptText="Pesquisar Veículo..."/>
+    
+    <TableView fx:id="tableView">
+        <columns>
+            <TableColumn fx:id="colMarca" text="Marca" />
+            <TableColumn fx:id="colModelo" text="Modelo" />
+            <TableColumn fx:id="colPlaca" text="Placa" />
+            <TableColumn fx:id="colAnoFabricacao" text="Ano de Fabricação" />
+            <TableColumn fx:id="colSituacao" text="Situação" />
+        </columns>
+    </TableView>
 
+    <Button fx:id="selecionarButton" text="Selecionar Veículo"/>
+</VBox>

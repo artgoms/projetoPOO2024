@@ -54,24 +54,26 @@ public class CarPartsController {
 
 	@FXML
 	private void initialize() {
-		
-		// 🔹 Ativar o modo edição automaticamente ao iniciar a tela
-		setModoEdicao(false);
+	    setModoEdicao(false);
 
-		// Definir o valor do campo idField como o maior ID + 1
-		int maiorId = carPartsDAO.obterMaiorId();
-		idField.setText(String.valueOf(maiorId + 1)); // Definindo o próximo ID para a nova peça
-		idField.setDisable(true); // Desabilitar o campo para que o usuário não edite
-		// Definir margem padrão como 12%
-		margemField.setText("12");
+	    // Não gere um novo ID se já houver uma peça carregada (edição)
+	    if (currentPart == null) {
+	        int maiorId = carPartsDAO.obterMaiorId();
+	        idField.setText(String.valueOf(maiorId + 1));
+	    }
 
-		// Atualizar Valor de Venda automaticamente ao mudar Custo ou Margem
-		custoField.textProperty().addListener((obs, oldVal, newVal) -> atualizarValorVenda());
-		margemField.textProperty().addListener((obs, oldVal, newVal) -> atualizarValorVenda());
+	    idField.setDisable(true); // Impede edição manual do ID
+	    margemField.setText("12");
 
-		// Configurar ação do botão de salvar
-		salvarButton.setOnAction(event -> salvarPeca());
+	    // Atualizar Valor de Venda automaticamente ao mudar Custo ou Margem
+	    custoField.textProperty().addListener((obs, oldVal, newVal) -> atualizarValorVenda());
+	    margemField.textProperty().addListener((obs, oldVal, newVal) -> atualizarValorVenda());
+
+	    // Configurar ação do botão de salvar
+	    salvarButton.setOnAction(event -> handleSalvar());
 	}
+
+
 
 	@FXML
 	private void handleEditar() {
@@ -130,40 +132,48 @@ public class CarPartsController {
 	// Método para salvar as alterações
 	@FXML
 	private void handleSalvar() {
-		if (isEditing) {
-			// Lógica para salvar o item editado
-			CarPartsModel editedCarPart = new CarPartsModel(Integer.parseInt(idField.getText()), nomeField.getText(),
-					marcaField.getText(), Integer.parseInt(quantidadeField.getText()),
-					Double.parseDouble(custoField.getText()), Double.parseDouble(margemField.getText()),
-					Double.parseDouble(valorVendaField.getText()), dataEntradaField.getValue());
-	
-			boolean updateSuccess = carPartsDAO.update(editedCarPart);
-	
-			if (updateSuccess) {
-				// Sucesso ao salvar
-				Alert alert = new Alert(Alert.AlertType.INFORMATION);
-				alert.setTitle("Sucesso");
-				alert.setHeaderText(null);
-				alert.setContentText("Peça de carro atualizada com sucesso!");
-				alert.showAndWait();
-	
-				// Após salvar, desativa a edição
-				isEditing = false;
-				toggleButtonsAfterEditing();
-	
-				// Desativa os campos novamente
-				setModoEdicao(true);
-				
-			} else {
-				// Falha ao salvar
-				Alert alert = new Alert(Alert.AlertType.ERROR);
-				alert.setTitle("Erro");
-				alert.setHeaderText(null);
-				alert.setContentText("Erro ao atualizar a peça de carro.");
-				alert.showAndWait();
-			}
-		}
+	    if (nomeField.getText().isEmpty() || marcaField.getText().isEmpty() || quantidadeField.getText().isEmpty()) {
+	        mostrarAlerta("Erro", "Preencha todos os campos obrigatórios!");
+	        return;
+	    }
+
+	    try {
+	        int id = idField.getText().isEmpty() ? 0 : Integer.parseInt(idField.getText());
+	        String nome = nomeField.getText();
+	        String marca = marcaField.getText();
+	        int quantidade = Integer.parseInt(quantidadeField.getText());
+	        double custo = Double.parseDouble(custoField.getText().replace(",", "."));
+	        double margem = Double.parseDouble(margemField.getText().replace(",", "."));
+	        double valorVenda = Double.parseDouble(valorVendaField.getText().replace(",", "."));
+	        LocalDate dataEntrada = dataEntradaField.getValue();
+
+	        CarPartsModel peca = new CarPartsModel(id, nome, marca, quantidade, custo, margem, valorVenda, dataEntrada);
+
+	        boolean sucesso;
+
+	        if (isEditing && currentPart != null && currentPart.getId() > 0) {
+	            // **Atualizar peça existente**
+	            sucesso = carPartsDAO.update(peca);
+	            System.out.println("Atualizando peça ID: " + id);
+	        } else {
+	            // **Criar nova peça**
+	            sucesso = carPartsDAO.inserirPeca(peca);
+	            System.out.println("Criando nova peça ID: " + id);
+	        }
+
+	        if (sucesso) {
+	            mostrarAlerta("Sucesso", "Peça salva com sucesso!");
+	            limparCampos();
+	            setModoEdicao(false);
+	            isEditing = false;
+	        } else {
+	            mostrarAlerta("Erro", "Erro ao salvar a peça.");
+	        }
+	    } catch (NumberFormatException e) {
+	        mostrarAlerta("Erro", "Verifique os valores numéricos.");
+	    }
 	}
+
 
 	// Método para cancelar a edição ou criação
 	@FXML
@@ -175,6 +185,7 @@ public class CarPartsController {
 	            marcaField.setText(currentPart.getMarca());
 	            quantidadeField.setText(String.valueOf(currentPart.getQuantidade()));
 	            custoField.setText(String.valueOf(currentPart.getCusto()));
+	            margemField.setText(String.valueOf(currentPart.getMargemLucro()));
 	            valorVendaField.setText(String.valueOf(currentPart.getValorVenda()));
 	            dataEntradaField.setValue(currentPart.getDataEntrada());
 	        } else {
@@ -201,14 +212,7 @@ public class CarPartsController {
 		salvarButton.setDisable(false);
 	}
 
-	// Método para alternar os botões após salvar ou cancelar
-	private void toggleButtonsAfterEditing() {
-		novoButton.setText("Novo");
-		editarButton.setDisable(false);
-		salvarButton.setDisable(true);
-	}
-
-	private void atualizarValorVenda() {
+private void atualizarValorVenda() {
 		try {
 			double custo = Double.parseDouble(custoField.getText().replace(",", "."));
 			double margem = Double.parseDouble(margemField.getText().replace(",", "."));
@@ -220,50 +224,25 @@ public class CarPartsController {
 		}
 	}
 
-	public void editarPeça(CarPartsModel part) {
-		// Preenche os campos com os dados da peça
-		currentPart = part;
-		nomeField.setText(part.getNome());
-		marcaField.setText(part.getMarca());
-		quantidadeField.setText(String.valueOf(part.getQuantidade()));
-		valorVendaField.setText(String.valueOf(part.getValorVenda()));
-		dataEntradaField.setValue(part.getDataEntrada());
+	public void editarPeca(CarPartsModel part) {
+	    if (part == null) return;
+
+	    // **Atualiza a peça em edição**
+	    currentPart = part;
+
+	    idField.setText(String.valueOf(part.getId()));  // Mantém o ID correto
+	    nomeField.setText(part.getNome());
+	    marcaField.setText(part.getMarca());
+	    quantidadeField.setText(String.valueOf(part.getQuantidade()));
+	    custoField.setText(String.valueOf(part.getCusto()));
+	    margemField.setText(String.valueOf(part.getMargemLucro()));
+	    valorVendaField.setText(String.valueOf(part.getValorVenda()));
+	    dataEntradaField.setValue(part.getDataEntrada());
+
+	    setModoEdicao(true);
+	    isEditing = true;  // **Indica que estamos editando**
 	}
 
-	private void salvarPeca() {
-		String nome = nomeField.getText();
-		String marca = marcaField.getText();
-		int quantidade;
-		double custo, margem, valorVenda;
-		LocalDate dataEntrada = dataEntradaField.getValue();
-
-		if (dataEntrada == null) {
-			mostrarAlerta("Erro", "Por favor, selecione uma data de entrada.");
-			return;
-		}
-
-		try {
-			quantidade = Integer.parseInt(quantidadeField.getText());
-			custo = Double.parseDouble(custoField.getText().replace(",", "."));
-			margem = Double.parseDouble(margemField.getText().replace(",", "."));
-			valorVenda = Double.parseDouble(valorVendaField.getText().replace(",", "."));
-		} catch (NumberFormatException e) {
-			mostrarAlerta("Erro", "Verifique os valores numéricos. Use números com '.' ou ','.");
-			return;
-		}
-
-		CarPartsModel peca = new CarPartsModel(0, nome, marca, quantidade, custo, margem, valorVenda, dataEntrada);
-		boolean sucesso = carPartsDAO.inserirPeca(peca);
-
-		if (sucesso) {
-			mostrarAlerta("Sucesso", "Peça cadastrada com sucesso!");
-			
-			setModoEdicao(false);
-			
-		} else {
-			mostrarAlerta("Erro", "Falha ao cadastrar a peça.");
-		}
-	}
 
 	private void mostrarAlerta(String titulo, String mensagem) {
 		Alert alert = new Alert(AlertType.INFORMATION);

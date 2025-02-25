@@ -10,7 +10,6 @@ public class CarPartsModel {
     private LocalDate dataEntrada;
     private int quantidade;
     private double custo;
-    private double margem;
     private double valorVenda;
     private double margemLucro;
     private int osId;
@@ -35,12 +34,14 @@ public class CarPartsModel {
 
 
 
-    public CarPartsModel(int id, String nome, String marca, int quantidade, double valorVenda) {
+    public CarPartsModel(int id, String nome, String marca, int quantidade,  double custo, double valorVenda, LocalDate dataEntrada) {
         this.id = id;
         this.nome = nome;
         this.marca = marca;
         this.quantidade = quantidade;
+        this.custo = custo;
         this.valorVenda = valorVenda;
+        this.dataEntrada = dataEntrada;
     }
     
     public CarPartsModel(int id, String nome, String marca,  double valorVenda) {
@@ -84,9 +85,6 @@ public class CarPartsModel {
 
     public double getCusto() { return custo; }
     public void setCusto(double custo) { this.custo = custo; }
-
-    public double getMargem() { return margem; }
-    public void setMargem(double margem) { this.margem = margem; }
 
     public double getValorVenda() { return valorVenda; }
     public void setValorVenda(double valorVenda) { this.valorVenda = valorVenda; }

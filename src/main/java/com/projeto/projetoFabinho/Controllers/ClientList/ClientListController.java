@@ -25,44 +25,24 @@ public class ClientListController {
     @FXML
     private TableView<ClientModel> tabelaClientes;
     @FXML
-    private TableColumn<ClientModel, String> colNome;
-    @FXML
-    private TableColumn<ClientModel, String> colInscricao;
-    @FXML
-    private TableColumn<ClientModel, String> colSituacao;
-    @FXML
-    private TableColumn<ClientModel, String> colTelefone;
-    @FXML
-    private TableColumn<ClientModel, String> colResponsavel;
-    
+    private TableColumn<ClientModel, String> colNome, colInscricao, colSituacao, colTelefone, colResponsavel;
+   
     @FXML
     private TableColumn<ClientModel, Integer> colCodigo;
     
     private ClientSelectionListener selectionListener;
     
-
-    
-    public interface ClientSelectionListener {
-        void onClientSelected(String codigoCliente);
-    }
-    
-    public void setSelectionListener(ClientSelectionListener listener) {
-        this.selectionListener = listener;
-    }
-    
     private ClienteDAO clienteDAO = new ClienteDAO();
     private ClientController clientController; // Referência para a tela anterior
 
-    public void setClientController(ClientController clientController) {
-        this.clientController = clientController;
-    }
-
     @FXML
     private void initialize() {
-	    txtPesquisa.textProperty().addListener((observable, oldValue, newValue) -> {
-	        pesquisarClientes();
-	    });
-        // Configurar colunas
+        // Adiciona o listener para pesquisa de clientes
+        txtPesquisa.textProperty().addListener((observable, oldValue, newValue) -> {
+            pesquisarClientes();
+        });
+
+        // Configurar as colunas da tabela
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colInscricao.setCellValueFactory(new PropertyValueFactory<>("inscricaoNumero"));
@@ -70,36 +50,46 @@ public class ClientListController {
         colTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone1"));
         colResponsavel.setCellValueFactory(new PropertyValueFactory<>("responsavel"));
 
-        // Carregar clientes na tabela
+        // Carregar todos os clientes na tabela
         carregarClientes();
 
-        // Adicionar evento de clique para enviar o cliente de volta
+        // Evento para capturar o clique duplo na tabela
         tabelaClientes.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) { // Duplo clique
-                ClientModel clienteSelecionado = tabelaClientes.getSelectionModel().getSelectedItem();
-                if (clienteSelecionado != null && clientController != null) {
-                    clientController.preencherCampos(clienteSelecionado); // Preenche a tela anterior
-
-                    // Fecha a janela atual
-                    Stage stage = (Stage) tabelaClientes.getScene().getWindow();
-                    stage.close();
-                }
+            if (event.getClickCount() == 2) { // Verifica se foi um clique duplo
+                handleSelection(); // Chama o método que trata a seleção
             }
         });
     }
     
+    
+
+    public interface ClientSelectionListener {
+        void onClientSelected(String codigoCliente);
+    }
+    
+    public void setSelectionListener(ClientSelectionListener listener) {
+        this.selectionListener = listener;
+    }
+
     @FXML
     private void handleSelection() {
         ClientModel clienteSelecionado = tabelaClientes.getSelectionModel().getSelectedItem();
         if (clienteSelecionado != null && selectionListener != null) {
-            selectionListener.onClientSelected(String.valueOf(clienteSelecionado.getCodigo())); // Conversão aqui
+            // Passa o código do cliente para o listener
+            selectionListener.onClientSelected(String.valueOf(clienteSelecionado.getCodigo()));
+
+            // Fechar a janela após a seleção
             Stage stage = (Stage) tabelaClientes.getScene().getWindow();
-            stage.close(); // Fecha a janela após a seleção
+            stage.close();
         }
     }
     
+       
+	public void setClientController(ClientController clientController) {
+	    this.clientController = clientController;
+	}
 
-	@FXML
+    @FXML
 	private void pesquisarClientes() {
 	    String filtro = txtPesquisa.getText().trim();
 	    ClienteDAO clienteDAO = new ClienteDAO();

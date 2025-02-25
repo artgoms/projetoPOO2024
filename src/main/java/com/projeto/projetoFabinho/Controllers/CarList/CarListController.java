@@ -49,6 +49,7 @@ public class CarListController {
 
     public void setClienteId(int clienteId) {
         this.clienteId = clienteId;
+        carregarCarrosPorCliente(); // Chama o método para buscar carros do cliente
         System.out.println("Cliente ID recebido: " + clienteId); // Verificando o valor do clienteId
     }
     
@@ -61,8 +62,6 @@ public class CarListController {
         colPlaca.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getPlaca()));
         colAnoFabricacao.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getAnoFabricacao()));
         colSituacao.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getSituacao()));
-
-        carregarVeiculos(); // Chama a função para carregar os veículos e exibir no terminal
 
         // Filtro de pesquisa para buscar veículos pelo modelo
         searchField.textProperty().addListener((observable, oldValue, newValue) -> pesquisarVeiculos());
@@ -84,21 +83,21 @@ public class CarListController {
         tableView.setItems(carrosObservable);
     }
 
-    private void carregarVeiculos() {
-        CarDAO carrosDAO = new CarDAO();
-        List<CarModel> carros = carrosDAO.buscarVeiculosPorClienteId(clienteId);
 
-        // Exibe no terminal os carros encontrados
-        System.out.println("Veículos encontrados para o cliente " + clienteId + ":");
-        for (CarModel car : carros) {
-            System.out.println("ID: " + car.getId() + ", Marca: " + car.getMarca() + ", Modelo: " + car.getModelo() +
-                    ", Placa: " + car.getPlaca() + ", Ano: " + car.getAnoFabricacao() + ", Situação: " + car.getSituacao());
+
+    private void carregarCarrosPorCliente() {
+        if (clienteId > 0) {
+            List<CarModel> carros = CarDAO.buscarCarrosPorCliente(clienteId);
+            ObservableList<CarModel> observableCarros = FXCollections.observableArrayList(carros);
+            tableView.setItems(observableCarros);
+        } else {
+            System.err.println("Erro: clienteId não foi definido antes de carregar carros.");
         }
-
-        ObservableList<CarModel> carrosObservable = FXCollections.observableArrayList(carros);
-        tableView.setItems(carrosObservable); // Atualiza a tabela com os veículos do cliente
     }
 
+    
+    
+    
     @FXML
     private void handleSelection() {
         CarModel selectedCar = tableView.getSelectionModel().getSelectedItem();
@@ -108,4 +107,6 @@ public class CarListController {
             stage.close();
         }
     }
+    
+    
 }

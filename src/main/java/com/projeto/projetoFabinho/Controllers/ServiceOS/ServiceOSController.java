@@ -47,6 +47,9 @@ public class ServiceOSController {
 	private ServiceOSModel serviceOS = new ServiceOSModel();
 	private List<CarPartsModel> listaPecas = new ArrayList<>();
 	
+	private int clienteId; // Armazena o ID do cliente selecionado
+
+	
 	@FXML
 	public void initialize() {
 
@@ -108,29 +111,33 @@ public class ServiceOSController {
 	}
 
 	private void abrirPesquisaClientes() {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
-			Parent root = loader.load();
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
+	        Parent root = loader.load();
 
-			// Obtém o controlador da tela de clientes
-			ClientListController clientListController = loader.getController();
+	        // Obtém o controlador da tela de clientes
+	        ClientListController clientListController = loader.getController();
 
-			// Configura o listener para capturar a seleção do cliente
-			clientListController.setSelectionListener(clienteCodigo -> {
-				// Quando um cliente for selecionado, preenche o campo `codigoField`
-				codigoField.setText(clienteCodigo);
-			});
+	        // Configura o listener para capturar a seleção do cliente
+	        clientListController.setSelectionListener(clienteCodigo -> {
+	            // Quando um cliente for selecionado, preenche o campo `codigoField`
+	            codigoField.setText(clienteCodigo);
+	            
+	            // Armazena o ID do cliente na variável clienteId
+	            clienteId = Integer.parseInt(clienteCodigo);
+	        });
 
-			// Criar a janela modal
-			Stage stage = new Stage();
-			stage.setScene(new Scene(root));
-			stage.setTitle("Pesquisar Cliente");
-			stage.showAndWait();
+	        // Criar a janela modal
+	        Stage stage = new Stage();
+	        stage.setScene(new Scene(root));
+	        stage.setTitle("Pesquisar Cliente");
+	        stage.showAndWait();
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 	private void abrirPesquisaVeiculos() {
 	    try {
@@ -139,13 +146,16 @@ public class ServiceOSController {
 
 	        CarListController carListController = loader.getController();
 
-	        // Passa o cliente ID para filtrar os veículos daquele cliente
-	        carListController.setClienteId(clienteId);
+	        // Verifica se clienteId está definido antes de passar para a tela de veículos
+	        if (clienteId > 0) {
+	            carListController.setClienteId(clienteId);
+	        } else {
+	            System.err.println("Nenhum cliente selecionado antes de pesquisar veículos.");
+	        }
 
 	        // Configura o listener para receber a seleção do carro
 	        carListController.setSelectionListener(carroId -> {
-	            // Preenche o campo de veiculoIdField com o id do veículo selecionado
-	            veiculoIdField.setText(carroId);
+	            veiculoIdField.setText(carroId); // Preenche o campo de veiculoIdField com o id do veículo selecionado
 	        });
 
 	        Stage stage = new Stage();
@@ -156,6 +166,7 @@ public class ServiceOSController {
 	        e.printStackTrace();
 	    }
 	}
+
 	
 	@FXML
 	private void abrirPesquisaOS() {
@@ -172,8 +183,8 @@ public class ServiceOSController {
 			OSPesquisaController pesquisaController = loader.getController();
 			String osSelecionada = pesquisaController.getOSSelecionada();
 
-			// Conversão segura de String para int
-			if (osSelecionada != null && !osSelecionada.trim().isEmpty()) {
+
+			if (osSelecionada != null && !osSelecionada.trim().isEmpty()) { // Conversão de String pra int
 				try {
 					int codigoOS = Integer.parseInt(osSelecionada);
 					carregarOS(codigoOS);
@@ -229,14 +240,14 @@ public class ServiceOSController {
 
 		serviceOS = new ServiceOSModel(); // Novo OS
 
-		habilitarCampos(true); // No modo "Novo", códigoField pode ser editado
+		habilitarCampos(true);
 		desabilitarBotoes(true);
 		editarBtn.setDisable(true);
 
 		limparCampos();
-		atualizarCodigo(); // Define o novo ID automaticamente
+		atualizarCodigo(); 
 
-		novoBtn.setText("Cancelar"); // Altera o texto do botão
+		novoBtn.setText("Cancelar"); 
 
 	}
 
@@ -259,9 +270,8 @@ public class ServiceOSController {
 			PecasDAO pecasDAO = new PecasDAO();
 			ServiceOSModel os;
 
-			if (id != null) {
-				// 🔍 **Verifica se a OS já existe antes de atualizar**
-				ServiceOSModel osExistente = osDAO.buscarOSPorId(id);
+			if (id != null) {				
+				ServiceOSModel osExistente = osDAO.buscarOSPorId(id); // Verifica se a OS já existe antes de atualizar
 				if (osExistente == null) {
 					System.err.println("❌ Erro: A OS com ID " + id + " não existe. Criando nova OS...");
 					id = null; // Força a criação de uma nova OS
@@ -275,8 +285,7 @@ public class ServiceOSController {
 					: new ServiceOSModel(id, clienteId, veiculoId, tipoOS, descricao, valor, situacao, dataEntrada,
 							dataPrevisao);
 
-			// Adicionar peças associadas à OS
-			List<CarPartsModel> pecasSelecionadas = new ArrayList<>();
+			List<CarPartsModel> pecasSelecionadas = new ArrayList<>(); // Adicionar peças associadas à OS
 			for (String nomePeca : pecasOS.getItems()) {
 				int pecaId = pecasDAO.buscarIdPorNome(nomePeca);
 				BigDecimal valorPeca = new BigDecimal(
@@ -286,8 +295,7 @@ public class ServiceOSController {
 			}
 
 			if (id != null) {
-				// **Se ID não for nulo, atualiza a OS existente**
-				boolean atualizado = osDAO.atualizarOrdemServico(os);
+				boolean atualizado = osDAO.atualizarOrdemServico(os); // Se ID não for nulo, atualiza a OS existente
 				if (atualizado) {
 					osDAO.salvarPecasOrdemServico(id, pecasSelecionadas);
 					System.out.println("✅ Ordem de Serviço ID " + id + " atualizada com sucesso!");
@@ -295,8 +303,7 @@ public class ServiceOSController {
 					System.err.println("❌ Erro ao atualizar OS ID " + id);
 				}
 			} else {
-				// **Se ID for nulo, cria uma nova OS**
-				int novoOsId = osDAO.salvarOrdemServicoComPecas(os);
+				int novoOsId = osDAO.salvarOrdemServicoComPecas(os); // Se ID for nulo, cria uma nova OS
 				if (novoOsId > 0) {
 					osDAO.salvarPecasOrdemServico(novoOsId, pecasSelecionadas);
 					System.out.println("✅ Nova OS criada com sucesso! ID: " + novoOsId);

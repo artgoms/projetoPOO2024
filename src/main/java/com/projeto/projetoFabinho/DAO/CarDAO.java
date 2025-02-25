@@ -138,37 +138,35 @@ public class CarDAO extends BaseDAO<CarModel> {
         return listaVeiculos;
     }
     
-    public List<CarModel> buscarVeiculosPorClienteId(int clienteId) {
-        List<CarModel> listaVeiculos = new ArrayList<>();
-        String sql = "SELECT * FROM carros WHERE codigo = ?";
+    public static List<CarModel> buscarCarrosPorCliente(int clienteId) {
+        List<CarModel> carros = new ArrayList<>();
         
+        String sql = "SELECT id, marca, modelo, placa, anoFabricacao, situacao, observacoes FROM carros WHERE codigo = ?";
+
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Configura o parâmetro da consulta
             stmt.setInt(1, clienteId);
-
-            // Executa a consulta
             ResultSet rs = stmt.executeQuery();
 
-            // Preenche a lista de veículos
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String modelo = rs.getString("modelo");
-                String marca = rs.getString("marca");
-                String anoFabricacao = rs.getString("anoFabricacao");
-                String placa = rs.getString("placa");
-                String situacao = rs.getString("situacao");
-                String observacoes = rs.getString("observacoes");
-
-                // Cria um objeto CarModel e adiciona à lista
-                CarModel carro = new CarModel(id, clienteId, situacao, marca, modelo, anoFabricacao, placa, observacoes);
-                listaVeiculos.add(carro);
+                CarModel carro = new CarModel();
+                carro.setId(rs.getInt("id"));
+                carro.setMarca(rs.getString("marca"));
+                carro.setModelo(rs.getString("modelo"));
+                carro.setPlaca(rs.getString("placa"));
+                carro.setAnoFabricacao(rs.getString("anoFabricacao"));
+                carro.setSituacao(rs.getString("situacao"));
+                carro.setSituacao(rs.getString("observacoes"));
+                
+                carros.add(carro);
             }
-        } catch (SQLException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
+            System.err.println("Erro ao buscar carros do cliente: " + e.getMessage());
         }
 
-        return listaVeiculos;
+        return carros;
     }
 }

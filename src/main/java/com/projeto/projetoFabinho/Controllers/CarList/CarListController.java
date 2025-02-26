@@ -74,6 +74,7 @@ public class CarListController {
         });
     }
 
+    // Faz a busca do veículo usando o modelo e a placa
     private void pesquisarVeiculos() {
         String filtro = searchField.getText().trim();
         CarDAO carrosDAO = new CarDAO();
@@ -83,8 +84,7 @@ public class CarListController {
         tableView.setItems(carrosObservable);
     }
 
-
-
+    // Carrega os veículos no OS, quando selecionado o cliente
     private void carregarCarrosPorCliente() {
         if (clienteId > 0) {
             List<CarModel> carros = CarDAO.buscarCarrosPorCliente(clienteId);

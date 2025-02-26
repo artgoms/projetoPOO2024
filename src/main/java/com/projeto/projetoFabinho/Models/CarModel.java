@@ -45,6 +45,8 @@ public class CarModel {
 	}
 
 	// getters e setters
+	
+
 	public int getId() {
 		return id;
 	}

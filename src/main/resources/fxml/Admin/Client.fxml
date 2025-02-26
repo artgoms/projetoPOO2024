@@ -202,14 +202,14 @@
 					<content>
 						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="21.0" layoutY="14.0" prefHeight="200.0" prefWidth="660.0">
+                        <TableView fx:id="tabelaVeiculos" layoutX="21.0" layoutY="14.0" prefHeight="200.0" prefWidth="660.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Código" />
-                            <TableColumn prefWidth="108.0" text="Marca" />
-                              <TableColumn prefWidth="110.0" text="Modelo" />
-                              <TableColumn minWidth="0.0" prefWidth="67.0" text="Ano" />
-                              <TableColumn minWidth="0.0" prefWidth="187.0" text="Situação" />
-                              <TableColumn minWidth="0.0" prefWidth="114.0" text="Último OS" />
+                            <TableColumn fx:id="colCodigo" prefWidth="75.0" text="Código" />
+                            <TableColumn fx:id="colMarca" prefWidth="108.0" text="Marca" />
+                              <TableColumn fx:id="colModelo" prefWidth="110.0" text="Modelo" />
+                              <TableColumn fx:id="colAno" minWidth="0.0" prefWidth="67.0" text="Ano" />
+                              <TableColumn fx:id="colSituacao" minWidth="0.0" prefWidth="187.0" text="Situação" />
+                              <TableColumn fx:id="colUltimoOS" minWidth="0.0" prefWidth="114.0" text="Último OS" />
                           </columns>
                         </TableView>
                         <HBox layoutX="20.0" layoutY="224.0" prefHeight="55.0" prefWidth="660.0">

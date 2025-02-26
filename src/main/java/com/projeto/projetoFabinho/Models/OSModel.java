@@ -14,6 +14,7 @@ public class OSModel {
         this.modelo = modelo;
         this.situacao = situacao;
     }
+   
 
 
     public String getNumeroOS() { return numeroOS; }
@@ -21,7 +22,6 @@ public class OSModel {
     public String getVeiculoID() { return veiculoID; }
     public String getModelo() { return modelo; }
     public String getSituacao() { return situacao; }
-
 
     public void setNumeroOS(String numeroOS) { this.numeroOS = numeroOS; }
     public void setCliente(String cliente) { this.cliente = cliente; }

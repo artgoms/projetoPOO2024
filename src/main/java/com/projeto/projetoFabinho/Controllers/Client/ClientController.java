@@ -270,23 +270,30 @@ public class ClientController {
 
 	@FXML
 	private void handleListarClientes() {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
-			Parent root = loader.load();
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
+	        Parent root = loader.load();
 
-			// Obter o controlador da listagem
-			ClientListController clientListController = loader.getController();
-			clientListController.setClientController(this); // Passar referência desta tela
+	        // Obter o controlador da listagem
+	        ClientListController clientListController = loader.getController();
+	        clientListController.setClientController(this); // Passar referência desta tela
 
-			// Criar a nova janela
-			Stage stage = new Stage();
-			stage.setTitle("Listagem de Clientes");
-			stage.setScene(new Scene(root));
-			stage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("Erro ao carregar a tela de listagem de clientes.");
-		}
+	        // Configurar o listener para tratar a seleção do cliente
+	        clientListController.setSelectionListener(codigoCliente -> {
+	            // Quando um cliente for selecionado, você pode buscar os dados do cliente
+	            ClientModel clienteSelecionado = clienteDAO.buscarPorCodigo(Integer.parseInt(codigoCliente));
+	            preencherCampos(clienteSelecionado); // Preenche os campos com os dados do cliente
+	        });
+
+	        // Criar a nova janela
+	        Stage stage = new Stage();
+	        stage.setTitle("Listagem de Clientes");
+	        stage.setScene(new Scene(root));
+	        stage.show();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        System.out.println("Erro ao carregar a tela de listagem de clientes.");
+	    }
 	}
 
 

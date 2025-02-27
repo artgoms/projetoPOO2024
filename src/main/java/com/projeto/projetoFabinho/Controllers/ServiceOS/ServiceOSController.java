@@ -46,10 +46,9 @@ public class ServiceOSController {
 	private final ServiceOSDAO osDAO = new ServiceOSDAO();
 	private ServiceOSModel serviceOS = new ServiceOSModel();
 	private List<CarPartsModel> listaPecas = new ArrayList<>();
-	
+
 	private int clienteId; // Armazena o ID do cliente selecionado
 
-	
 	@FXML
 	public void initialize() {
 
@@ -58,12 +57,12 @@ public class ServiceOSController {
 				abrirPesquisaClientes();
 			}
 		});
-		
-	    veiculoIdField.setOnKeyPressed(event -> {
-	        if (event.getCode() == KeyCode.F2) {
-	            abrirPesquisaVeiculos();
-	        }
-	    });
+
+		veiculoIdField.setOnKeyPressed(event -> {
+			if (event.getCode() == KeyCode.F2) {
+				abrirPesquisaVeiculos();
+			}
+		});
 
 		habilitarCampos(false);
 		desabilitarBotoes(false);
@@ -111,63 +110,61 @@ public class ServiceOSController {
 	}
 
 	private void abrirPesquisaClientes() {
-	    try {
-	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
-	        Parent root = loader.load();
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
+			Parent root = loader.load();
 
-	        // Obtém o controlador da tela de clientes
-	        ClientListController clientListController = loader.getController();
+			// Obtém o controlador da tela de clientes
+			ClientListController clientListController = loader.getController();
 
-	        // Configura o listener para capturar a seleção do cliente
-	        clientListController.setSelectionListener(clienteCodigo -> {
-	            // Quando um cliente for selecionado, preenche o campo `codigoField`
-	            codigoField.setText(clienteCodigo);
-	            
-	            // Armazena o ID do cliente na variável clienteId
-	            clienteId = Integer.parseInt(clienteCodigo);
-	        });
+			// Configura o listener para capturar a seleção do cliente
+			clientListController.setSelectionListener(clienteCodigo -> {
+				// Quando um cliente for selecionado, preenche o campo `codigoField`
+				codigoField.setText(clienteCodigo);
 
-	        // Criar a janela modal
-	        Stage stage = new Stage();
-	        stage.setScene(new Scene(root));
-	        stage.setTitle("Pesquisar Cliente");
-	        stage.showAndWait();
+				// Armazena o ID do cliente na variável clienteId
+				clienteId = Integer.parseInt(clienteCodigo);
+			});
 
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
+			// Criar a janela modal
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.setTitle("Pesquisar Cliente");
+			stage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-
 
 	private void abrirPesquisaVeiculos() {
-	    try {
-	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/CarList.fxml"));
-	        Parent root = loader.load();
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/CarList.fxml"));
+			Parent root = loader.load();
 
-	        CarListController carListController = loader.getController();
+			CarListController carListController = loader.getController();
 
-	        // Verifica se clienteId está definido antes de passar para a tela de veículos
-	        if (clienteId > 0) {
-	            carListController.setClienteId(clienteId);
-	        } else {
-	            System.err.println("Nenhum cliente selecionado antes de pesquisar veículos.");
-	        }
+			// Verifica se clienteId está definido antes de passar para a tela de veículos
+			if (clienteId > 0) {
+				carListController.setClienteId(clienteId);
+			} else {
+				System.err.println("Nenhum cliente selecionado antes de pesquisar veículos.");
+			}
 
-	        // Configura o listener para receber a seleção do carro
-	        carListController.setSelectionListener(carroId -> {
-	            veiculoIdField.setText(carroId); // Preenche o campo de veiculoIdField com o id do veículo selecionado
-	        });
+			// Configura o listener para receber a seleção do carro
+			carListController.setSelectionListener(carroId -> {
+				veiculoIdField.setText(carroId); // Preenche o campo de veiculoIdField com o id do veículo selecionado
+			});
 
-	        Stage stage = new Stage();
-	        stage.setScene(new Scene(root));
-	        stage.setTitle("Pesquisar Veículos");
-	        stage.showAndWait();
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.setTitle("Pesquisar Veículos");
+			stage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	
 	@FXML
 	private void abrirPesquisaOS() {
 		try {
@@ -182,7 +179,6 @@ public class ServiceOSController {
 			// Obtendo o controlador e a OS selecionada
 			OSPesquisaController pesquisaController = loader.getController();
 			String osSelecionada = pesquisaController.getOSSelecionada();
-
 
 			if (osSelecionada != null && !osSelecionada.trim().isEmpty()) { // Conversão de String pra int
 				try {
@@ -245,9 +241,9 @@ public class ServiceOSController {
 		editarBtn.setDisable(true);
 
 		limparCampos();
-		atualizarCodigo(); 
+		atualizarCodigo();
 
-		novoBtn.setText("Cancelar"); 
+		novoBtn.setText("Cancelar");
 
 	}
 
@@ -270,7 +266,7 @@ public class ServiceOSController {
 			PecasDAO pecasDAO = new PecasDAO();
 			ServiceOSModel os;
 
-			if (id != null) {				
+			if (id != null) {
 				ServiceOSModel osExistente = osDAO.buscarOSPorId(id); // Verifica se a OS já existe antes de atualizar
 				if (osExistente == null) {
 					System.err.println("❌ Erro: A OS com ID " + id + " não existe. Criando nova OS...");
@@ -333,10 +329,6 @@ public class ServiceOSController {
 
 		atualizarOS(); // atualiza o OS
 
-		// Se códigoField está desabilitado, significa que é um cliente existente →
-		// atualizar
-//		ServiceOSDAO.atualizar(serviceOS);
-
 		desabilitarBotoes(true);
 		habilitarCampos(false);
 
@@ -367,7 +359,6 @@ public class ServiceOSController {
 			return;
 		}
 
-		
 		habilitarCampos(true);
 		desabilitarBotoes(true);
 
@@ -392,38 +383,6 @@ public class ServiceOSController {
 		int maiorId = osDAO.obterMaiorId() + 1; // Obtém o maior ID e soma 1 para o próximo cliente
 		idOSField.setText(String.valueOf(maiorId));
 	}
-
-//	private void alternarModoEdicao() {
-////		if(serviceOS == null) {
-////			return;
-////		}
-//		
-//		
-//		if (!editando) {
-
-//
-//			// Definir que está no modo de edição
-//			editando = true;
-//
-//			// Muda o texto do botão para "Salvar" e "Cancelar"
-
-//
-//		} else {
-//			habilitarCampos(false);
-//			desabilitarBotoes(false);
-//			limparCampos();
-//
-//			// Muda o botão de volta para "Novo"
-//			novoBtn.setText("Novo");
-//
-//			// Mudar botão para "Editar"
-//			editarBtn.setText("Editar");
-//
-//			// Sai do modo de edição
-//			editando = false;
-//
-//		}
-//	}
 
 	private void desabilitarBotoes(boolean habilitar) {
 
@@ -477,6 +436,7 @@ public class ServiceOSController {
 		pecasOS.getItems().addAll(pecasSelecionadas);
 		valorOS.setText(String.valueOf(valorTotalPecas));
 		atualizarValorOS();
+
 	}
 
 	@FXML

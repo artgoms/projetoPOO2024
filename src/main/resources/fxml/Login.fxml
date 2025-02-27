@@ -5,26 +5,33 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="300.0" prefWidth="400.0" styleClass="login_container" stylesheets="@../styles/Login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto.projetoFabinho.Controllers.LoginController">
 	<children>
+      <ImageView disable="true" fitHeight="343.0" fitWidth="508.0" preserveRatio="true">
+         <image>
+            <Image url="@../Images/image-background.jpg" />
+         </image>
+      </ImageView>
 		<VBox alignment="CENTER" layoutX="200.0" layoutY="59.0" prefHeight="300.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
-				<Label text="Usuário" />
+				<Label text="Usuário" textFill="WHITE" />
 				<TextField fx:id="usuarioField" maxWidth="100.0">
 					<padding>
 						<Insets left="30.0" right="30.0" />
 					</padding>
 				</TextField>
-				<Label text="Senha" />
-				<PasswordField fx:id="senhaField" maxWidth="100.0">
-					<padding>
-						<Insets left="30.0" right="30.0" />
-					</padding>
-				</PasswordField>
-				<Button  mnemonicParsing="false" onAction="#handleEntrarButtonAction" text="Entrar">
+				<Label text="Senha" textFill="WHITE" />
+      				<PasswordField fx:id="senhaField" maxWidth="100.0">
+      					<padding>
+      						<Insets left="30.0" right="30.0" />
+      					</padding>
+      				</PasswordField>
+				<Button mnemonicParsing="false" onAction="#handleEntrarButtonAction" prefHeight="25.0" prefWidth="79.0" text="Entrar">
 					>
 					<VBox.margin>
 						<Insets top="20.0" />

@@ -1,9 +1,9 @@
 package com.projeto.projetoFabinho.Models;
 
 public class CarModel {
-	private int id; // ID do carro
-	private int clienteId; // Agora refere-se ao cliente, substituindo "idCliente"
-	private String situacao; // Status do carro
+	private int id; 
+	private int clienteId; 
+	private String situacao; 
 	private String marca;
 	private String modelo;
 	private String anoFabricacao;

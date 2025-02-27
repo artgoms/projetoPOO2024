@@ -214,12 +214,12 @@
                         </TableView>
                         <HBox layoutX="20.0" layoutY="224.0" prefHeight="55.0" prefWidth="660.0">
                            <children>
-                              <Button mnemonicParsing="false" text="Novo">
+                              <Button fx:id="novoVeiculoButton" mnemonicParsing="false" onAction="#handleNovoVeiculo" text="Novo">
                                  <HBox.margin>
                                     <Insets right="15.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" text="Detalhes" />
+                              <Button fx:id="detalhesButton" mnemonicParsing="false" onAction="#handleDetalhes" text="Detalhes" />
                            </children>
                         </HBox>
                      </children></AnchorPane>

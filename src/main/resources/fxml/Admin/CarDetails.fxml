@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -13,132 +13,125 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="520.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <VBox layoutX="22.0" layoutY="77.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: E0E0E0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <GridPane>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="57.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="637.0" minWidth="10.0" prefWidth="106.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="637.0" minWidth="10.0" prefWidth="102.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="387.0" minWidth="10.0" prefWidth="101.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="9.0" prefWidth="70.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="64.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="145.0" minWidth="10.0" prefWidth="66.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="104.0" minWidth="10.0" prefWidth="104.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="30.0" />
-               </VBox.margin>
-               <children>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Código:" />
-                  <Label alignment="CENTER_RIGHT" text="Marca:" GridPane.rowIndex="1" />
-                  <TextField maxWidth="60.0" GridPane.columnIndex="1" />
-                  <TextField layoutX="65.0" layoutY="43.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Código Cliente:" GridPane.columnIndex="2">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Modelo:" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <TextField maxWidth="60.0" GridPane.columnIndex="3" />
-                  <TextField maxWidth="1.7976931348623157E308" prefWidth="126.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Fab/Ano:" GridPane.columnIndex="4" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Situação:" GridPane.columnIndex="6">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <TextField maxWidth="1.7976931348623157E308" prefWidth="168.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                  <TextField maxWidth="1.7976931348623157E308" prefWidth="168.0" GridPane.columnIndex="7" />
-                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Placa:" GridPane.columnIndex="6" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <TextField maxWidth="1.7976931348623157E308" prefWidth="168.0" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-               </children>
-            </GridPane>
-            <Label text="Observações:">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="30.0" />
-               </VBox.margin>
-            </Label>
-            <TextArea prefHeight="126.0" prefWidth="660.0">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="10.0" />
-               </VBox.margin>
-            </TextArea>
-            <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="200.0">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="15.0" />
-               </VBox.margin>
-               <children>
-                  <Label text="OS Associadas: ">
+<AnchorPane prefHeight="520.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto.projetoFabinho.Controllers.CarDetails.CarDetailsController">
+	<children>
+		<VBox layoutX="22.0" layoutY="77.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: E0E0E0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<children>
+				<GridPane>
+					<columnConstraints>
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="57.0" />
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="637.0" minWidth="10.0" prefWidth="106.0" />
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="637.0" minWidth="10.0" prefWidth="102.0" />
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="387.0" minWidth="10.0" prefWidth="101.0" />
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="9.0" prefWidth="70.0" />
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="64.0" />
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="145.0" minWidth="10.0" prefWidth="66.0" />
+						<ColumnConstraints hgrow="SOMETIMES" maxWidth="104.0" minWidth="10.0" prefWidth="104.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+					</rowConstraints>
+					<opaqueInsets>
+						<Insets />
+					</opaqueInsets>
+					<VBox.margin>
+						<Insets left="20.0" right="20.0" top="30.0" />
+					</VBox.margin>
+					<children>
+						<Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Código:" />
+						<Label alignment="CENTER_RIGHT" text="Marca:" GridPane.rowIndex="1" />
+						<TextField fx:id="idCarro" disable="true" maxWidth="60.0" GridPane.columnIndex="1" />
+						<TextField fx:id="marcaField" layoutX="65.0" layoutY="43.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+						<Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Código Cliente:" GridPane.columnIndex="2">
+							<GridPane.margin>
+								<Insets left="10.0" />
+							</GridPane.margin>
+						</Label>
+						<Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Modelo:" GridPane.columnIndex="2" GridPane.rowIndex="1">
+							<GridPane.margin>
+								<Insets left="10.0" />
+							</GridPane.margin>
+						</Label>
+						<TextField fx:id="idCliente" disable="true" maxWidth="60.0" GridPane.columnIndex="3" />
+						<TextField fx:id="modeloField" maxWidth="1.7976931348623157E308" prefWidth="126.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+						<Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Fab/Ano:" GridPane.columnIndex="4" GridPane.rowIndex="1">
+							<GridPane.margin>
+								<Insets left="10.0" />
+							</GridPane.margin>
+						</Label>
+						<Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Situação:" GridPane.columnIndex="6">
+							<GridPane.margin>
+								<Insets left="10.0" />
+							</GridPane.margin>
+						</Label>
+						<TextField fx:id="anoField" maxWidth="1.7976931348623157E308" prefWidth="168.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+						<TextField fx:id="situacaoField" disable="true" maxWidth="1.7976931348623157E308" prefWidth="168.0" GridPane.columnIndex="7" />
+						<Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Placa:" GridPane.columnIndex="6" GridPane.rowIndex="1">
+							<GridPane.margin>
+								<Insets left="10.0" />
+							</GridPane.margin>
+						</Label>
+						<TextField fx:id="placaField" maxWidth="1.7976931348623157E308" prefWidth="168.0" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+					</children>
+				</GridPane>
+				<Label text="Observações:">
+					<VBox.margin>
+						<Insets left="20.0" right="20.0" top="30.0" />
+					</VBox.margin>
+				</Label>
+				<TextArea fx:id="observacoesField" prefHeight="126.0" prefWidth="660.0">
+					<VBox.margin>
+						<Insets left="20.0" right="20.0" top="10.0" />
+					</VBox.margin>
+				</TextArea>
+				<HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="200.0">
+					<VBox.margin>
+						<Insets left="20.0" right="20.0" top="15.0" />
+					</VBox.margin>
+					<children>
+						<Label text="OS Associadas: ">
+							<HBox.margin>
+								<Insets right="10.0" />
+							</HBox.margin>
+						</Label>
+                  <ComboBox fx:id="osAssociadas" onAction="#carregarDetalhesOS" prefHeight="25.0" prefWidth="211.0">
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets right="20.0" />
                      </HBox.margin>
-                  </Label>
-                  <ChoiceBox prefWidth="155.0">
-                     <HBox.margin>
-                        <Insets right="30.0" />
-                     </HBox.margin>
-                  </ChoiceBox>
-                  <Button mnemonicParsing="false" text="Acessar OS" />
-               </children>
-            </HBox>
-            <Label text="Descrição Serviço OS Associada:">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="10.0" />
-               </VBox.margin>
-            </Label>
-            <TextArea disable="true" prefHeight="99.0" prefWidth="660.0">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="10.0" />
-               </VBox.margin>
-            </TextArea>
-            <HBox prefWidth="200.0" spacing="15.0">
-               <children>
-                  <Button mnemonicParsing="false" text="Novo">
-                     <padding>
-                        <Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
-                     </padding>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" text="Editar">
-                     <padding>
-                        <Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
-                     </padding>
-                  </Button>
-                  <Button mnemonicParsing="false" text="Listar">
-                     <padding>
-                        <Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
-                     </padding>
-                  </Button>
-               </children>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="20.0" />
-               </VBox.margin>
-            </HBox>
-         </children></VBox>
-   
-   </children>
+                  </ComboBox>
+						<Button fx:id="carregarDetalhesOS" mnemonicParsing="false" text="Acessar OS" />
+					</children>
+				</HBox>
+				<Label text="Descrição Serviço OS Associada:">
+					<VBox.margin>
+						<Insets left="20.0" right="20.0" top="10.0" />
+					</VBox.margin>
+				</Label>
+				<TextArea fx:id="detalhesOS" disable="true" prefHeight="99.0" prefWidth="660.0">
+					<VBox.margin>
+						<Insets left="20.0" right="20.0" top="10.0" />
+					</VBox.margin>
+				</TextArea>
+				<HBox prefWidth="200.0" spacing="15.0">
+					<children>
+						<Button mnemonicParsing="false" text="Editar">
+							<padding>
+								<Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
+							</padding>
+						</Button>
+						<Button mnemonicParsing="false" text="Cancelar">
+							<padding>
+								<Insets bottom="4.0" left="15.0" right="15.0" top="4.0" />
+							</padding>
+						</Button>
+					</children>
+					<VBox.margin>
+						<Insets left="20.0" right="20.0" top="20.0" />
+					</VBox.margin>
+				</HBox>
+			</children>
+		</VBox>
+
+	</children>
 </AnchorPane>

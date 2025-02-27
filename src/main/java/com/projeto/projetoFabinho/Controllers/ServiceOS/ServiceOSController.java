@@ -360,6 +360,14 @@ public class ServiceOSController {
 		if (serviceOS == null)
 			return;
 
+		if ("Cancelado".equals(situacaoOS.getText())) {
+			habilitarCampos(false);
+			desabilitarBotoes(false);
+			editarBtn.setDisable(true);
+			return;
+		}
+
+		
 		habilitarCampos(true);
 		desabilitarBotoes(true);
 

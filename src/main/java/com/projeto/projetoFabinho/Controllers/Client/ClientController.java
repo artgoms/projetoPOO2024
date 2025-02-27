@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.projeto.projetoFabinho.Controllers.CarDetails.CarDetailsController;
 import com.projeto.projetoFabinho.Controllers.CarList.CarListController;
 import com.projeto.projetoFabinho.Controllers.ClientList.ClientListController;
+import com.projeto.projetoFabinho.Controllers.NewCarController.NewCarController;
 import com.projeto.projetoFabinho.DAO.CarDAO;
 import com.projeto.projetoFabinho.DAO.ClienteDAO;
 import com.projeto.projetoFabinho.Models.CarModel;
@@ -21,12 +23,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ClientController {
@@ -54,7 +58,13 @@ public class ClientController {
 	private TableColumn<CarModel, String> colModelo, colMarca, colAno, colSituacao;
 
 	@FXML
-	private CarListController carListController; // Referência ao controlador da aba de veículos
+	private CarListController carListController; // referência ao controlador da aba de veículos
+	
+	@FXML
+	private Button novoVeiculoButton; // associar o botão ao controlador
+	@FXML
+	private Button detalhesButton; // Associando o botão ao controlador
+
 
 	private ClienteDAO clienteDAO = new ClienteDAO();
 	private ClientModel cliente;
@@ -279,6 +289,51 @@ public class ClientController {
 			System.out.println("Erro no carregamento: tela de listagem de clientes");
 		}
 	}
+	
+	private CarDAO carDAO = new CarDAO(); // Criar uma instância do DAO
+
+	@FXML
+	private void handleDetalhes() {
+	    CarModel veiculoSelecionado = tabelaVeiculos.getSelectionModel().getSelectedItem();
+
+	    if (veiculoSelecionado == null) {
+	        Alert alerta = new Alert(Alert.AlertType.WARNING);
+	        alerta.setTitle("Seleção Necessária");
+	        alerta.setHeaderText(null);
+	        alerta.setContentText("Por favor, selecione um veículo antes de abrir os detalhes.");
+	        alerta.showAndWait();
+	        return;
+	    }
+
+	    // Buscar os dados completos do carro no banco
+	    CarModel carroCompleto = carDAO.buscarCarroPorId(veiculoSelecionado.getId());
+
+	    if (carroCompleto == null) {
+	        System.out.println("Erro: Não foi possível carregar os dados do carro.");
+	        return;
+	    }
+
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/CarDetails.fxml"));
+	        Parent root = loader.load();
+
+	        CarDetailsController carDetailsController = loader.getController();
+	        carDetailsController.setVeiculo(carroCompleto); // Passa o carro completo para a tela de detalhes
+
+	        Stage stage = new Stage();
+	        stage.initModality(Modality.APPLICATION_MODAL);
+	        stage.setTitle("Detalhes do Veículo");
+	        stage.setScene(new Scene(root));
+	        stage.showAndWait();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("Erro ao abrir a tela de detalhes do veículo.");
+	    }
+	}
+
+
+
 
 	private void abrirJanelaClientes() {
 		try {
@@ -348,6 +403,40 @@ public class ClientController {
 		}
 
 		return preenchido;
+	}
+	
+	@FXML
+	private void handleNovoVeiculo() {
+	    if (cliente == null || cliente.getCodigo() == 0) {
+	        System.out.println("Nenhum cliente selecionado!");
+	        return;
+	    }
+
+	    try {
+	        // Carregar o arquivo FXML da tela de novo carro
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/NewCar.fxml"));
+	        Parent root = loader.load();
+
+	        // Obter o controlador da tela NewCar
+	        NewCarController newCarController = loader.getController();
+	        
+	        
+	        newCarController.setClienteId(cliente.getCodigo()); // passa o ID do cliente selecionado para o controlador do NewCar
+
+	        Stage stage = new Stage();
+	        stage.initModality(Modality.APPLICATION_MODAL);
+	        stage.setTitle("Adicionar Novo Veículo");
+	        stage.setScene(new Scene(root));
+	        
+	        stage.showAndWait();
+
+	        // Atualizar a lista de veículos do cliente após o fechamento da tela
+	        atualizarVeiculosCliente();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("Erro ao abrir a tela de novo veículo.");
+	    }
 	}
 
 	private void atualizarEstadoBotoes() {

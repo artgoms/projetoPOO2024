@@ -1,6 +1,5 @@
 package com.projeto.projetoFabinho.DAO;
 
-import com.projeto.projetoFabinho.DatabaseConnection;
 import com.projeto.projetoFabinho.Models.CarModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -157,7 +156,7 @@ public class CarDAO extends BaseDAO<CarModel> {
                 carro.setModelo(rs.getString("modelo"));
                 carro.setAnoFabricacao(rs.getString("anoFabricacao"));
                 carro.setSituacao(rs.getString("situacao"));
-                carro.setUltimaOS(rs.getInt("ultima_os")); // Adicionando a última OS
+                carro.setUltimaOS(rs.getInt("ultima_os"));
 
                 veiculos.add(carro);
             }
@@ -192,4 +191,29 @@ public class CarDAO extends BaseDAO<CarModel> {
         return veiculos;
     }
 
+    public CarModel buscarCarroPorId(int carroId) {
+        String sql = "SELECT id, cliente_id, placa, marca, modelo, anoFabricacao, situacao, observacoes FROM carros WHERE id = ?";
+        
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
+            stmt.setInt(1, carroId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                CarModel carro = new CarModel();
+                carro.setId(rs.getInt("id"));
+                carro.setClienteId(rs.getInt("cliente_id")); // Preenchendo o ID do cliente
+                carro.setPlaca(rs.getString("placa"));
+                carro.setMarca(rs.getString("marca"));
+                carro.setModelo(rs.getString("modelo"));
+                carro.setSituacao(rs.getString("situacao"));
+                carro.setObservacoes(rs.getString("observacoes"));
+                return carro;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27/02/2025 às 03:18
+-- Tempo de geração: 27/02/2025 às 05:33
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -47,7 +47,12 @@ INSERT INTO `carros` (`id`, `cliente_id`, `situacao`, `marca`, `modelo`, `anoFab
 (2, 1, 'Em andamento', 'Toyota', 'Corolla', '2020', 'XYZ-1234', 'Veículo em revisão'),
 (3, 1, 'Em andamento', '1', '1', '1', '1', '1'),
 (4, 2, 'Em andamento', 'Fiat', 'Uno', '2023', 'ODOD', 'Tem uma bela coisa no fundo!'),
-(5, 2, 'Em andamento', 'Fiat', 'Mobi', '2013', 'PPK-1234', '');
+(5, 2, 'Em andamento', 'Fiat', 'Mobi', '2013', 'PPK-1234', ''),
+(6, 7, 'Em andamento', 'Honda', 'Civic', '2018', 'ABC-9876', 'Revisão geral'),
+(7, 7, 'Concluído', 'Volkswagen', 'Golf', '2016', 'XYZ-2222', ''),
+(8, 8, 'Em andamento', 'Ford', 'EcoSport', '2021', 'DEF-3333', 'Troca de óleo e revisão'),
+(9, 9, 'Concluído', 'Chevrolet', 'Onix', '2020', 'GHI-4444', ''),
+(10, 10, 'Em andamento', 'Fiat', 'Toro', '2022', 'JKL-5555', 'Troca de pastilhas de freio');
 
 -- --------------------------------------------------------
 
@@ -85,6 +90,10 @@ INSERT INTO `clientes` (`codigo`, `tipo_inscricao`, `inscricao_numero`, `nome`, 
 (4, 'CPF', '987.654.321-10', 'Ana Pereira', 'Inativo', 'RESIDENCIAL', 'Rua dos Pinheiros', '45', 'Jardins', 'Rio de Janeiro', 'RJ', '22050-010', '', 'Pedro Henrique', '(21) 98877-6655', ''),
 (5, 'CNPJ', '98.765.432/0001-55', 'Tech Solutions Ltda', 'Ativo', 'COMERCIAL', 'Rua XV de Novembro', '500', 'Centro', 'Curitiba', 'PR', '80020-310', 'Bloco B', 'Fernanda Lima', '(41) 3322-4455', '(41) 98866-7766'),
 (6, 'CPF', '456.123.789-99', 'Marcos Almeida', 'Suspenso', 'RURAL', 'Estrada das Palmeiras', 'KM20', 'Zona Rural', 'Belo Horizonte', 'MG', '30320-567', '', 'Roberto Silva', '(31) 98899-5544', '(31) 96666-3322'),
+(7, 'CPF', '321.654.987-00', 'Carlos Souza', 'Ativo', 'RESIDENCIAL', 'Rua Nova', '50', 'Centro', 'Salvador', 'BA', '40000-000', 'Apto 202', 'Luciana Andrade', '(71) 99988-7766', '(71) 98877-6655'),
+(8, 'CNPJ', '11.222.333/0001-44', 'MegaTech LTDA', 'Ativo', 'COMERCIAL', 'Av. das Empresas', '1500', 'Industrial', 'São Bernardo do Campo', 'SP', '09876-543', 'Bloco C', 'Rodrigo Mello', '(11) 4321-5678', '(11) 95544-3322'),
+(9, 'CPF', '789.123.456-11', 'Fernanda Lima', 'Ativo', 'RESIDENCIAL', 'Rua do Limoeiro', '75', 'Bairro Verde', 'Fortaleza', 'CE', '60000-111', '', 'Marcos Silva', '(85) 99887-5544', ''),
+(10, 'CNPJ', '55.666.777/0001-99', 'Auto Parts SA', 'Ativo', 'COMERCIAL', 'Estrada da Reparação', '500', 'Zona Norte', 'Recife', 'PE', '50050-222', '', 'Rafael Torres', '(81) 4003-2299', '(81) 95555-7788'),
 (11, 'CPF', '00.000.000/0000-00', 'Artur', 'Ativo', 'COMERCIAL', 'asdf', '22', 'ce', 'asdf', 'CE', '', 'asd', '', '', '');
 
 -- --------------------------------------------------------
@@ -112,7 +121,7 @@ CREATE TABLE `ordens_servico` (
 INSERT INTO `ordens_servico` (`id`, `cliente_id`, `carro_id`, `descricao`, `valor`, `situacao`, `data_entrada`, `tipoOS`, `data_previsao`) VALUES
 (5, 1, 2, 'Revisão completa teste 222', 180.00, 'Aberto', '2025-02-18 03:00:00', 'Manutenção', '2025-02-20'),
 (6, 2, 2, 'Substituição do freio traseiro', 780.00, 'Indefinido', '2025-02-20 04:00:31', 'Reparo mecânico', '2024-02-24'),
-(50, 1, 1, 'teste com três peças', 520.00, 'Aberto', '2025-02-25 03:00:00', 'teste', '2025-02-26');
+(50, 1, 1, 'teste com três peças', 520.00, 'Cancelado', '2025-02-25 03:00:00', 'teste', '2025-02-26');
 
 -- --------------------------------------------------------
 
@@ -132,11 +141,11 @@ CREATE TABLE `ordens_servico_pecas` (
 --
 
 INSERT INTO `ordens_servico_pecas` (`id`, `os_id`, `peca_id`, `valor_unitario`) VALUES
-(17, 50, 3, 150.00),
-(18, 50, 10, 350.00),
-(19, 50, 6, 20.00),
 (29, 5, 1, 30.00),
-(30, 5, 3, 150.00);
+(30, 5, 3, 150.00),
+(31, 50, 3, 150.00),
+(32, 50, 10, 350.00),
+(33, 50, 6, 20.00);
 
 -- --------------------------------------------------------
 
@@ -240,7 +249,7 @@ ALTER TABLE `pecas`
 -- AUTO_INCREMENT de tabela `carros`
 --
 ALTER TABLE `carros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de tabela `clientes`
@@ -258,7 +267,7 @@ ALTER TABLE `ordens_servico`
 -- AUTO_INCREMENT de tabela `ordens_servico_pecas`
 --
 ALTER TABLE `ordens_servico_pecas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de tabela `pecas`

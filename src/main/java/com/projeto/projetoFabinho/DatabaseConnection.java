@@ -12,10 +12,10 @@ public class DatabaseConnection {
     public static Connection getConnection() {
         try {
             Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Conexão bem-sucedida com o banco de dados!");
+            System.out.println("OK!");
             return conn;
         } catch (SQLException e) {
-            System.err.println("Erro ao conectar ao banco de dados: " + e.getMessage());
+            System.err.println("DEU PAU: " + e.getMessage());
             return null;
         }
     }
@@ -23,9 +23,9 @@ public class DatabaseConnection {
     public static void main(String[] args) {
         Connection conn = getConnection();
         if (conn != null) {
-            System.out.println("Teste de conexão: SUCESSO!");
+            System.out.println("SUCESSO!");
         } else {
-            System.out.println("Teste de conexão: FALHOU!");
+            System.out.println("FALHOU!");
         }
     }
 }

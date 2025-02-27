@@ -26,6 +26,8 @@ public class NewCarController {
     @FXML
     private Button btnNovo, btnEditar, btnGravar;
 
+    private int clienteId;
+    
     private boolean modoEdicao = false;
     private CarDAO carDAO = new CarDAO();
     private CarModel carroAtual = null;
@@ -142,6 +144,11 @@ public class NewCarController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public void setClienteId(int clienteId) {
+        this.clienteId = clienteId;
+        System.out.println("Novo carro será associado ao cliente ID: " + clienteId);
     }
 
     private void setModoEdicao(boolean ativado) {

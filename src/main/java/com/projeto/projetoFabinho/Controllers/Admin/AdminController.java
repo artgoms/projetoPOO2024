@@ -52,24 +52,16 @@ public class AdminController {
         carregarTela("/fxml/Admin/CarParts.fxml", "Cadastro de Peças");
     }
 
-    // Método genérico para carregar uma tela
     private void carregarTela(String fxmlPath, String titulo) {
         try {
-            // Carrega o arquivo FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
-
-            // Cria uma nova cena
             Scene scene = new Scene(root);
-
-            // Cria um novo stage (janela)
             Stage stage = new Stage();
 
             stage.setTitle(titulo);
             stage.setScene(scene);
 
-            
-            // Adiciona um evento para fechar a janela ao pressionar "Esc"
             scene.setOnKeyPressed(event -> {
                 if (event.getCode() == KeyCode.ESCAPE) {
                     stage.close();
@@ -77,7 +69,7 @@ public class AdminController {
             });
             
             
-            // Centraliza a janela na tela
+            // centraliza a janela na tela
             stage.centerOnScreen();
             stage.setResizable(false);
             

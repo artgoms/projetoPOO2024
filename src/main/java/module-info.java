@@ -21,6 +21,7 @@ module com.projeto {
     opens com.projeto.projetoFabinho.Controllers.OSPesquisa to javafx.fxml;
     opens com.projeto.projetoFabinho.Controllers.SelecionarPecas to javafx.fxml;
     opens com.projeto.projetoFabinho.Controllers.CarList to javafx.fxml;
+    opens com.projeto.projetoFabinho.Controllers.CarDetails to javafx.fxml;
     
     
     exports com.projeto.projetoFabinho;

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="com.projeto.projetoFabinho.Controllers.RelatorioController">
+    
+    <!-- Topo com filtros -->
+    <top>
+        <HBox spacing="10" padding="10">
+            <children>
+                <Label text="Nome do Cliente:"/>
+                <TextField fx:id="filtroNomeCliente" promptText="Digite o nome do cliente"/>
+                
+                <Label text="Pesquisar por:"/>
+                <ChoiceBox fx:id="tipoPesquisa">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Placa do Veículo"/>
+                            <String fx:value="Número OS"/>
+                            <String fx:value="Cliente"/>
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+                
+                <TextField fx:id="campoPesquisa" promptText="Digite a pesquisa"/>
+
+                <Label text="Ordenar por:"/>
+                <ChoiceBox fx:id="ordenarPor">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Número (C)"/>
+                            <String fx:value="Data OS"/>
+                            <String fx:value="Veículo"/>
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+
+                <Button text="Pesquisar" fx:id="botaoPesquisar" onAction="#pesquisarOS"/>
+            </children>
+        </HBox>
+    </top>
+
+    <!-- Tabela com os dados -->
+    <center>
+        <TableView fx:id="tabelaOS">
+            <columns>
+                <TableColumn fx:id="colNumero" text="Número" prefWidth="80"/>
+                <TableColumn fx:id="colDataOS" text="Data O.S." prefWidth="100"/>
+                <TableColumn fx:id="colVeiculo" text="Veículo" prefWidth="250"/>
+                <TableColumn fx:id="colCliente" text="Cliente" prefWidth="200"/>
+                <TableColumn fx:id="colTotal" text="Total" prefWidth="100"/>
+                <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <!-- Rodapé com ações -->
+    <bottom>
+        <HBox spacing="20" padding="10">
+            <children>
+                <Button fx:id="botaoSalvarPDF" text="Salvar PDF" onAction="#salvarComoPDF">
+                    <graphic>
+                        <ImageView fx:id="iconeSalvarPDF" fitHeight="24" fitWidth="24" />
+                    </graphic>
+                </Button>
+
+                <Label text="Total:"/>
+                <Label fx:id="labelTotalOS" text="R$ 0,00" style="-fx-font-weight: bold;"/>
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>

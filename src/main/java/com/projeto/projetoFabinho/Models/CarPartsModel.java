@@ -60,12 +60,14 @@ public class CarPartsModel {
 
 
 
-	public int getOsId() {
-        return osId;
-    }
+	public int getOsId() { return osId;}
 
-    public void setOsId(int osId) {
-        this.osId = osId;
+    public void setOsId(int osId) { this.osId = osId; }
+    
+
+    @Override
+    public String toString() {
+        return nome; 
     }
     
     public int getId() { return id; }

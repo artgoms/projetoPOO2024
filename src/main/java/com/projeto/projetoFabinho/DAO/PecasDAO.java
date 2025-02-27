@@ -60,5 +60,32 @@ public class PecasDAO extends BaseDAO<ClientModel> {
 		}
 		return BigDecimal.ZERO; // Retorna 0 caso a peça não seja encontrada
 	}
+	
+	// Dentro de PecasDAO.java
 
+	public void diminuirEstoque(int partId, int quantidade) {
+	    String sql = "UPDATE pecas SET quantidade = quantidade - ? WHERE id = ?";
+	    try (Connection conn = getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        stmt.setInt(1, quantidade);
+	        stmt.setInt(2, partId);
+	        stmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	public void aumentarEstoque(int partId, int quantidade) {
+	    String sql = "UPDATE pecas SET quantidade = quantidade + ? WHERE id = ?";
+	    try (Connection conn = getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        stmt.setInt(1, quantidade);
+	        stmt.setInt(2, partId);
+	        stmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	
 }

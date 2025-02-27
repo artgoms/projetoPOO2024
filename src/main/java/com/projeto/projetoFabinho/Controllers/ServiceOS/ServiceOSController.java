@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.projeto.projetoFabinho.Controllers.CarList.CarListController;
 import com.projeto.projetoFabinho.Controllers.ClientList.ClientListController;
@@ -37,6 +39,8 @@ public class ServiceOSController {
 	@FXML
 	private ComboBox<String> pecasOS;
 
+	private List<CarPartsModel> listaDePecas = new ArrayList<>();
+
 	@FXML
 	private Button novoBtn, editarBtn, salvarBtn, finalizarBtn, cancelarBtn, reabrirBtn, selecionarPecas;
 
@@ -47,10 +51,14 @@ public class ServiceOSController {
 	private ServiceOSModel serviceOS = new ServiceOSModel();
 	private List<CarPartsModel> listaPecas = new ArrayList<>();
 
+	private Map<String, Integer> mapaPecas = new HashMap<>();
+
 	private int clienteId; // Armazena o ID do cliente selecionado
 
 	@FXML
 	public void initialize() {
+
+		inicializarPecas();
 
 		codigoField.setOnKeyPressed(event -> {
 			if (event.getCode() == KeyCode.F2) {
@@ -114,15 +122,10 @@ public class ServiceOSController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
 			Parent root = loader.load();
 
-			// Obtém o controlador da tela de clientes
 			ClientListController clientListController = loader.getController();
-
-			// Configura o listener para capturar a seleção do cliente
 			clientListController.setSelectionListener(clienteCodigo -> {
-				// Quando um cliente for selecionado, preenche o campo `codigoField`
 				codigoField.setText(clienteCodigo);
 
-				// Armazena o ID do cliente na variável clienteId
 				clienteId = Integer.parseInt(clienteCodigo);
 			});
 
@@ -421,6 +424,8 @@ public class ServiceOSController {
 			CarPartsModel pecaSelecionada = pecasController.getPecaSelecionada();
 
 			if (pecaSelecionada != null) {
+				PecasDAO pecasDAO = new PecasDAO();
+				pecasDAO.diminuirEstoque(pecaSelecionada.getId(), 1); // Diminuir a quantidade em 1
 				pecasSelecionadas.add(pecaSelecionada.getNome());
 				valorTotalPecas += pecaSelecionada.getValorVenda();
 				atualizarPecasSelecionadas();
@@ -443,9 +448,37 @@ public class ServiceOSController {
 	private void removerPeca() {
 		String pecaSelecionada = pecasOS.getValue();
 		if (pecaSelecionada != null) {
-			pecasSelecionadas.remove(pecaSelecionada);
-			atualizarPecasSelecionadas();
-			atualizarValorOS();
+			Integer idPeca = mapaPecas.get(pecaSelecionada);
+			if (idPeca != null) {
+
+				pecasSelecionadas.remove(pecaSelecionada);
+
+				PecasDAO pecasDAO = new PecasDAO();
+				pecasDAO.aumentarEstoque(idPeca, 1);
+				
+				atualizarPecasSelecionadas();
+				atualizarValorOS();
+			}
+		}
+	}
+
+	public void inicializarPecas() {
+		 PecasDAO pecasDAO = new PecasDAO();
+		 listaDePecas = pecasDAO.listarPecas();
+		
+		
+			// aqui verifica se a lista é nula
+		 if (listaDePecas == null || listaDePecas.isEmpty()) {
+	            System.out.println("Erro: Lista de peças não carregada corretamente.");
+	            return;  // Retorna se a lista estiver vazia ou nula
+	        }
+		
+		
+		// Suponhetemos que 'listaDePecas' seja uma lista de objetos CarPartsModel, ele
+		// adiciona as peças no ComboBox e também ao mapa
+		for (CarPartsModel peca : listaDePecas) {
+			pecasOS.getItems().add(peca.getNome());
+			mapaPecas.put(peca.getNome(), peca.getId());
 		}
 	}
 

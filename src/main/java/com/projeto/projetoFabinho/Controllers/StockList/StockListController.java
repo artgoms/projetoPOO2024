@@ -29,28 +29,18 @@ public class StockListController {
     private TableView<CarPartsModel> tableView;
 
     @FXML
-    private TableColumn<CarPartsModel, Integer> colId;
+    private TableColumn<CarPartsModel, Integer> colId, colQuantidade;
 
     @FXML
-    private TableColumn<CarPartsModel, String> colNome;
-
-    @FXML
-    private TableColumn<CarPartsModel, String> colMarca;
-
-    @FXML
-    private TableColumn<CarPartsModel, Integer> colQuantidade;
+    private TableColumn<CarPartsModel, String> colNome, colMarca,colSituacao;
 
     @FXML
     private TableColumn<CarPartsModel, Double> colValorVenda;
     
     @FXML
-    private TableColumn<CarPartsModel, LocalDate> colDataEntrada;  // Coluna para a Data de Entrada
+    private TableColumn<CarPartsModel, LocalDate> colDataEntrada;  
 
-    @FXML
-    private TableColumn<CarPartsModel, String> colSituacao;  // Coluna para a Situação do Estoque
-    
     private List<CarPartsModel> pecasSelecionadas = new ArrayList<>();
-
 
     private CarPartsDAO carPartsDAO = new CarPartsDAO();
 
@@ -62,28 +52,22 @@ public class StockListController {
         colQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
         colValorVenda.setCellValueFactory(new PropertyValueFactory<>("valorVenda"));
         colDataEntrada.setCellValueFactory(new PropertyValueFactory<>("dataEntrada"));
-        
-        // Adicionar evento de clique duplo na tabela
+        colSituacao.setCellValueFactory(cellData -> {
+            CarPartsModel part = cellData.getValue();
+            String situacao = calcularSituacao(part.getQuantidade());
+            return new javafx.beans.property.ReadOnlyObjectWrapper<>(situacao);
+        });
+
         tableView.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {  // Verifica se foi um clique duplo
+            if (event.getClickCount() == 2) { 
                 adicionarPecaSelecionada(tableView.getSelectionModel().getSelectedItem());
             }
         });
 
-        // Configura a coluna de Situação
-        colSituacao.setCellValueFactory(cellData -> {
-            CarPartsModel part = cellData.getValue();
-            String situacao = calcularSituacao(part.getQuantidade());
-            return new javafx.beans.property.ReadOnlyObjectWrapper<>(situacao); // Usa ReadOnlyObjectWrapper em vez de SimpleStringProperty
-        });
-        
-        
-        
-        carregarEstoque();
+       carregarEstoque();
 
-        // Adicionar evento de clique duplo na tabela
         tableView.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {  // Verifica se foi um clique duplo
+            if (event.getClickCount() == 2) {  
                 abrirTelaEdicao(tableView.getSelectionModel().getSelectedItem());
             }
         });
@@ -124,12 +108,10 @@ public class StockListController {
             }
         }
 
-        // Atualiza a TableView com a lista filtrada
         tableView.setItems(filteredList);
     }
 
     private void carregarEstoque() {
-        // Carregar a lista de peças e associá-la ao TableView
         List<CarPartsModel> partsList = carPartsDAO.getAllParts();
         ObservableList<CarPartsModel> observableParts = FXCollections.observableArrayList(partsList);
         tableView.setItems(observableParts);

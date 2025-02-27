@@ -219,35 +219,7 @@
                                     <Insets right="15.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" text="Editar" />
-                           </children>
-                        </HBox>
-                     </children></AnchorPane>
-					</content>
-				</Tab>
-				<Tab text="Histórico">
-					<content>
-						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TableView layoutX="20.0" layoutY="14.0" prefHeight="200.0" prefWidth="660.0">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="Código" />
-                            <TableColumn prefWidth="75.0" text="Marca" />
-                              <TableColumn prefWidth="75.0" text="Modelo" />
-                              <TableColumn prefWidth="75.0" text="Placa" />
-                              <TableColumn prefWidth="87.0" text="Fab/Ano" />
-                              <TableColumn prefWidth="147.0" text="Quant. OS Associadas" />
-                              <TableColumn prefWidth="137.0" text="Situação" />
-                          </columns>
-                        </TableView>
-                        <HBox layoutX="20.0" layoutY="224.0" prefHeight="40.0" prefWidth="660.0">
-                           <children>
-                              <Button mnemonicParsing="false" text="Novo">
-                                 <HBox.margin>
-                                    <Insets right="15.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button mnemonicParsing="false" text="Editar" />
+                              <Button mnemonicParsing="false" text="Detalhes" />
                            </children>
                         </HBox>
                      </children></AnchorPane>

@@ -13,12 +13,12 @@ public class CarDAO extends BaseDAO<CarModel> {
 
     // 🔹 Inserir um novo carro
     public void insertCar(CarModel car) {
-        String sql = "INSERT INTO carros (codigo, situacao, marca, modelo, anoFabricacao, placa, observacoes) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO carros (cliente_id, situacao, marca, modelo, anoFabricacao, placa, observacoes) VALUES (?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection conn = getConnection(); 
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, car.getCodigo());  // Agora usa "codigo" no lugar de "idCliente"
+            stmt.setInt(1, car.getClienteId());  // Agora usa "codigo" no lugar de "idCliente"
             stmt.setString(2, car.getSituacao());
             stmt.setString(3, car.getMarca());
             stmt.setString(4, car.getModelo());
@@ -34,12 +34,12 @@ public class CarDAO extends BaseDAO<CarModel> {
 
     // 🔹 Atualizar um carro existente
     public void updateCar(CarModel car) {
-        String sql = "UPDATE carros SET codigo = ?, situacao = ?, marca = ?, modelo = ?, anoFabricacao = ?, placa = ?, observacoes = ? WHERE id = ?";
+        String sql = "UPDATE carros SET cliente_id = ?, situacao = ?, marca = ?, modelo = ?, anoFabricacao = ?, placa = ?, observacoes = ? WHERE id = ?";
 
         try (Connection conn = getConnection(); 
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, car.getCodigo());
+            stmt.setInt(1, car.getClienteId());
             stmt.setString(2, car.getSituacao());
             stmt.setString(3, car.getMarca());
             stmt.setString(4, car.getModelo());
@@ -75,8 +75,8 @@ public class CarDAO extends BaseDAO<CarModel> {
     }
 
     public CarModel getCarByPlaca(String placa) {
-        String sql = "SELECT id, codigo, situacao, marca, modelo, anoFabricacao, placa, observacoes, codigoCliente, nomeCliente FROM carros WHERE placa = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        String sql = "SELECT id, cliente_id, situacao, marca, modelo, anoFabricacao, placa, observacoes, codigoCliente, nomeCliente FROM carros WHERE placa = ?";
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, placa);
@@ -85,15 +85,13 @@ public class CarDAO extends BaseDAO<CarModel> {
             if (rs.next()) {
                 return new CarModel(
                     rs.getInt("id"),
-                    rs.getInt("codigo"),
+                    rs.getInt("clienteId"),
                     rs.getString("situacao"),
                     rs.getString("marca"),
                     rs.getString("modelo"),
                     rs.getString("anoFabricacao"),
                     rs.getString("placa"),
-                    rs.getString("observacoes"),
-                    rs.getInt("codigoCliente"),
-                    rs.getString("nomeCliente")
+                    rs.getString("observacoes")
                 );
             }
         } catch (SQLException e) {
@@ -102,48 +100,51 @@ public class CarDAO extends BaseDAO<CarModel> {
         return null;
     }
 
-    public List<CarModel> buscarVeiculosPorClienteIdECodigo(int clienteId, String filtro) {
-        List<CarModel> listaVeiculos = new ArrayList<>();
-        String sql = "SELECT * FROM carros WHERE codigo = ? AND (modelo LIKE ? OR placa LIKE ?)";
+    public List<CarModel> buscarCarrosPorClienteComFiltro(int clienteId, String filtro) {
+        List<CarModel> veiculos = new ArrayList<>();
         
-        try (Connection conn = DatabaseConnection.getConnection();
+        String sql = "SELECT c.id, c.marca, c.modelo, c.anoFabricacao, c.placa, " +
+                     "(SELECT situacao FROM ordens_servico WHERE carro_id = c.id ORDER BY id DESC LIMIT 1) AS situacao, " +
+                     "(SELECT id FROM ordens_servico WHERE carro_id = c.id ORDER BY id DESC LIMIT 1) AS ultima_os " +
+                     "FROM carros c " +
+                     "WHERE c.cliente_id = ? AND (c.modelo LIKE ? OR c.placa LIKE ?)";
+
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Configurar os parâmetros da consulta
             stmt.setInt(1, clienteId);
-            stmt.setString(2, "%" + filtro + "%");  // Pesquisa por modelo
-            stmt.setString(3, "%" + filtro + "%");  // Pesquisa por placa
+            stmt.setString(2, "%" + filtro + "%");
+            stmt.setString(3, "%" + filtro + "%");
 
-            // Executa a consulta
             ResultSet rs = stmt.executeQuery();
 
-            // Preenche a lista de veículos
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String modelo = rs.getString("modelo");
-                String marca = rs.getString("marca");
-                String anoFabricacao = rs.getString("anoFabricacao");
-                String placa = rs.getString("placa");
-                String situacao = rs.getString("situacao");
-                String observacoes = rs.getString("observacoes");
+                CarModel carro = new CarModel();
+                carro.setId(rs.getInt("id"));
+                carro.setMarca(rs.getString("marca"));
+                carro.setModelo(rs.getString("modelo"));
+                carro.setAnoFabricacao(rs.getString("anoFabricacao"));
+                carro.setPlaca(rs.getString("placa"));
+                carro.setSituacao(rs.getString("situacao"));
+                carro.setUltimaOS(rs.getInt("ultima_os"));
 
-                // Cria um objeto CarModel e adiciona à lista
-                CarModel carro = new CarModel(id, clienteId, situacao, marca, modelo, anoFabricacao, placa, observacoes);
-                listaVeiculos.add(carro);
+                veiculos.add(carro);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return listaVeiculos;
+        return veiculos;
     }
-    
-    public static List<CarModel> buscarCarrosPorCliente(int clienteId) {
-        List<CarModel> carros = new ArrayList<>();
-        
-        String sql = "SELECT id, marca, modelo, placa, anoFabricacao, situacao, observacoes FROM carros WHERE codigo = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+    
+    public List<CarModel> buscarCarrosPorCliente(int clienteId) {
+        List<CarModel> veiculos = new ArrayList<>();
+        String sql = "SELECT c.id, c.marca, c.modelo, c.anoFabricacao, " +
+                     "(SELECT situacao FROM ordens_servico WHERE carro_id = c.id ORDER BY id DESC LIMIT 1) AS situacao, " +
+                     "(SELECT id FROM ordens_servico WHERE carro_id = c.id ORDER BY id DESC LIMIT 1) AS ultima_os " +
+                     "FROM carros c WHERE c.cliente_id = ?";
+
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, clienteId);
@@ -154,19 +155,41 @@ public class CarDAO extends BaseDAO<CarModel> {
                 carro.setId(rs.getInt("id"));
                 carro.setMarca(rs.getString("marca"));
                 carro.setModelo(rs.getString("modelo"));
-                carro.setPlaca(rs.getString("placa"));
                 carro.setAnoFabricacao(rs.getString("anoFabricacao"));
                 carro.setSituacao(rs.getString("situacao"));
-                carro.setSituacao(rs.getString("observacoes"));
-                
-                carros.add(carro);
+                carro.setUltimaOS(rs.getInt("ultima_os")); // Adicionando a última OS
+
+                veiculos.add(carro);
             }
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println("Erro ao buscar carros do cliente: " + e.getMessage());
         }
-
-        return carros;
+        return veiculos;
     }
+
+    public List<CarModel> getVeiculosPorCliente(int clienteId) {
+        List<CarModel> veiculos = new ArrayList<>();
+        String sql = "SELECT id, marca, modelo, anoFabricacao, situacao FROM carros WHERE cliente_id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, clienteId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                CarModel carro = new CarModel();
+                carro.setId(rs.getInt("id"));
+                carro.setMarca(rs.getString("marca"));
+                carro.setModelo(rs.getString("modelo"));
+                carro.setAnoFabricacao(rs.getString("anoFabricacao"));
+                carro.setSituacao(rs.getString("situacao"));
+                veiculos.add(carro);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return veiculos;
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.projeto.projetoFabinho.DAO;
 
-import com.projeto.projetoFabinho.DatabaseConnection;
 import com.projeto.projetoFabinho.Models.ClientModel;
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class ClienteDAO extends BaseDAO<ClientModel> {
 
         String sql = "INSERT INTO clientes (codigo, tipo_inscricao, inscricao_numero, nome, situacao, tipo_endereco, logradouro, numero, bairro, municipio, uf, cep, complemento, responsavel, telefone1, telefone2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, cliente.getCodigo());
@@ -46,7 +45,7 @@ public class ClienteDAO extends BaseDAO<ClientModel> {
 
     public int obterMaiorId() {
         String sql = "SELECT MAX(codigo) FROM clientes";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
@@ -60,7 +59,7 @@ public class ClienteDAO extends BaseDAO<ClientModel> {
 
     public boolean codigoExiste(int codigo) {
         String sql = "SELECT COUNT(*) FROM clientes WHERE codigo = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, codigo);
             ResultSet rs = stmt.executeQuery();
@@ -76,7 +75,7 @@ public class ClienteDAO extends BaseDAO<ClientModel> {
     public void atualizar(ClientModel cliente) {
         String sql = "UPDATE clientes SET tipo_inscricao = ?, inscricao_numero = ?, nome = ?, situacao = ?, tipo_endereco = ?, logradouro = ?, numero = ?, bairro = ?, municipio = ?, uf = ?, cep = ?, complemento = ?, responsavel = ?, telefone1 = ?, telefone2 = ? WHERE codigo = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, cliente.getTipoInscricao());
@@ -106,7 +105,7 @@ public class ClienteDAO extends BaseDAO<ClientModel> {
         List<ClientModel> clientes = new ArrayList<>();
         String sql = "SELECT * FROM clientes ORDER BY codigo ASC";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -142,7 +141,7 @@ public class ClienteDAO extends BaseDAO<ClientModel> {
         String sql = "SELECT * FROM clientes WHERE codigo = ?";
         ClientModel cliente = null;
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, codigo);
@@ -178,7 +177,7 @@ public class ClienteDAO extends BaseDAO<ClientModel> {
         List<ClientModel> clientes = new ArrayList<>();
         String sql = "SELECT * FROM clientes WHERE nome LIKE ? OR inscricao_numero LIKE ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, "%" + filtro + "%");

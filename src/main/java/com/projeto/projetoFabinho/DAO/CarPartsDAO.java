@@ -3,16 +3,17 @@ package com.projeto.projetoFabinho.DAO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import com.projeto.projetoFabinho.Models.CarPartsModel;
-import com.projeto.projetoFabinho.DatabaseConnection;
 
-public class CarPartsDAO {
+import com.projeto.projetoFabinho.Models.CarModel;
+import com.projeto.projetoFabinho.Models.CarPartsModel;
+
+public class CarPartsDAO extends BaseDAO<CarModel> {
 
 	public List<CarPartsModel> getAllParts() {
 		List<CarPartsModel> partsList = new ArrayList<>();
 		String sql = "SELECT id, nome, marca, quantidade, custo,margemLucro, valorVenda,  dataEntrada FROM pecas";
 
-		try (Connection conn = DatabaseConnection.getConnection();
+		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);
 				ResultSet rs = stmt.executeQuery()) {
 
@@ -31,7 +32,7 @@ public class CarPartsDAO {
 		List<CarPartsModel> partsList = new ArrayList<>();
 		String sql = "SELECT id, nome, marca,  quantidade, custo,margemLucro, valorVenda, dataEntrada FROM pecas WHERE nome LIKE ?";
 
-		try (Connection conn = DatabaseConnection.getConnection();
+		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql)) {
 
 			stmt.setString(1, "%" + searchTerm + "%");
@@ -52,7 +53,7 @@ public class CarPartsDAO {
 	public boolean inserirPeca(CarPartsModel peca) {
 		String sql = "INSERT INTO pecas (nome, marca, quantidade, custo, margemLucro, valorVenda, dataEntrada) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-		try (Connection conn = DatabaseConnection.getConnection();
+		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql)) {
 
 			stmt.setString(1, peca.getNome());
@@ -75,7 +76,7 @@ public class CarPartsDAO {
 		int maiorId = 0;
 		String query = "SELECT MAX(id) FROM pecas"; // Ajuste o nome da tabela conforme necessário
 
-		try (Connection conn = DatabaseConnection.getConnection();
+		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(query);
 				ResultSet rs = stmt.executeQuery()) {
 
@@ -93,7 +94,7 @@ public class CarPartsDAO {
 	public boolean update(CarPartsModel peca) {
 		String sql = "UPDATE pecas SET nome = ?, marca = ?, quantidade = ?, custo = ?, margemLucro = ?, valorVenda = ?, dataEntrada = ? WHERE id = ?";
 
-		try (Connection conn = DatabaseConnection.getConnection();
+		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setString(1, peca.getNome());
 			stmt.setString(2, peca.getMarca());

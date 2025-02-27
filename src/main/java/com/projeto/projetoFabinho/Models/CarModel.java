@@ -2,36 +2,33 @@ package com.projeto.projetoFabinho.Models;
 
 public class CarModel {
 	private int id; // ID do carro
-	private int codigo; // Agora refere-se ao cliente, substituindo "idCliente"
+	private int clienteId; // Agora refere-se ao cliente, substituindo "idCliente"
 	private String situacao; // Status do carro
 	private String marca;
 	private String modelo;
 	private String anoFabricacao;
 	private String placa;
 	private String observacoes;
-	private int codigoCliente;
-	private String nomeCliente;
+	private int ultimaOS;
 
 	// Construtor Completo
-	public CarModel(int id, int codigo, String situacao, String marca, String modelo, String anoFabricacao,
-			String placa, String observacoes, int codigoCliente,  String nomeCliente) {
+	public CarModel(int id, int clienteId, String situacao, String marca, String modelo, String anoFabricacao,
+			String placa, String observacoes, int codigoCliente) {
 		this.id = id;
-		this.codigo = codigo;
+		this.clienteId = clienteId;
 		this.situacao = situacao;
 		this.marca = marca;
 		this.modelo = modelo;
 		this.anoFabricacao = anoFabricacao;
 		this.placa = placa;
 		this.observacoes = observacoes;
-		this.codigoCliente = codigoCliente;
-		this.nomeCliente = nomeCliente;
 	}
 
 	// Construtor com 8 parâmetros
-	public CarModel(int id, int codigoCliente, String situacao, String marca, String modelo, String placa, String anoFabricacao,
+	public CarModel(int id, int clienteId, String situacao, String marca, String modelo, String placa, String anoFabricacao,
 			String observacoes) {
 		this.id = id;
-		this.codigoCliente = codigoCliente;
+		this.clienteId = clienteId;
 		this.situacao = situacao;
 		this.marca = marca;
 		this.modelo = modelo;
@@ -55,12 +52,12 @@ public class CarModel {
 		this.id = id;
 	}
 
-	public int getCodigo() {
-		return codigo;
+	public int getClienteId() {
+		return clienteId;
 	}
 
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public void setClienteId(int clienteId) {
+		this.clienteId = clienteId;
 	}
 
 	public String getSituacao() {
@@ -103,14 +100,6 @@ public class CarModel {
 		this.observacoes = observacoes;
 	}
 
-	public int getCodigoCliente() {
-		return codigoCliente;
-	}
-
-	public String getNomeCliente() {
-		return nomeCliente;
-	}
-
 	public String getPlaca() {
 		return placa;
 	}
@@ -119,4 +108,11 @@ public class CarModel {
 		this.placa = placa;
 	}
 
+	public int getUltimaOS() {
+	    return ultimaOS;
+	}
+
+	public void setUltimaOS(int ultimaOS) {
+	    this.ultimaOS = ultimaOS;
+	}
 }

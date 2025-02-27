@@ -1,6 +1,7 @@
 package com.projeto.projetoFabinho.DAO;
 
-import com.projeto.projetoFabinho.DatabaseConnection;
+
+import com.projeto.projetoFabinho.Models.ClientModel;
 import com.projeto.projetoFabinho.Models.OSModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class OSPesquisaDAO {
+public class OSPesquisaDAO extends BaseDAO<ClientModel> {
 
     public ObservableList<OSModel> buscarOS(String filtro) {
         ObservableList<OSModel> listaOS = FXCollections.observableArrayList();
@@ -20,7 +21,7 @@ public class OSPesquisaDAO {
                        "JOIN carros v ON os.carro_id = v.id " +
                        "WHERE c.nome LIKE ? OR v.modelo LIKE ? OR os.id LIKE ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, "%" + filtro + "%");
@@ -39,7 +40,7 @@ public class OSPesquisaDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar OS: " + e.getMessage());
+            System.err.println("ERRO: " + e.getMessage());
         }
 
         return listaOS;

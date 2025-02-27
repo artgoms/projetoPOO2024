@@ -97,7 +97,7 @@ public class NewCarController {
                 carroAtual = carDAO.getCarByPlaca(placa); // Buscar o carro salvo
             } else {
                 // 🔹 Atualizar carro existente
-                carroAtual.setCodigo(codigoCliente);
+                carroAtual.setClienteId(codigoCliente);
                 carroAtual.setSituacao(situacao);
                 carroAtual.setMarca(marca);
                 carroAtual.setModelo(modelo);

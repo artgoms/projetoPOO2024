@@ -1,20 +1,21 @@
 package com.projeto.projetoFabinho.DAO;
 
 
-import com.projeto.projetoFabinho.DatabaseConnection;
+
 import com.projeto.projetoFabinho.Models.CarPartsModel;
+import com.projeto.projetoFabinho.Models.ClientModel;
 
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PecasDAO {
+public class PecasDAO extends BaseDAO<ClientModel> {
     public List<CarPartsModel> listarPecas() {
         List<CarPartsModel> pecas = new ArrayList<>();
         String sql = "SELECT id, nome, marca, valorVenda FROM pecas";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -36,7 +37,7 @@ public class PecasDAO {
     
     public Integer buscarIdPorNome(String nome) {
         String sql = "SELECT id FROM pecas WHERE nome = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, nome);
@@ -53,7 +54,7 @@ public class PecasDAO {
     
     public BigDecimal buscarValorPecaPorId(int pecaId) {
         String sql = "SELECT valorVenda FROM pecas WHERE id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, pecaId);

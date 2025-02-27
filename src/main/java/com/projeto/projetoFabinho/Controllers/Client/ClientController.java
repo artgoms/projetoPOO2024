@@ -4,12 +4,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.projeto.projetoFabinho.Controllers.CarList.CarListController;
 import com.projeto.projetoFabinho.Controllers.ClientList.ClientListController;
+import com.projeto.projetoFabinho.DAO.CarDAO;
 import com.projeto.projetoFabinho.DAO.ClienteDAO;
+import com.projeto.projetoFabinho.Models.CarModel;
 import com.projeto.projetoFabinho.Models.ClientModel;
 import com.projeto.projetoFabinho.Models.ClientModel.TipoEndereco;
 import com.projeto.projetoFabinho.Utils.InputValidator;
 import com.projeto.projetoFabinho.Utils.MascaraInscricao;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,57 +24,37 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class ClientController {
 
+	@FXML
+	private ChoiceBox<String> inscricaoChoice, situacaoChoice, ufChoice;
 
-	@FXML
-	private Button anteriorButton;
-	@FXML
-	private Button proximoButton;
-	@FXML
-	private TextField codigoField;
-	@FXML
-	private ChoiceBox<String> inscricaoChoice;
-	@FXML
-	private TextField inscricaoNumeroField;
-	@FXML
-	private TextField nomeField;
-	@FXML
-	private ChoiceBox<String> situacaoChoice;
 	@FXML
 	private ChoiceBox<TipoEndereco> tipoEnderecoChoice;
-	@FXML
-	private TextField logradouroField;
-	@FXML
-	private TextField numeroField;
-	@FXML
-	private TextField bairroField;
-	@FXML
-	private TextField municipioField;
-	@FXML
-	private ChoiceBox<String> ufChoice;
-	@FXML
-	private TextField cepField;
-	@FXML
-	private TextField complementoField;
-	@FXML
-	private TextField responsavelField;
-	@FXML
-	private TextField telefone1Field;
-	@FXML
-	private TextField telefone2Field;
 
 	@FXML
-	private Button gravarButton;
-	@FXML
-	private Button editarButton;
-	@FXML
-	private Button novoButton;
-	
+	private TextField codigoField, inscricaoNumeroField, nomeField, logradouroField, numeroField, bairroField,
+			municipioField, cepField, complementoField, responsavelField, telefone1Field, telefone2Field;
 
+	@FXML
+	private Button anteriorButton, proximoButton, gravarButton, editarButton, novoButton;
+
+	@FXML
+	private TableView<CarModel> tabelaVeiculos;
+
+	@FXML
+	private TableColumn<CarModel, Integer> colCodigo, colUltimoOS;
+
+	@FXML
+	private TableColumn<CarModel, String> colModelo, colMarca, colAno, colSituacao;
+
+	@FXML
+	private CarListController carListController; // Referência ao controlador da aba de veículos
 
 	private ClienteDAO clienteDAO = new ClienteDAO();
 	private ClientModel cliente;
@@ -76,33 +62,52 @@ public class ClientController {
 	private List<ClientModel> listaClientes = new ArrayList<>();
 	private int clienteAtualIndex = -1;
 
-	private ClientModel clienteAntesEdicao; // Armazena o cliente antes de clicar em "Novo" ou "Editar"
+	private ClientModel clienteAntesEdicao; // gravar o cliente antes de clicar em novo ou editar
 
 	@FXML
 	private void initialize() {
+		colCodigo.setCellValueFactory(
+				cellData -> new javafx.beans.property.SimpleIntegerProperty(cellData.getValue().getId()).asObject());
+		colMarca.setCellValueFactory(
+				cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getMarca()));
+		colModelo.setCellValueFactory(
+				cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getModelo()));
+		colAno.setCellValueFactory(
+				cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getAnoFabricacao()));
+		colSituacao.setCellValueFactory(
+				cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getSituacao()));
+		colUltimoOS.setCellValueFactory(
+				cellData -> new javafx.beans.property.SimpleIntegerProperty(cellData.getValue().getUltimaOS())
+						.asObject());
 
 		codigoField.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case F2:
-                    abrirJanelaClientes();
-                    break;
-                default:
-                    break;
-            }
-        });
+			switch (event.getCode()) {
+			case F2:
+				abrirJanelaClientes();
+				break;
+			default:
+				break;
+			}
+		});
+		
+		
+		// MASCARA em UTILS
 		MascaraInscricao.aplicarMascaraTelefone(telefone1Field);
 		MascaraInscricao.aplicarMascaraTelefone(telefone2Field);
 		MascaraInscricao.aplicarMascaraCEP(cepField);
 		MascaraInscricao.aplicarMascaraInscricao(inscricaoNumeroField);
-		preencherChoiceBoxes(); // Garante que os ChoiceBox tenham valores antes de usar
-		listaClientes = clienteDAO.listarTodos(); // Carrega todos os clientes
+				
+		preencherChoiceBoxes();
+		
+		listaClientes = clienteDAO.listarTodos(); // carrega todos os clientes
 		if (!listaClientes.isEmpty()) {
-			clienteAtualIndex = 0; // Começa pelo primeiro cliente
+			clienteAtualIndex = 0 ; // começa pelo primeiro cliente
 			preencherCampos(listaClientes.get(clienteAtualIndex));
 
 		}
 		atualizarEstadoBotoes();
-		carregarUltimoCliente(); // Busca e preenche os campos com o último cliente do banco
+		carregarUltimoCliente(); // 
+		
 		InputValidator.aplicarValidacoes(codigoField, inscricaoNumeroField, nomeField, telefone1Field, telefone2Field,
 				cepField, numeroField);
 
@@ -110,7 +115,6 @@ public class ClientController {
 		gravarButton.setDisable(true);
 		editarButton.setDisable(false);
 		novoButton.setDisable(false);
-
 
 	}
 
@@ -128,8 +132,6 @@ public class ClientController {
 		int maiorId = clienteDAO.obterMaiorId() + 1; // Obtém o maior ID e soma 1 para o próximo cliente
 		codigoField.setText(String.valueOf(maiorId));
 	}
-	
-	
 
 	private void preencherChoiceBoxes() {
 		// Preenchendo os valores permitidos para inscrição (CPF, CNPJ, RG)
@@ -152,8 +154,7 @@ public class ClientController {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Campos Obrigatórios");
 			alert.setHeaderText(null);
-			alert.setContentText(
-					"Preencha todos os campos obrigatórios antes de salvar!");
+			alert.setContentText("Preencha todos os campos obrigatórios antes de salvar!");
 			alert.showAndWait();
 			return;
 		}
@@ -162,17 +163,15 @@ public class ClientController {
 			cliente = new ClientModel();
 		}
 
-		atualizarCliente(); // Atualiza os dados do objeto cliente com o formulário
+		atualizarCliente(); 
 
 		if (codigoField.isDisable()) {
-			// Se códigoField está desabilitado, significa que é um cliente existente →
-			// atualizar
 			clienteDAO.atualizar(cliente);
 		} else {
-			// Se códigoField está habilitado, significa que é um novo cliente → inserir
-			clienteDAO.inserir(cliente);
-			listaClientes.add(cliente); // Adiciona o novo cliente à lista
-			clienteAtualIndex = listaClientes.size() - 1; // Define o índice do último cliente
+			
+			clienteDAO.inserir(cliente); // coigoField habilitado, novo cliente -> inserir
+			listaClientes.add(cliente); 
+			clienteAtualIndex = listaClientes.size() - 1; 
 		}
 
 		habilitarCampos(false);
@@ -206,61 +205,50 @@ public class ClientController {
 		if (cliente == null)
 			return;
 
-		// Sempre permitir a edição do campo de situação
 		situacaoChoice.setDisable(false);
-
-		// Habilitar os campos caso a situação já seja "Ativo"
 		habilitarCampos("Ativo".equalsIgnoreCase(cliente.getSituacao()));
-
-		// Ativar botões necessários para edição
 		editarButton.setDisable(true);
 		gravarButton.setDisable(false);
-	    novoButton.setText("Cancelar"); // Altera o texto do botão
+		novoButton.setText("Cancelar"); // Altera o texto do botão
 
 		atualizarEstadoBotoes(); // Atualiza os botões "Anterior" e "Próximo"
 	}
 
 	@FXML
 	private void handleNovo() {
-	    if ("Cancelar".equals(novoButton.getText())) {
-	        handleCancelar();
-	        novoButton.setText("Novo");
-	        return;
-	    }
+		if ("Cancelar".equals(novoButton.getText())) {
+			handleCancelar();
+			novoButton.setText("Novo");
+			return;
+		}
 
-	    clienteAntesEdicao = cliente; // Salva o cliente atual antes de iniciar um novo
-	    cliente = new ClientModel(); // Criando novo cliente
-	    limparCampos();
-	    preencherChoiceBoxes(); // Garante que os valores reapareçam
-	    habilitarCampos(true); // No modo "Novo", códigoField pode ser editado
-	    atualizarCodigo(); // Define o novo ID automaticamente
-		situacaoChoice.setDisable(false); // Sempre permitir a edição do campo de situação
+		clienteAntesEdicao = cliente; // salva o cliente atual antes de iniciar um novo
+		cliente = new ClientModel(); 
+		limparCampos();
+		preencherChoiceBoxes(); 
+		habilitarCampos(true);
+		atualizarCodigo(); 
+		situacaoChoice.setDisable(false); 
 
-	    gravarButton.setDisable(false);
-	    editarButton.setDisable(true);
+		gravarButton.setDisable(false);
+		editarButton.setDisable(true);
 
-	    novoButton.setText("Cancelar"); // Altera o texto do botão
+		novoButton.setText("Cancelar");
 
-	    anteriorButton.setDisable(true);
-	    proximoButton.setDisable(true);
+		anteriorButton.setDisable(true);
+		proximoButton.setDisable(true);
 	}
-	
 
 	@FXML
 	private void handleCancelar() {
 
 		if (cliente == null)
 			return;
-		
-		// Reativar o botão de edição e desativar os botões de salvar e cancelar
+
 		editarButton.setDisable(false);
 		gravarButton.setDisable(true);
-
-		atualizarEstadoBotoes(); // Atualiza os botões "Anterior" e "Próximo"
-
-		// Bloquear todos os campos ao cancelar a edição
+		atualizarEstadoBotoes();
 		habilitarCampos(false);
-
 		situacaoChoice.setDisable(true);
 
 		if (clienteAntesEdicao != null) {
@@ -270,54 +258,60 @@ public class ClientController {
 
 	@FXML
 	private void handleListarClientes() {
-	    try {
-	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
-	        Parent root = loader.load();
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
+			Parent root = loader.load();
 
-	        // Obter o controlador da listagem
-	        ClientListController clientListController = loader.getController();
-	        clientListController.setClientController(this); // Passar referência desta tela
+			ClientListController clientListController = loader.getController();
+			clientListController.setClientController(this); // Passar referência dessa tela
 
-	        // Configurar o listener para tratar a seleção do cliente
-	        clientListController.setSelectionListener(codigoCliente -> {
-	            // Quando um cliente for selecionado, você pode buscar os dados do cliente
-	            ClientModel clienteSelecionado = clienteDAO.buscarPorCodigo(Integer.parseInt(codigoCliente));
-	            preencherCampos(clienteSelecionado); // Preenche os campos com os dados do cliente
-	        });
+			clientListController.setSelectionListener(codigoCliente -> {
+				ClientModel clienteSelecionado = clienteDAO.buscarPorCodigo(Integer.parseInt(codigoCliente));
+				preencherCampos(clienteSelecionado);
+			});
 
-	        // Criar a nova janela
-	        Stage stage = new Stage();
-	        stage.setTitle("Listagem de Clientes");
-	        stage.setScene(new Scene(root));
-	        stage.show();
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	        System.out.println("Erro ao carregar a tela de listagem de clientes.");
-	    }
+			Stage stage = new Stage();
+			stage.setTitle("Listagem de Clientes");
+			stage.setScene(new Scene(root));
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Erro no carregamento: tela de listagem de clientes");
+		}
 	}
 
-
-	
-	
 	private void abrirJanelaClientes() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
-            Parent root = loader.load();
-        
-            
-            
-            Stage stage = new Stage();
-            stage.setTitle("Lista de Clientes");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-	
-	
-	
-	
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/ClientList.fxml"));
+			Parent root = loader.load();
+
+			Stage stage = new Stage();
+			stage.setTitle("Lista de Clientes");
+			stage.setScene(new Scene(root));
+			stage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	private void atualizarVeiculosCliente() {
+		if (clienteAtualIndex >= 0 && clienteAtualIndex < listaClientes.size()) {
+			int clienteId = listaClientes.get(clienteAtualIndex).getCodigo();
+			System.out.println("Cliente ID para buscar veículos: " + clienteId);
+
+			CarDAO carDAO = new CarDAO();
+			List<CarModel> veiculos = carDAO.buscarCarrosPorCliente(clienteId);
+
+			if (veiculos != null) {
+				ObservableList<CarModel> observableVeiculos = FXCollections.observableArrayList(veiculos);
+				tabelaVeiculos.setItems(observableVeiculos);
+			} else {
+				System.out.println("sem veículo para o cliente ID: " + clienteId);
+			}
+		}
+	}
+
 	private boolean validarCamposObrigatorios() {
 		boolean camposValidos = true;
 
@@ -438,6 +432,11 @@ public class ClientController {
 	public void preencherCampos(ClientModel cliente) {
 		this.cliente = cliente;
 		clienteAtualIndex = listaClientes.indexOf(cliente); // Atualiza o índice baseado no códigoField selecionado
+
+		nomeField.setText(cliente.getNome());
+		codigoField.setText(String.valueOf(cliente.getCodigo()));
+
+		atualizarVeiculosCliente(); // Atualiza a aba de veículos com os carros do cliente selecionado
 
 		codigoField.setText(String.valueOf(cliente.getCodigo()));
 		inscricaoChoice.setValue(cliente.getTipoInscricao());
